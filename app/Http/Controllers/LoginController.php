@@ -11,6 +11,7 @@ use App\Http\Requests;
 use App\Http\Requests\VrfycodeFormRequest;
 use App\VrfyCode;
 use Cartalyst\Sentinel\Users\EloquentUser;
+use Mail;
 
 class LoginController extends Controller
 {
@@ -54,6 +55,18 @@ class LoginController extends Controller
     protected function redirectWhenLoggedIn() {
         echo 'Logged in page';
         return null;
+    }
+
+    public function basic_email() {
+//        $data=['name'=>'Cheng Zhang'];
+        $last_name = DB::table('users')->where('id', 2)->first()->last_name;
+        $code = DB::table('code')->where('id', 2)->first()->code;
+        $data = ['name'=>$last_name, 'code'=>$code];
+        Mail::send(['text'=>'mail'], $data, function($message){
+            $message->to('zhan324@usc.edu', 'Cheng Zhang')->subject('Send mail from laravel');
+            $message->from('marisafkj@gmail.com', 'Ma Rui');
+        });
+        echo 'Basic email was sent';
     }
 
 //    public function generatecode() {
