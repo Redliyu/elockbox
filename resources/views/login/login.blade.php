@@ -1,4 +1,3 @@
-
 {!! Form::open(['route' => 'generate']) !!}
 @if (session()->has('flash_message'))
     <div class="form-group">

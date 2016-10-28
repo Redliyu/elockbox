@@ -49,7 +49,7 @@ class LoginController extends Controller
         if($excode == $input['vrfycode']) {
             return $this->redirectWhenLoggedIn();
         }
-        return redirect()->back()->withInput()->withErrorMessage('Wrong verification code');
+        return redirect('/login')->withInput()->withErrorMessage('Wrong verification code');
     }
     protected function redirectWhenLoggedIn() {
         echo 'Logged in page';

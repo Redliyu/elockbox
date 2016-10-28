@@ -20,7 +20,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
 });
 Route::get('/login', 'LoginController@login');
-Route::post('/login', ['as' => 'generate', 'uses' => 'LoginController@authenticate']);
-Route::post('/vrfy', ['as' => 'vrfy', 'uses' => 'LoginController@vrfy']);
+Route::post('/verify', ['as' => 'generate', 'uses' => 'LoginController@authenticate']);
+Route::post('/home', ['as' => 'vrfy', 'uses' => 'LoginController@vrfy']);
 //Route::post('/')
 //    Route::get('/login', ['as' => 'code', 'uses' => 'LoginController@generatecode']);
+//Route::resource('/vrfy', 'LoginController', ['only' => ['authenticate', 'vrfy']]);
