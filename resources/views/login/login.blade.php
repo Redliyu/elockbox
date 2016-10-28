@@ -1,7 +1,13 @@
-{!! Form::open(['route' => 'vrfy']) !!}
+
+{!! Form::open(['route' => 'generate']) !!}
 @if (session()->has('flash_message'))
     <div class="form-group">
         <p>{{ session()->get('flash_message') }}</p>
+    </div>
+@endif
+@if (session()->has('error_message'))
+    <div class="form-group">
+        <p>{{ session()->get('error_message') }}</p>
     </div>
 @endif
 <div class="form-group">

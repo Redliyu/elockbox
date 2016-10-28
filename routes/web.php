@@ -19,8 +19,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/create', 'RegistrationController@create');
     Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
 });
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/login', 'LoginController@login');
-    Route::post('/login', ['as' => 'vrfy', 'uses' => 'LoginController@vrfy']);
+Route::get('/login', 'LoginController@login');
+Route::post('/login', ['as' => 'generate', 'uses' => 'LoginController@authenticate']);
+Route::post('/vrfy', ['as' => 'vrfy', 'uses' => 'LoginController@vrfy']);
+//Route::post('/')
 //    Route::get('/login', ['as' => 'code', 'uses' => 'LoginController@generatecode']);
-});
