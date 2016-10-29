@@ -28,6 +28,7 @@ class LoginController extends Controller
                 $email = $request->only('email');
                 $user_id = DB::table('users')->where('email', $email)->first()->id;
                 DB::table('code')->where('user_id', $user_id)->update(['code'=> $code]);
+                $this->basic_email($user_id);
 //                $this->vrfy($user_id);
                 return $this->redirectVrfyCode($user_id);
             }
@@ -57,16 +58,18 @@ class LoginController extends Controller
         return null;
     }
 
-    public function basic_email() {
-//        $data=['name'=>'Cheng Zhang'];
-        $last_name = DB::table('users')->where('id', 2)->first()->last_name;
-        $code = DB::table('code')->where('id', 2)->first()->code;
-        $data = ['name'=>$last_name, 'code'=>$code];
-        Mail::send(['text'=>'mail'], $data, function($message){
-            $message->to('zhan324@usc.edu', 'Cheng Zhang')->subject('Send mail from laravel');
-            $message->from('marisafkj@gmail.com', 'Ma Rui');
+    public function basic_email($user_id) {
+        $last_name = DB::table('users')->where('id', $user_id)->first()->last_name;
+        $code = DB::table('code')->where('id', $user_id)->first()->code;
+        $email = DB::table('users')->where('id', $user_id)->first()->email;
+        $imgPath = 'http://assets.pokemon.com/static2/_ui/img/chrome/external_link_bumper.png';
+        $data = ['name' => $last_name, 'code' => $code, 'email' => $email, 'imgPath' => $imgPath];
+        Mail::send('mail', $data, function($message) use($email, $last_name){
+            $message->to($email, $last_name )->subject('E-lockbox Verification code');
+            $message->from('marisafkj@gmail.com', 'Living Advantage Inc.');
         });
-        echo 'Basic email was sent';
+        echo 'A verification code email was sent to ';
+        echo $email;
     }
 
 //    public function generatecode() {

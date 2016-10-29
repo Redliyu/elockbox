@@ -1,7 +1,12 @@
+<h1>Message</h1>
 Dear {{$name}},
-Your verification code is {{$code}}.
 
-<img src="{{ asset('http://assets.pokemon.com/static2/_ui/img/chrome/external_link_bumper.png') }}">
+Your verification code is {{$code}}.
+This code can be used only one time.
+
+Please do not reply.
+<img src="{{$message->embed($imgPath)}}" />
+
 LivingAdvantage
 Elockbox
 Team 10
