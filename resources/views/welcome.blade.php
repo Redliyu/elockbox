@@ -75,7 +75,7 @@
             <div class="heading text-center">
                 <!-- Heading -->
                 <h2>Portfolio</h2>
-                <p>learn more about our from the pictures</p>
+                <p>learn more about us from the pictures</p>
             </div>
 
             <div class="row">
@@ -264,12 +264,18 @@
 
     <footer>
         <div class="container">
-            <div class="social text-center">
+            <div class="social col-sm-6 text-left">
+                <b>Address</b>: 7095 Hollywood Blvd. #726 Hollywood, CA 90028 <br>
+                <b>Email</b>: info@LivingAdvantageInc.org<br>
+                <b>Phone</b>: 323.731.6471<br>
+                <b>Fax</b>: 323.731.8278
+            </div>
+            <div class="social col-sm-4 col-sm-offset-2 text-left" style="padding-top: 0%">
+                <h5 class="text-left" style="color: #787878">FOLLOW US</h5>
                 <a href="https://twitter.com/LivAdvInc"><i class="fa fa-twitter"></i></a>
                 <a href="https://www.facebook.com/livingadvantage"><i class="fa fa-facebook"></i></a>
                 <a href="https://www.youtube.com/user/LivingAdvantage"><i class="fa fa-youtube"></i></a>
                 <a href="https://www.linkedin.com/start/join?trk=login_reg_redirect&session_redirect=http%3A%2F%2Fwww.linkedin.com%2Fprofile%2Fview%3Ftrk%3Dtab_pro%26id%3D39187473"><i class="fa fa-linkedin"></i></a>
-
             </div>
 
             <div class="clear"></div>

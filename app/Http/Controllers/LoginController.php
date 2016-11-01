@@ -30,7 +30,7 @@ class LoginController extends Controller
                 DB::table('code')->where('user_id', $user_id)->update(['code'=> $code]);
                 $this->basic_email($user_id);
 //                $this->vrfy($user_id);
-                return $this->redirectVrfyCode($user_id);
+                return $this->redirectVrfyCode($user_id, $email);
             }
             return redirect()->back()->withInput()->withErrorMessage('Invalid credentials provided');
         } catch (NotActivatedException $e) {
@@ -40,9 +40,10 @@ class LoginController extends Controller
         }
     }
 
-    protected function redirectVrfyCode($user_id) {
+    protected function redirectVrfyCode($user_id, $email) {
         return view('login.verify', [
             'user_id' => $user_id,
+            'email' => $email,
         ]);
     }
     protected function vrfy(VrfycodeFormRequest $request) {
@@ -54,22 +55,34 @@ class LoginController extends Controller
         return redirect('/login')->withInput()->withErrorMessage('Wrong verification code');
     }
     protected function redirectWhenLoggedIn() {
-        echo 'Logged in page';
-        return null;
+        $user = Sentinel::getUser();
+        $admin = Sentinel::findRoleByName('Admins');
+        $manager = Sentinel::findRoleByName('Managers');
+        $staff = Sentinel::findRoleByName('Staff');
+        $youth = Sentinel::findRoleByName('Youths');
+        if ($user->inRole($admin)) {
+            return redirect()->intended('admin');
+        } elseif ($user->inRole($manager)) {
+            return redirect()->intended('manager');
+        } elseif ($user->inRole($staff)) {
+            return redirect()->intended('staff');
+        } elseif ($user->inRole($youth)) {
+            return redirect()->intended('youth');
+        }
     }
 
     public function basic_email($user_id) {
-        $last_name = DB::table('users')->where('id', $user_id)->first()->last_name;
+        $first_name = DB::table('users')->where('id', $user_id)->first()->first_name;
         $code = DB::table('code')->where('id', $user_id)->first()->code;
         $email = DB::table('users')->where('id', $user_id)->first()->email;
-        $imgPath = 'http://assets.pokemon.com/static2/_ui/img/chrome/external_link_bumper.png';
-        $data = ['name' => $last_name, 'code' => $code, 'email' => $email, 'imgPath' => $imgPath];
-        Mail::send('mail', $data, function($message) use($email, $last_name){
-            $message->to($email, $last_name )->subject('E-lockbox Verification code');
+        $imgPath = 'https://cdn.shopify.com/s/files/1/1090/4924/files/Living_Advantage_Logo_large.png?13792516517561167664';
+        $data = ['name' => $first_name, 'code' => $code, 'email' => $email, 'imgPath' => $imgPath];
+        Mail::send('mail', $data, function($message) use($email, $first_name){
+            $message->to($email, $first_name )->subject('E-lockbox Verification code');
             $message->from('marisafkj@gmail.com', 'Living Advantage Inc.');
         });
-        echo 'A verification code email was sent to ';
-        echo $email;
+//        echo 'A verification code email was sent to ';
+//        echo $email;
     }
 
 //    public function generatecode() {

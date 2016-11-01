@@ -4,17 +4,20 @@
         <div class="container">
             <nav class="navbar navbar-inverse" role="navigation">
                 <div class="navbar-header">
-                    <button type="button" id="nav-toggle" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
+                    <button type="button" id="nav-toggle" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#main-nav">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand scroll-top logo"><b><img src="{{ url('assets/img/logo.png') }}" alt=""></b></a>
+                    <a class="navbar-brand scroll-top logo"><b><img src="{{ url('assets/img/logo.png') }}"
+                                                                    alt=""></b></a>
                 </div>
                 <!--/.navbar-header-->
                 <div id="main-nav" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav" id="mainNav">
-                        <li><a href="{{ url('/') }}" class="scroll-link"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a></li>
+                        <li><a href="{{ url('/') }}" class="scroll-link"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a>
+                        </li>
                     </ul>
                 </div>
                 <!--/.navbar-collapse-->
@@ -29,23 +32,25 @@
             <div class="row">
                 <div class="heading text-center">
                     <!-- Heading -->
-                    <h2>Let's Keep In Touch!</h2>
-                    <p>Thank you for visiting out E-lockbox. If you would like to get into contact with us, please use the infromation below.</p>
+                    <br><br>
+                    <h2>Welcome to E-Lockbox!</h2>
+                    <p>Please enter your email and password.</p>
                 </div>
             </div>
 
             {!! Form::open(['route' => 'generate']) !!}
-
-            @if (session()->has('flash_message'))
-                <div class="form-group">
-                    <p>{{ session()->get('flash_message') }}</p>
-                </div>
-            @endif
-            @if (session()->has('error_message'))
-                <div class="form-group alert alert-danger">
-                    <p>{{ session()->get('error_message') }}</p>
-                </div>
-            @endif
+            <div class="col-sm-4 col-sm-offset-4 center-block">
+                @if (session()->has('flash_message'))
+                    <div class="form-group">
+                        <p>{{ session()->get('flash_message') }}</p>
+                    </div>
+                @endif
+                @if (session()->has('error_message'))
+                    <div class="form-group alert alert-danger">
+                        <p>{{ session()->get('error_message') }}</p>
+                    </div>
+                @endif
+            </div>
 
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-4 center-block">
@@ -61,7 +66,8 @@
                     </div>
                     <div class="form-group">
                         {!! Form::submit('Log in', ['class' => 'btn btn-block btn-primary']) !!}
-                        <span class="form-group" style="padding-left: 63%" data-toggle="collapse" data-target="#notes"><a>Forgot your password?</a></span>
+                        <span class="form-group" style="padding-left: 63%" data-toggle="collapse"
+                              data-target="#notes"><a>Forgot your password?</a></span>
                     </div>
                     <div id="notes" class="collapse">
                         <p>If you forget your password, please contact your case manager for help.</p>
@@ -71,28 +77,43 @@
         </div>
         <!--/.container-->
     </section>
+    <!-- Address and Info -->
+
+    <!--/.page-section-->
+    <footer style="position: absolute; right: 0; bottom: 0; left: 0; background-color: #E4E4E4">
+        <section class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        Copyright 2016 Living Advantage, Inc. All Rights Reserved.
+                    </div>
+                </div>
+                <!-- / .row -->
+            </div>
+        </section>
+    </footer>
 
 
-{{--{!! Form::open(['route' => 'generate']) !!}--}}
-{{--@if (session()->has('flash_message'))--}}
+    {{--{!! Form::open(['route' => 'generate']) !!}--}}
+    {{--@if (session()->has('flash_message'))--}}
     {{--<div class="form-group">--}}
-        {{--<p>{{ session()->get('flash_message') }}</p>--}}
+    {{--<p>{{ session()->get('flash_message') }}</p>--}}
     {{--</div>--}}
-{{--@endif--}}
-{{--@if (session()->has('error_message'))--}}
+    {{--@endif--}}
+    {{--@if (session()->has('error_message'))--}}
     {{--<div class="form-group">--}}
-        {{--<p>{{ session()->get('error_message') }}</p>--}}
+    {{--<p>{{ session()->get('error_message') }}</p>--}}
     {{--</div>--}}
-{{--@endif--}}
-{{--<div class="form-group">--}}
+    {{--@endif--}}
+    {{--<div class="form-group">--}}
     {{--{!! Form::text('email', null, ['placeholder' => 'Email', 'required' => 'required']) !!}--}}
-{{--</div>--}}
-{{--<div class="form-group">--}}
+    {{--</div>--}}
+    {{--<div class="form-group">--}}
     {{--{!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required']) !!}--}}
-{{--</div>--}}
-{{--<div class="form-group">--}}
+    {{--</div>--}}
+    {{--<div class="form-group">--}}
     {{--{!! Form::submit('Log in') !!}--}}
-{{--</div>--}}
-{{--{!! Form::close() !!}--}}
+    {{--</div>--}}
+    {{--{!! Form::close() !!}--}}
 
 @endsection
