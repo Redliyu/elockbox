@@ -27,7 +27,22 @@ Route::get('/email', 'LoginController@basic_email');
 //    Route::get('/login', ['as' => 'code', 'uses' => 'LoginController@generatecode']);
 //Route::resource('/vrfy', 'LoginController', ['only' => ['authenticate', 'vrfy']]);
 
-//Route::group(['middleware' => ['auth', 'admin']], function()
-//{
+Route::group(['middleware' => ['admin']], function()
+{
     Route::get('admin', ['as' => 'admin_dashboard', 'uses' => 'Admin\AdminController@getHome']);
-//});
+});
+Route::group(['middleware' => ['manager']], function()
+{
+    Route::get('manager',['as' => 'manager_dashboard', 'uses' => 'Manager\ManagerController@getHome']);
+});
+Route::group(['middleware' => ['staff']], function ()
+{
+    Route::get('staff',['as' => 'staff_dashboard', 'uses' => 'Staff\StaffController@getHome']);
+});
+Route::group(['middleware' => ['youth']], function ()
+{
+    Route::get('youth',['as' => 'youth_dashboard', 'uses' => 'Youth\YouthController@getHome']);
+});
+Route::get('/fail', function() {
+    echo 'You do not have premission!';
+});
