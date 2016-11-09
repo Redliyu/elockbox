@@ -29,7 +29,6 @@ class LoginController extends Controller
                 $user_id = DB::table('users')->where('email', $email)->first()->id;
                 DB::table('code')->where('user_id', $user_id)->update(['code'=> $code]);
                 $this->basic_email($user_id);
-//                $this->vrfy($user_id);
                 return $this->redirectVrfyCode($user_id, $email);
             }
             return redirect()->back()->withInput()->withErrorMessage('Invalid credentials provided');
@@ -61,13 +60,19 @@ class LoginController extends Controller
         $staff = Sentinel::findRoleByName('Staff');
         $youth = Sentinel::findRoleByName('Youths');
         if ($user->inRole($admin)) {
+            Sentinel::login($user);//create session!! do not delete!!
             return redirect()->intended('admin');
         } elseif ($user->inRole($manager)) {
+            Sentinel::login($user);//create session!! do not delete!!
             return redirect()->intended('manager');
         } elseif ($user->inRole($staff)) {
+            Sentinel::login($user);//create session!! do not delete!!
             return redirect()->intended('staff');
         } elseif ($user->inRole($youth)) {
+            Sentinel::login($user);//create session!! do not delete!!
             return redirect()->intended('youth');
+        } else {
+            return redirect()->intended('/');
         }
     }
 
@@ -84,6 +89,7 @@ class LoginController extends Controller
 //        echo 'A verification code email was sent to ';
 //        echo $email;
     }
+
 
 //    public function generatecode() {
 //        $code = rand(1000, 9999);

@@ -16,12 +16,15 @@ class YouthUser
      */
     public function handle($request, Closure $next)
     {
-        $user = Sentinel::getUser();
-        $youth = Sentinel::findRoleByName('Youths');
+        if($user = Sentinel::check()) {
+            $youth = Sentinel::findRoleByName('Youths');
 
-        if (!$user->inRole($youth)) {
-            return redirect('fail');
+            if (!$user->inRole($youth)) {
+                return redirect('fail');
+            }
+            return $next($request);
+        } else {
+            return redirect()->intended('/login')->withErrorMessage('You need to login!');
         }
-        return $next($request);
     }
 }

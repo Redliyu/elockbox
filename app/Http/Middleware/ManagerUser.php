@@ -16,12 +16,15 @@ class ManagerUser
      */
     public function handle($request, Closure $next)
     {
-        $user = Sentinel::getUser();
-        $manager = Sentinel::findRoleByName('Managers');
-
-        if (!$user->inRole($manager)) {
-            return redirect('fail');
+//        $user = Sentinel::getUser();
+        if($user = Sentinel::check()) {
+            $manager = Sentinel::findRoleByName('Managers');
+            if (!$user->inRole($manager)) {
+                return redirect('fail');
+            }
+            return $next($request);
+        } else {
+            return redirect()->intended('/login')->withErrorMessage('You need to login!');
         }
-        return $next($request);
     }
 }

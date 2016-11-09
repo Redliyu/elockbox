@@ -16,12 +16,15 @@ class StaffUser
      */
     public function handle($request, Closure $next)
     {
-        $user = Sentinel::getUser();
-        $staff = Sentinel::findRoleByName('Staff');
+        if($user = Sentinel::check()) {
+            $staff = Sentinel::findRoleByName('Staff');
 
-        if (!$user->inRole($staff)) {
-            return redirect('fail');
+            if (!$user->inRole($staff)) {
+                return redirect('fail');
+            }
+            return $next($request);
+        } else {
+            return redirect()->intended('/login')->withErrorMessage('You need to login!');
         }
-        return $next($request);
     }
 }

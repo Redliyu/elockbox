@@ -30,6 +30,7 @@ Route::get('/email', 'LoginController@basic_email');
 Route::group(['middleware' => ['admin']], function()
 {
     Route::get('admin', ['as' => 'admin_dashboard', 'uses' => 'Admin\AdminController@getHome']);
+    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 });
 Route::group(['middleware' => ['manager']], function()
 {

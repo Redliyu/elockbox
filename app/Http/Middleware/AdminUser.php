@@ -16,12 +16,17 @@ class AdminUser
      */
     public function handle($request, Closure $next)
     {
-        $user = Sentinel::getUser();
-        $admin = Sentinel::findRoleByName('Admins');
+//        $user = Sentinel::getUser();
+        if($user = Sentinel::check()) {
+            $admin = Sentinel::findRoleByName('Admins');
 
-        if (!$user->inRole($admin)) {
-            return redirect('fail');
+            if (!$user->inRole($admin)) {
+                return redirect('fail');
+            }
+            return $next($request);
+        } else {
+            return redirect()->intended('/login')->withErrorMessage('You need to login!');
         }
-        return $next($request);
+
     }
 }
