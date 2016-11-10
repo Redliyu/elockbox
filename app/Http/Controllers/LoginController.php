@@ -7,16 +7,28 @@ use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Illuminate\Http\Request;
 use Sentinel;
 use DB;
-use App\Http\Requests;
 use App\Http\Requests\VrfycodeFormRequest;
-use App\VrfyCode;
-use Cartalyst\Sentinel\Users\EloquentUser;
 use Mail;
 
 class LoginController extends Controller
 {
     //
     public function login() {
+        if($user = Sentinel::check()) {
+            $admin = Sentinel::findRoleByName('Admins');
+            $manager = Sentinel::findRoleByName('Managers');
+            $staff = Sentinel::findRoleByName('Staff');
+            $youth = Sentinel::findRoleByName('Youths');
+            if($user -> inRole($admin)) {
+                return redirect()->intended('admin');
+            } elseif ($user->inRole($manager)) {
+                return redirect()->intended('manager');
+            } elseif ($user->inRole($staff)) {
+                return redirect()->intended('staff');
+            } elseif ($user->inRole($youth)) {
+                return redirect()->intended('youth');
+            }
+        }
         return view('login.login');
     }
 
@@ -90,6 +102,10 @@ class LoginController extends Controller
 //        echo $email;
     }
 
+    public function logout() {
+        Sentinel::logout();
+        return redirect()->intended('/');
+    }
 
 //    public function generatecode() {
 //        $code = rand(1000, 9999);

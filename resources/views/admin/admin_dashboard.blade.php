@@ -5,6 +5,7 @@ Admin dashboard page!
 //    dd($user);
 //}
 $user = Sentinel::getUser();
+        dd($user);
 ?>
 
 

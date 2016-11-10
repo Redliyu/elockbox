@@ -11,11 +11,12 @@ class AdminController extends Controller
 {
     //
     public function getHome() {
-        return view('admin.admin_dashboard');
+//        return view('admin.admin_dashboard');
+        return view('layouts.dashboard');
     }
 
     public function logout() {
         Sentinel::logout();
-        return null;
+        return redirect()->intended('/');
     }
 }
