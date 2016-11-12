@@ -221,21 +221,12 @@
                 @if($user->inRole($admin))
                     <div class="sidebar-menu">
                         <ul class="nav nav-sidebar">
-                            <li><a href=""><i class="fa fa-laptop"></i><span class="text"> Dashboard</span></a></li>
+                            <li><a href="{{ url('admin') }}"><i class="fa fa-laptop"></i><span class="text"> Dashboard</span></a></li>
                             <li>
-                                <a href="#"><i class="fa fa-file-text"></i><span class="text"> Admin</span> <span class="fa fa-angle-down pull-right"></span></a>
+                                <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="page-activity.html"><i class="fa fa-car"></i><span class="text"> Activity</span></a></li>
-                                    <li><a href="page-inbox.html"><i class="fa fa-envelope"></i><span class="text"> Mail</span></a></li>
-                                    <li><a href="page-invoice.html"><i class="fa fa-credit-card"></i><span class="text"> Invoice</span></a></li>
-                                    <li><a href="page-profile.html"><i class="fa fa-heart-o"></i><span class="text"> Profile</span></a></li>
-                                    <li><a href="page-pricing-tables.html"><i class="fa fa-columns"></i><span class="text"> Pricing Tables</span></a></li>
-                                    <li><a href="page-404.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 404</span></a></li>
-                                    <li><a href="page-500.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 500</span></a></li>
-                                    <li><a href="page-lockscreen.html"><i class="fa fa-lock"></i><span class="text"> LockScreen1</span></a></li>
-                                    <li><a href="page-lockscreen2.html"><i class="fa fa-lock"></i><span class="text"> LockScreen2</span></a></li>
-                                    <li><a href="page-login.html"><i class="fa fa-key"></i><span class="text"> Login Page</span></a></li>
-                                    <li><a href="page-register.html"><i class="fa fa-sign-in"></i><span class="text"> Register Page</span></a></li>
+                                    <li><a href="{{ url('create') }}"><i class="fa fa-plus-circle"></i><span class="text"> Create Users</span></a></li>
+                                    <li><a href="page-inbox.html"><i class="fa fa-file-text"></i><span class="text"> View Users</span></a></li>
                                 </ul>
                             </li>
                             <li>
@@ -577,9 +568,33 @@
             </div>
 
         </div>
+        <!-- end main menu -->
+        <div class="main">
+            @yield('content')
+        </div>
     </div>
 
 </div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Warning Title</h4>
+            </div>
+            <div class="modal-body">
+                <p>Here settings can be configured...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="clearfix"></div>
 
 
 <!-- start: JavaScript-->

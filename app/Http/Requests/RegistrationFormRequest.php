@@ -27,8 +27,13 @@ class RegistrationFormRequest extends Request
         return [
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6',
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'phone_number' => array('regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}/'),
+            'address1' => 'max:255',
+            'address2' => 'max:255',
+            'city' => 'max:255',
+            'zip' => 'max:5',
         ];
     }
 }

@@ -8,6 +8,7 @@ use Sentinel;
 use App\Http\Requests;
 use DB;
 use App\VrfyCode;
+use App\UserProfile;
 
 class RegistrationController extends Controller
 {
@@ -37,6 +38,16 @@ class RegistrationController extends Controller
         $newcode->user_id = $user_id;
         $newcode->code = $default_code;
         $newcode->save();
+        //save other information into profile table
+        $newprofile = new UserProfile;
+        $newprofile->user_id = $user_id;
+        $newprofile->phone_number = $request->get('phone_number');
+        $newprofile->address1 = $request->get('address1');
+        $newprofile->address2 = $request->get('address2');
+        $newprofile->city = $request->get('city');
+        $newprofile->state = $request->get('state');
+        $newprofile->zip = $request->get('zip');
+        $newprofile->save();
         //return back with message
         return redirect('/create')->withFlashMessage('User Successfully Created!');
     }

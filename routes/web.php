@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::group(['middleware' => 'guest'], function () {
-//    Route::get('/create', 'RegistrationController@create');
-//    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
-//});
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/create', 'RegistrationController@create');
+    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
+});
 Route::get('/login', 'LoginController@login');
 Route::any('/verify', ['as' => 'generate', 'uses' => 'LoginController@authenticate']);
 Route::post('/home', ['as' => 'vrfy', 'uses' => 'LoginController@vrfy']);
@@ -30,9 +30,9 @@ Route::get('/email', 'LoginController@basic_email');
 Route::group(['middleware' => ['admin']], function()
 {
     Route::get('admin', ['as' => 'admin_dashboard', 'uses' => 'Admin\AdminController@getHome']);
-//    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
-    Route::get('/create', 'RegistrationController@create');
-    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
+////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
+//    Route::get('/create', 'RegistrationController@create');
+//    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
 });
 Route::group(['middleware' => ['manager']], function()
 {
