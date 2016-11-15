@@ -5,7 +5,7 @@
         <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-plus-circle"></i> Create User</h3>
             <ol class="breadcrumb">
-                <li><i class="fa fa-home"></i><a href="{{ url('admin') }}">Home</a></li>
+                <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
                 <li><i class="fa fa-user"></i>User Management</li>
                 <li><i class="fa fa-plus-circle"></i>Create User</li>
             </ol>

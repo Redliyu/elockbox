@@ -27,9 +27,10 @@ Route::get('/email', 'LoginController@basic_email');
 //    Route::get('/login', ['as' => 'code', 'uses' => 'LoginController@generatecode']);
 //Route::resource('/vrfy', 'LoginController', ['only' => ['authenticate', 'vrfy']]);
 
-Route::group(['middleware' => ['admin']], function()
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['admin']], function()
 {
-    Route::get('admin', ['as' => 'admin_dashboard', 'uses' => 'Admin\AdminController@getHome']);
+    Route::get('', ['as' => 'admin_dashboard', 'uses' => 'AdminController@getHome']);
+    Route::get('case/create', 'CaseManagement\CaseController@create');
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
@@ -37,6 +38,7 @@ Route::group(['middleware' => ['admin']], function()
 Route::group(['middleware' => ['manager']], function()
 {
     Route::get('manager',['as' => 'manager_dashboard', 'uses' => 'Manager\ManagerController@getHome']);
+//    Route::get('manager/case/create', 'CaseManagement\CaseController@create');
 //    Route::get('manager_logout', ['uses' => 'Manager\ManagerController@logout']);
 });
 Route::group(['middleware' => ['staff']], function ()
