@@ -31,6 +31,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
 {
     Route::get('', ['as' => 'admin_dashboard', 'uses' => 'AdminController@getHome']);
     Route::get('case/create', 'CaseManagement\CaseController@create');
+    Route::post('case/create', ['as' => 'admin.case.store', 'uses' => 'CaseManagement\CaseController@store']);
+    Route::get('case/view', ['uses' => 'CaseManagement\CaseController@view']);
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);

@@ -6,12 +6,17 @@
             <h3 class="page-header"><i class="fa fa-plus-circle"></i> Create Case</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-user"></i>Case Management</li>
+                <li><i class="fa fa-folder"></i>Case Management</li>
                 <li><i class="fa fa-plus-circle"></i>Create Case</li>
             </ol>
         </div>
     </div>
-    {!! Form::open() !!}
+    {!! Form::open(['route' => 'admin.case.store']) !!}
+    @if (session()->has('flash_message'))
+        <div class="form-group">
+            <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @endif
     <div class="form-group">
         {!! Form::label('Email*') !!}
         {!! Form::text('email', null, ['placeholder' => 'Email', 'required' => 'required']) !!}
@@ -42,6 +47,21 @@
     <div class="form-group">
         {!! Form::label('SSN') !!}
         {!! Form::text('ssn', null, ['Placeholder' => 'AAA-GG-SSSS']) !!}
+    </div>
+    <div class="form-group">
+        {!! Form::label('ILP') !!}
+        {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No']) !!}
+    </div>
+    <div class="form-group">
+        {!! Form::label('Ethnicity') !!}
+        {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American']) !!}
+    </div>
+    <div class="form-group">
+        {!! Form::label('Program') !!}
+        {!! Form::select('program', ['Program1' => 'Program1']) !!}
+    </div>
+    <div class="form-group">
+        {!! Form::submit('Create Case') !!}
     </div>
     {!! Form::close() !!}
 @endsection

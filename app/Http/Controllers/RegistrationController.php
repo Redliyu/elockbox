@@ -49,6 +49,6 @@ class RegistrationController extends Controller
         $newprofile->zip = $request->get('zip');
         $newprofile->save();
         //return back with message
-        return redirect('/create')->withFlashMessage('User Successfully Created!');
+        return redirect('/create')->withFlashMessage('User Successfully Created and Activated!');
     }
 }

@@ -234,7 +234,7 @@
                                 <ul class="nav sub">
                                     <li><a href="{{ url('admin/case/create') }}"><i class="fa fa-plus-circle"></i><span class="text"> Create Case</span></a>
                                     </li>
-                                    <li><a href="#"><i class="fa fa-file-text"></i><span class="text"> View Cases</span></a></li>
+                                    <li><a href="{{ url('admin/case/view') }}"><i class="fa fa-file-text"></i><span class="text"> View Cases</span></a></li>
                                     </li>
                                 </ul>
                             </li>
