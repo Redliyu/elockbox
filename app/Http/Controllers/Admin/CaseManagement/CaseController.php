@@ -40,6 +40,12 @@ class CaseController extends Controller
         //orderBy('id','desc')
         $data = CreateCase::orderBy('id', 'desc')->paginate(10);
         return view('case.view', [
+            'datas' => $data,
+        ]);
+    }
+    public function viewdetail($id) {
+        $data = CreateCase::find($id);
+        return view('case.detail', [
             'data' => $data,
         ]);
     }

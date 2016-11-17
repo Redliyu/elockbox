@@ -6,7 +6,7 @@
             <h3 class="page-header"><i class="fa fa-plus-circle"></i> Create Case</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-folder"></i>Case Management</li>
+                <li><i class="fa fa-folder-open"></i>Case Management</li>
                 <li><i class="fa fa-plus-circle"></i>Create Case</li>
             </ol>
         </div>
