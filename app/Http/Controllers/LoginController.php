@@ -107,8 +107,4 @@ class LoginController extends Controller
         return redirect()->intended('/');
     }
 
-//    public function generatecode() {
-//        $code = rand(1000, 9999);
-//        VrfyCode::create($code);
-//    }
 }

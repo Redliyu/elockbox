@@ -42,15 +42,21 @@
                         <div class="col-md-4">
                             <ul class="profile-details">
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o" style="color: #4C4F53"></i><strong> Gender</strong></div>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong> Gender</strong>
+                                    </div>
                                     <div style="color: #6699CC"> {{ $data->gender }}</div>
                                 </li>
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-calendar" style="color: #4C4F53"></i><strong> Birthday</strong></div>
+                                    <div style="color: #4C4F53"><i class="fa fa-calendar"
+                                                                   style="color: #4C4F53"></i><strong> Birthday</strong>
+                                    </div>
                                     <div style="color: #6699CC">{{ $data->birthday }}</div>
                                 </li>
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o" style="color: #4C4F53"></i><strong> Webpage</strong></div>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong> Webpage</strong>
+                                    </div>
                                     <div style="color: #6699CC">{{ $data->webpage }}</div>
                                 </li>
                             </ul>
@@ -58,32 +64,53 @@
                         <div class="col-md-4">
                             <ul class="profile-details">
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o" style="color: #4C4F53"></i><strong> Social Security Number</strong></div>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong> Social Security
+                                            Number</strong></div>
                                     <div style="color: #6699CC">{{ $data->ssn }}</div>
                                 </li>
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o" style="color: #4C4F53"></i><strong> Status</strong></div>
-                                    <div style="color: #6699CC">{{ $data->status }}</div>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong> Status</strong>
+                                    </div>
+                                    @if($data->status)
+                                        <div style="color: #6699CC">Active</div>
+                                    @else
+                                        <div style="color: #6699CC">Inactive</div>
+                                    @endif
                                 </li>
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o" style="color: #4C4F53"></i><strong> ILP</strong></div>
-                                    <div style="color: #6699CC">{{ $data->ILP }}</div>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong> ILP</strong>
+                                    </div>
+                                    @if($data->ILP == 1)
+                                        <div style="color: #6699CC">Yes</div>
+                                    @elseif($data->ILP == 0)
+                                        <div style="color: #6699CC">No</div>
+                                    @endif
                                 </li>
                             </ul>
                         </div>
                         <div class="col-md-4">
                             <ul class="profile-details">
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o" style="color: #4C4F53"></i><strong> Ethnicity</strong></div>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong>
+                                            Ethnicity</strong></div>
                                     <div style="color: #6699CC">{{ $data->ethnicity }}</div>
                                 </li>
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o" style="color: #4C4F53"></i><strong> Program</strong></div>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong> Program</strong>
+                                    </div>
                                     <div style="color: #6699CC">{{ $data->program }}</div>
                                 </li>
                                 <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o" style="color: #4C4F53"></i><strong> Manager</strong></div>
-                                    <div style="color: #6699CC">BLANK<div style="color: #6699CC">
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong> Manager</strong>
+                                    </div>
+                                    <div style="color: #6699CC">BLANK
+                                        <div style="color: #6699CC">
                                 </li>
                             </ul>
                         </div>
@@ -112,10 +139,24 @@
                             </li>
                         </ul>
                     </div>
+                    <hr>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                            <a href="{{ url('admin/case/'.$data->id.'/edit') }}" class="btn btn-block btn-primary" role="button">Edit</a>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-block btn-warning" href="#">Inactive</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-block btn-danger">Delete</button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
-        </div><!--/.col-->
+        </div>
+
+    </div><!--/.col-->
     </div><!--/.row profile-->
 @endsection

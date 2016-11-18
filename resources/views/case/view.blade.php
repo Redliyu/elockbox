@@ -49,11 +49,8 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-success" href="{{ url('admin/case/view', [$data->id]) }}">
+                                    <a class="btn btn-success" href="{{ url('admin/case/'. $data->id .'/view') }}">
                                         <i class="fa fa-search-plus "></i>
-                                    </a>
-                                    <a class="btn btn-info" href="#">
-                                        <i class="fa fa-edit "></i>
                                     </a>
                                 </td>
                             </tr>

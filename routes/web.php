@@ -33,7 +33,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('case/create', 'CaseManagement\CaseController@create');
     Route::post('case/create', ['as' => 'admin.case.store', 'uses' => 'CaseManagement\CaseController@store']);
     Route::get('case/view', ['uses' => 'CaseManagement\CaseController@view']);
-    Route::get('case/view/{id}', ['uses' => 'CaseManagement\CaseController@viewdetail']);
+    Route::get('case/{id}/view', ['uses' => 'CaseManagement\CaseController@viewdetail']);
+    Route::get('case/{id}/edit', ['uses' => 'CaseManagement\CaseController@editdetail']);
+    Route::post('case/{id}/edit', ['as' => 'update', 'uses' => 'CaseManagement\CaseController@update']);
+
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);

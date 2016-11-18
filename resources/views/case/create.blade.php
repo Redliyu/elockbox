@@ -38,7 +38,7 @@
     </div>
     <div class="form-group">
         {!! Form::label('Gender') !!}
-        {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female']) !!}
+        {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'Other' => 'Other'], null, ['placeholder' => 'Choose your gender...']) !!}
     </div>
     <div class="form-group">
         {!! Form::label('Web Page') !!}
@@ -54,11 +54,11 @@
     </div>
     <div class="form-group">
         {!! Form::label('Ethnicity') !!}
-        {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American']) !!}
+        {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], null, ['placeholder' => 'Choose your ethnicity...']) !!}
     </div>
     <div class="form-group">
         {!! Form::label('Program') !!}
-        {!! Form::select('program', ['Program1' => 'Program1']) !!}
+        {!! Form::select('program', ['Program1' => 'Program1'], null, ['placeholder' => 'Choose your program...']) !!}
     </div>
     <div class="form-group">
         {!! Form::submit('Create Case') !!}
