@@ -8,7 +8,19 @@
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
                 <li><i class="fa fa-folder-open"></i>Case Management</li>
-                <li><i class="fa fa-list"></i><a href="#">View Cases</a></li>
+                <?php if ($user = Sentinel::check()) {
+                    $admin = Sentinel::findRoleByName('Admins');
+                    $manager = Sentinel::findRoleByName('Managers');
+                    $staff = Sentinel::findRoleByName('Staff');
+                    $youth = Sentinel::findRoleByName('Youths');
+                } ?>
+                @if($user->inRole($admin))
+                    <li><i class="fa fa-list"></i><a href="{{ url('/admin/case/view') }}">View Cases</a></li>
+                @elseif($user->inRole($manager))
+                    <li><i class="fa fa-list"></i><a href="#">View Cases</a></li>
+                @elseif($user->inRole($staff))
+                    <li><i class="fa fa-list"></i><a href="#">View Cases</a></li>
+                @endif
                 <li><i class="fa fa-file-text"></i>Profile</li>
             </ol>
         </div>
@@ -22,8 +34,11 @@
                     <div class="text-center">
                         <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}">
                     </div>
-
                     <h3 class="text-center"><strong>{{ $data->last_name }}, {{ $data->first_name }}</strong></h3>
+                    <button type="button" class="btn btn-block btn-success center-block" style="width: 15%"
+                            data-toggle="modal" data-target="#createAccount">
+                        Create Account
+                    </button>
                     <h4 class="text-center">
                         <small><i class="fa fa-map-marker"></i> California, USA</small>
                     </h4>
@@ -143,20 +158,92 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4">
-                            <a href="{{ url('admin/case/'.$data->id.'/edit') }}" class="btn btn-block btn-primary" role="button">Edit</a>
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-block btn-warning" href="#">Inactive</button>
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-block btn-danger">Delete</button>
+                                <a href="{{ url('admin/case/'.$data->id.'/edit') }}" class="btn btn-block btn-primary"
+                                   role="button">Edit</a>
+                            </div>
+                            @if($data->status)
+                                <div class="col-md-4">
+                                    <a href="{{ url('admin/case/'. $data->id.'/inactive') }}"
+                                       class="btn btn-block btn-warning"
+                                       role="button">Inactive</a>
+                                </div>
+                            @else
+                                <div class="col-md-4">
+                                    <a href="{{ url('admin/case/'. $data->id.'/active') }}"
+                                       class="btn btn-block btn-success"
+                                       role="button">Active</a>
+                                </div>
+                            @endif
+                            <div class="col-md-4">
+                                <a href="{{ url('admin/case/'.$data->id.'/delete') }}" class="btn btn-block btn-danger"
+                                   role="button">Delete</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
-        </div>
-
-    </div><!--/.col-->
+        </div><!--/.col-->
     </div><!--/.row profile-->
+
+
+    <!-- create user from case  popup window-->
+    <div class="modal fade" style="margin-top:10%" id="createAccount" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Create Youth Account</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['route' => ['admin.case.create.account', $data->id]]) !!}
+                    @if (session()->has('flash_message'))
+                        <div class="form-group">
+                            <p>{{ session()->get('flash_message') }}</p>
+                        </div>
+                    @endif
+                    {{--improve performance--}}
+                    {{--we should detect whether email and pwd are valid while inputing, rather than after submit--}}
+                    <div class="form-group row">
+                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                        <div class="col-md-10">
+                            {!! Form::text('email', $data->email, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'disabled']) !!}
+                            @if($errors->has('email'))
+                                {!! $errors->first('email') !!}
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px']) !!}
+                        <div class="col-md-10">
+                            {!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
+                            @if($errors->has('password'))
+                                {!! $errors->first('password') !!}
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px']) !!}
+                        <div class="col-md-10">
+                            {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        {!! Form::button('Cancel', ['class' => 'btn btn-secondary', 'data-dismiss' => 'modal']) !!}
+                        {!! Form::submit('Create and Activate', ['class' => 'btn btn-primary']) !!}
+                    </div>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+    <!-- end create account -->
 @endsection

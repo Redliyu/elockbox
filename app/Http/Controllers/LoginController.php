@@ -90,7 +90,7 @@ class LoginController extends Controller
 
     public function basic_email($user_id) {
         $first_name = DB::table('users')->where('id', $user_id)->first()->first_name;
-        $code = DB::table('code')->where('id', $user_id)->first()->code;
+        $code = DB::table('code')->where('user_id', $user_id)->first()->code;
         $email = DB::table('users')->where('id', $user_id)->first()->email;
         $imgPath = 'https://cdn.shopify.com/s/files/1/1090/4924/files/Living_Advantage_Logo_large.png?13792516517561167664';
         $data = ['name' => $first_name, 'code' => $code, 'email' => $email, 'imgPath' => $imgPath];

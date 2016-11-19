@@ -14,7 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/create', 'RegistrationController@create');
     Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
@@ -36,7 +35,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('case/{id}/view', ['uses' => 'CaseManagement\CaseController@viewdetail']);
     Route::get('case/{id}/edit', ['uses' => 'CaseManagement\CaseController@editdetail']);
     Route::post('case/{id}/edit', ['as' => 'update', 'uses' => 'CaseManagement\CaseController@update']);
-
+    Route::get('case/{id}/active', ['uses' => 'CaseManagement\CaseController@active']);
+    Route::get('case/{id}/inactive', ['uses' => 'CaseManagement\CaseController@inactive']);
+    Route::get('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
+    Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
+    Route::post('case/{id}/account', ['as' => 'admin.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);

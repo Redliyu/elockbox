@@ -9,6 +9,9 @@ use App\Http\Requests\CreateCaseFormRequest;
 use App\Http\Requests\UpdateCaseFormRequest;
 use App\Http\Controllers\Controller;
 use Sentinel;
+use DB;
+use App\VrfyCode;
+use App\UserProfile;
 use App\CreateCase;
 
 class CaseController extends Controller
@@ -71,5 +74,68 @@ class CaseController extends Controller
     }
     public function test() {
         return view('case.edit');
+    }
+
+    public static function active($id) {
+        $case = CreateCase::find($id);
+        $case->status = 1;
+        $case->save();
+        return redirect('/admin/case/'.$id.'/view');
+    }
+
+    public static function inactive($id) {
+        $case = CreateCase::find($id);
+        $case->status = 0;
+        $case->save();
+        return redirect('/admin/case/'.$id.'/view');
+    }
+
+    public function delete($id) {
+        CreateCase::find($id)->delete();
+        return redirect('/admin/case/view');
+    }
+
+    public function createaccount($id) {
+        $case = CreateCase::find($id);
+        return view('case.account', [
+            'case' => $case,
+        ]);
+    }
+
+    public function storeaccount($id, Request $request) {
+        $case = CreateCase::find($id);
+        $first_name = $case->first_name;
+        $last_name = $case->last_name;
+        $email = $case->email;
+        $credentials = [
+            'email' => $email,
+            'password' => $request->get('password'),
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+        ];
+        $user = Sentinel::registerAndActivate($credentials);
+
+        $userrole = Sentinel::findRoleByName('Youths');
+        $userrole->users()->attach($user);
+
+        //find user id
+        $user_id = Sentinel::findByCredentials(['login' => $email])->id;
+//        $user_id = DB::table('users')->where('email', $email)->first()->id;
+        $default_code = 100000000;
+        //save user id and default code into code table
+        $newcode = new VrfyCode;
+        $newcode->user_id = $user_id;
+        $newcode->code = $default_code;
+        $newcode->save();
+
+        $newprofile = new UserProfile;
+        $newprofile->user_id = $user_id;
+        $newprofile->phone_number = $request->get('phone_number');
+        $newprofile->address1 = $request->get('address1');
+        $newprofile->address2 = $request->get('address2');
+        $newprofile->city = $request->get('city');
+        $newprofile->state = $request->get('state');
+        $newprofile->zip = $request->get('zip');
+        $newprofile->save();
     }
 }

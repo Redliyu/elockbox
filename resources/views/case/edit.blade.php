@@ -157,7 +157,15 @@
                         {!! Form::select('program', ['Program1' => 'Program1'], $data->program, ['placeholder' => 'Choose your program...', 'class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::submit('Update') !!}
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-8">
+                                {!! Form::submit('Update', ['class' => 'btn btn-block btn-primary']) !!}
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{ url('admin/case/'.$data->id.'/view') }}" class="btn btn-block btn-danger"
+                                   role="button">Cancel</a>
+                            </div>
+                        </div>
                     </div>
                     {!! Form::close() !!}
                 </div>
