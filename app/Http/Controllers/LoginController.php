@@ -36,6 +36,7 @@ class LoginController extends Controller
         $input = $request->only('email', 'password');
         try{
             if(Sentinel::authenticate($input)) {
+                Sentinel::logout();
                 $code = rand(100000, 999999);
                 $email = $request->only('email');
                 $user_id = DB::table('users')->where('email', $email)->first()->id;
@@ -59,14 +60,15 @@ class LoginController extends Controller
     }
     protected function vrfy(VrfycodeFormRequest $request) {
         $input = $request->only('user_id', 'vrfycode');
+        $userid = $request->get('user_id');
         $excode = DB::table('code')->where('user_id', $input['user_id'])->first()->code;
         if($excode == $input['vrfycode']) {
-            return $this->redirectWhenLoggedIn();
+            return $this->redirectWhenLoggedIn($userid);
         }
         return redirect('/login')->withInput()->withErrorMessage('Wrong verification code');
     }
-    protected function redirectWhenLoggedIn() {
-        $user = Sentinel::getUser();
+    protected function redirectWhenLoggedIn($userid) {
+        $user = Sentinel::findById($userid);
         $admin = Sentinel::findRoleByName('Admins');
         $manager = Sentinel::findRoleByName('Managers');
         $staff = Sentinel::findRoleByName('Staff');
