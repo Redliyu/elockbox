@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>E-Lockbox</title>
+    <title>e-Lockbox</title>
 
     <!-- Import google fonts - Heading first/ text second -->
     <!--<link rel='stylesheet' type='text/css' href='http://fonts.useso.com/css?family=Open+Sans:400,700|Droid+Sans:400,700' />-->
@@ -226,7 +226,7 @@
                                 <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
                                     <li><a href="{{ url('create') }}"><i class="fa fa-plus-circle"></i><span class="text"> Create User</span></a></li>
-                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> View Users</span></a></li>
+                                    <li><a href="{{ url('admin/user/view') }}"><i class="fa fa-list"></i><span class="text"> View Users</span></a></li>
                                 </ul>
                             </li>
                             <li>
@@ -551,7 +551,7 @@
             <div class="sidebar-footer">
 
                 <div class="sidebar-brand">
-                    E-Lockbox
+                    e-Lockbox
                 </div>
 
                 <ul class="sidebar-terms">
@@ -562,7 +562,7 @@
                 </ul>
 
                 <div class="copyright text-center">
-                    <small><i class="fa fa-cube"></i> E-Lockbox from <a
+                    <small><i class="fa fa-cube"></i> e-Lockbox from <a
                                 href="http://greenbay.usc.edu/csci577/fall2016/projects/team10/" title="Team 10"
                                 target="_blank">USC Team10</a></small>
                 </div>

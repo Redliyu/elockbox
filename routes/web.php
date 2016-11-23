@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::group(['middleware' => 'guest'], function () {
+    Route::get('/debug/create', 'RegistrationController@debugcreate');
+    Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'RegistrationController@debugstore']);
     Route::get('/create', 'RegistrationController@create');
     Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
 });
@@ -40,6 +42,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
     Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
     Route::post('case/{id}/account', ['as' => 'admin.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
+    Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);

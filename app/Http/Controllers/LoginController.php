@@ -42,7 +42,7 @@ class LoginController extends Controller
                 $user_id = DB::table('users')->where('email', $email)->first()->id;
                 DB::table('code')->where('user_id', $user_id)->update(['code'=> $code]);
                 $this->basic_email($user_id);
-                return $this->redirectVrfyCode($user_id, $email);
+                return $this->redirectVrfyCode($user_id, $email, $code);
             }
             return redirect()->back()->withInput()->withErrorMessage('Invalid credentials provided');
         } catch (NotActivatedException $e) {
@@ -52,7 +52,8 @@ class LoginController extends Controller
         }
     }
 
-    protected function redirectVrfyCode($user_id, $email) {
+    protected function redirectVrfyCode($user_id, $email, $code) {
+        echo "<script>alert($code)</script>";//to delete
         return view('login.verify', [
             'user_id' => $user_id,
             'email' => $email,
