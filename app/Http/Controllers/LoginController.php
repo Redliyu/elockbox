@@ -53,7 +53,7 @@ class LoginController extends Controller
     }
 
     protected function redirectVrfyCode($user_id, $email, $code) {
-        echo "<script>alert($code)</script>";//to delete
+//        echo "<script>alert($code)</script>";//to delete
         return view('login.verify', [
             'user_id' => $user_id,
             'email' => $email,
