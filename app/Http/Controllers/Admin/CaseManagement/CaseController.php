@@ -13,6 +13,7 @@ use DB;
 use App\VrfyCode;
 use App\UserProfile;
 use App\CreateCase;
+use App\User;
 
 class CaseController extends Controller
 {
@@ -48,8 +49,11 @@ class CaseController extends Controller
     }
     public function viewdetail($id) {
         $data = CreateCase::find($id);
+        $email = $data->email;
+        $caseUser = User::where('email', $email)->first();
         return view('case.detail', [
             'data' => $data,
+            'caseUser' => $caseUser,
         ]);
     }
     public function editdetail($id) {

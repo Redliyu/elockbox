@@ -45,7 +45,7 @@
     <div class="form-group row">
         {!! Form::label('birthday', 'DOB', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
         <div class="col-md-10">
-        {!! Form::text('birthday', null, ['placeholder' => 'yyyy-mm-dd', 'class' => 'form-control']) !!}
+        {!! Form::text('birthday', '1111-11-11', ['placeholder' => 'yyyy-mm-dd', 'class' => 'form-control']) !!}
         </div>
     </div>
     <div class="form-group row">
