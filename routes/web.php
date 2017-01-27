@@ -43,6 +43,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
     Route::post('case/{id}/account', ['as' => 'admin.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
     Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
+    Route::post('case/upload', 'CaseManagement\FileuploadingController@showfileupload');
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
@@ -67,3 +68,6 @@ Route::get('/fail', function() {
     echo 'You do not have premission!';
 });
 Route::get('/logout', ['uses' => 'LoginController@logout']);
+
+//Route::get('/uploadfile', 'FileuploadingController@index');
+//Route::post('/uploadfile', 'FileuploadingController@showfileupload');

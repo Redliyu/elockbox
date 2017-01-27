@@ -1,5 +1,9 @@
 @extends('layouts.dashboard')
 
+@section('head')
+
+@stop
+
 @section('content')
 
     <div class="row">
@@ -227,7 +231,9 @@
                             <h4><strong>Additional Contacts</strong></h4>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary" style="padding-left: 50px; padding-right: 50px"> Add</button>
+                            <button type="button" class="btn btn-primary"
+                                    style="padding-left: 50px; padding-right: 50px"> Add
+                            </button>
                         </div>
                         <table class="table table-striped">
                             <thead>
@@ -252,7 +258,9 @@
                             <h4><strong>Education History</strong></h4>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary" style="padding-left: 50px; padding-right: 50px"> Add</button>
+                            <button type="button" class="btn btn-primary"
+                                    style="padding-left: 50px; padding-right: 50px"> Add
+                            </button>
                         </div>
                         <table class="table table-striped">
                             <thead>
@@ -277,7 +285,9 @@
                             <h4><strong>Work History</strong></h4>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary" style="padding-left: 50px; padding-right: 50px"> Add</button>
+                            <button type="button" class="btn btn-primary"
+                                    style="padding-left: 50px; padding-right: 50px"> Add
+                            </button>
                         </div>
                         <table class="table table-striped">
                             <thead>
@@ -302,7 +312,11 @@
                             <h4><strong>Vital Documents</strong></h4>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary" style="padding-left: 50px; padding-right: 50px"> Add</button>
+                            <button type="button" class="btn btn-primary"
+                                    style="padding-left: 50px; padding-right: 50px"
+                                    data-toggle="modal" data-target="#uploaddocument">
+                                Add
+                            </button>
                         </div>
                         <table class="table table-striped">
                             <thead>
@@ -385,4 +399,67 @@
         </div>
     </div>
     <!-- end create account -->
+    <!-- upload doc-->
+    <div class="modal fade" style="margin-top:10%" id="uploaddocument" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Documents</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/upload', 'files' => 'true']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('title', 'Title', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('title', null, ['placeholder' => 'Document title', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::select('type', ['SS' => 'Social Security', 'DL' => 'Driver License'], null, ['placeholder' => 'Choose document type...', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('description', 'Description', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::textarea('description', null, ['placeholder' => 'Input document description', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('author', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('description', $user->last_name.', '.$user->first_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control', 'disabled']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('doc', 'Document', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::file('image') }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Upload File', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end upload doc-->
+
+
+
+
 @endsection
