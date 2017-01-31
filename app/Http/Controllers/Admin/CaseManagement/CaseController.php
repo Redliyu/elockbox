@@ -14,6 +14,9 @@ use App\VrfyCode;
 use App\UserProfile;
 use App\CreateCase;
 use App\User;
+use App\Docs;
+use Illuminate\Support\Facades\File;
+
 
 class CaseController extends Controller
 {
@@ -51,9 +54,11 @@ class CaseController extends Controller
         $data = CreateCase::find($id);
         $email = $data->email;
         $caseUser = User::where('email', $email)->first();
+        $docs = Docs::where('case_id', $id)->get();
         return view('case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
+            'docs' => $docs,
         ]);
     }
     public function editdetail($id) {
@@ -141,5 +146,24 @@ class CaseController extends Controller
         $newprofile->state = $request->get('state');
         $newprofile->zip = $request->get('zip');
         $newprofile->save();
+    }
+
+    public function editfile(Request $request) {
+        $case_id = $request->get('id');
+        $doc_id = $request->get('doc_id');
+        $doc = Docs::find($doc_id);
+//        dd($doc);
+        $doc->title = $request->get('title');
+        $doc->type = $request->get('type');
+        $doc->description = $request->get('description');
+        $doc->save();
+        return redirect('admin/case/'.$case_id.'/view');
+    }
+    public function deletefile($id) {
+        $doc = Docs::find($id);
+        $doc_path_name = $doc->path.'/'.$doc->filename;
+        File::delete($doc_path_name);
+        $doc->delete();
+        return redirect()->back();
     }
 }

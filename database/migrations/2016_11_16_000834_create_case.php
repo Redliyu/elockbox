@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -32,6 +31,19 @@ class CreateCase extends Migration
 
             $table->engine = 'InnoDB';
             $table->unique('email');
+        });
+
+        Schema::create('docs', function (Blueprint $table)
+        {
+            $table->increments('id');
+            $table->bigInteger('case_id')->unsigned();
+            $table->string('type', 50)->nullable();
+            $table->string('title', 255)->nullable();
+            $table->string('path', 255);
+            $table->text('description')->nullable();
+            $table->string('filename');
+            $table->string('uploader', 255);
+            $table->timestamps();
         });
     }
 

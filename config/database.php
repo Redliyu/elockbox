@@ -62,6 +62,7 @@ return [
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
+            'timezone'  => env('DB_TIMEZONE','-08:00'),
             'strict' => true,
             'engine' => null,
         ],

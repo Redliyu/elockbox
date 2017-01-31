@@ -44,6 +44,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/{id}/account', ['as' => 'admin.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
     Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
     Route::post('case/upload', 'CaseManagement\FileuploadingController@showfileupload');
+    Route::post('case/doc/{id}/edit', 'CaseManagement\CaseController@editfile');
+    Route::get('case/doc/{id}/delete', 'CaseManagement\CaseController@deletefile');
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
