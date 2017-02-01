@@ -28,7 +28,7 @@ class CreateCaseFormRequest extends FormRequest
             'email' => 'required|email|unique:users',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'birthday'   => 'regex:/^\d{4}-\d{2}-\d{2}$/',
+//            'birthday'   => 'regex:/^\d{2}-\d{2}-\d{4}$/',
             'gender'     => 'max:6',
             'webpage'    => 'max:255',
             'ssn'        => 'regex:/^\d{3}-\d{2}-\d{4}$/',

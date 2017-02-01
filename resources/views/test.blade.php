@@ -1,33 +1,38 @@
-{!! Form::open(['route' => 'store']) !!}
-@if (session()->has('flash_message'))
-    <div class="form-group">
-        <p>{{ session()->get('flash_message') }}</p>
-    </div>
-@endif
-<form class="form-horizontal">
-    <div class="form-group">
-        {!! Form::label('email','Email*', ['class' => 'col-md-2 text-left']) !!}
-        <div class="col-md-10">
-            {!! Form::text('email', $data->email, ['placeholder' => 'Email', 'required' => 'required', 'disabled', 'class' => 'form-control']) !!}
-            @if($errors->has('email'))
-                {!! $errors->first('email') !!}
-            @endif
-        </div>
-    </div>
-    <div class="form-group">
-        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 text-left']) !!}
-        <div class="col-md-10">
-            {!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
-            @if($errors->has('password'))
-                {!! $errors->first('password') !!}
-            @endif
-        </div>
-    </div>
-    <div class="form-group">
-        {!! Form::label('password_confirmation', 'Password*', ['class' => 'col-md-2 text-left']) !!}
-        <div class="col-md-10">
-            {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-</form>
-{!! Form::close() !!}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attach to custom icon</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="{{ asset('cssnew/calendar/dhtmlxcalendar.css') }}" rel="stylesheet">
+    <link href="{{ asset('cssnew/calendar/roboto.css') }}" rel="stylesheet">
+    <script src="{{ asset('cssnew/calendar/dhtmlxcalendar.js') }}"></script>
+    <style>
+        #calendar_input {
+            border: 1px solid #dfdfdf;
+            font-family: Roboto, Arial, Helvetica;
+            font-size: 14px;
+            color: #404040;
+        }
+        #calendar_icon {
+            vertical-align: middle;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        var myCalendar;
+        function doOnLoad() {
+            myCalendar = new dhtmlXCalendarObject({button: "calendar_icon"});
+            myCalendar.attachEvent("onClick", function(){
+                document.getElementById("date_here").innerHTML = myCalendar.getFormatedDate();
+            });
+        }
+    </script>
+</head>
+<body onload="doOnLoad();">
+<div style="position:relative;height:350px;">
+    <span><img id="calendar_icon" src="{{ asset('cssnew/calendar/calendar.png') }}" border="0"></span>
+    <span id="date_here">&nbsp;</span>
+</div>
+</body>
+</html>

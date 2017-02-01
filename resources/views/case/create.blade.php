@@ -1,5 +1,12 @@
 @extends('layouts.dashboard')
 
+
+@section('head')
+
+
+@stop
+
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -45,7 +52,7 @@
     <div class="form-group row">
         {!! Form::label('birthday', 'DOB', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
         <div class="col-md-10">
-        {!! Form::text('birthday', '1111-11-11', ['placeholder' => 'yyyy-mm-dd', 'class' => 'form-control']) !!}
+        {!! Form::text('birthday', date("m/d/Y", time()), ['id' => 'birthday', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
         </div>
     </div>
     <div class="form-group row">

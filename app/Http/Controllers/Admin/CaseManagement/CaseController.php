@@ -31,7 +31,7 @@ class CaseController extends Controller
         $case->email = $request->get('email');
         $case->first_name = $request->get('first_name');
         $case->last_name = $request->get('last_name');
-        $case->birthday = $request->get('birthday');
+        $case->birthday = date("Y-m-d", strtotime($request->get('birthday')));
         $case->gender = $request->get('gender');
         $case->webpage = $request->get('webpage');
         $case->ssn = $request->get('ssn');
@@ -165,5 +165,8 @@ class CaseController extends Controller
         File::delete($doc_path_name);
         $doc->delete();
         return redirect()->back();
+    }
+    public function viewtest() {
+        return view('test');
     }
 }

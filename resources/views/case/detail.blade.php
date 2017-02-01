@@ -2,6 +2,36 @@
 
 @section('head')
 
+    <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
+    <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
+    <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
+
+
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                dateFormat: "mm/dd/yy",
+                maxDate: new Date(),
+                changeYear: true,
+                changeMonth: true
+            });
+            $('#start_time').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true
+            });
+            $('#end_time').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
+
+
+        });
+
+    </script>
 @stop
 
 @section('content')
@@ -32,7 +62,6 @@
 
     <div class="row profile">
         <div class="col-md-12">
-
             <div class="panel panel-default">
                 <div class="panel-body">
                     {{--Avatar--}}
@@ -80,7 +109,7 @@
                                     </div>
                                     <div style="color: #6699CC">
                                         @if($data->birthday)
-                                            {{ $data->birthday }}
+                                            {{ date('m/d/Y', strtotime($data->birthday)) }}
                                         @else
                                             N/A
                                         @endif
@@ -225,6 +254,33 @@
                             </li>
                         </ul>
                     </div>
+                    {{--Notes --}}
+                    <div class="col-md-12" style="border-top: 1px #EEEEEE solid; margin-top: 15px; padding-top: 10px">
+                        <div class="col-md-10">
+                            <h4><strong>Notes</strong></h4>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary"
+                                    style="padding-left: 50px; padding-right: 50px"> Add
+                            </button>
+                        </div>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="width: 14%;">From whom</th>
+                                <th style="width: 14%;">To whom</th>
+                                <th style="width: 14%;">XXX</th>
+                                <th style="width: 14%;">XXX</th>
+                                <th style="width: 14%;">XXX</th>
+                                <th style="width: 14%;">XXX</th>
+                                <th style="width: 14%;">XXX</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr></tr>
+                            </tbody>
+                        </table>
+                    </div>
                     {{--Additional Contacts--}}
                     <div class="col-md-12" style="border-top: 1px #EEEEEE solid; margin-top: 15px; padding-top: 10px">
                         <div class="col-md-10">
@@ -267,7 +323,7 @@
                             <tr>
                                 <th style="width: 14%;">Start Date</th>
                                 <th style="width: 14%;">End Date</th>
-                                <th style="width: 14%;">School Name</th>
+                                <th style="width: 14%;">School</th>
                                 <th style="width: 14%;">Level</th>
                                 <th style="width: 14%;">Address</th>
                                 <th style="width: 14%;">Current</th>
@@ -286,7 +342,9 @@
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-primary"
-                                    style="padding-left: 50px; padding-right: 50px"> Add
+                                    style="padding-left: 50px; padding-right: 50px"
+                                    data-toggle="modal" data-target="#addworkhistory">
+                                Add
                             </button>
                         </div>
                         <table class="table table-striped">
@@ -294,7 +352,7 @@
                             <tr>
                                 <th style="width: 14%;">Start Date</th>
                                 <th style="width: 14%;">End Date</th>
-                                <th style="width: 14%;">School Name</th>
+                                <th style="width: 14%;">Company</th>
                                 <th style="width: 14%;">Level</th>
                                 <th style="width: 14%;">Address</th>
                                 <th style="width: 14%;">Current</th>
@@ -581,8 +639,75 @@
             </div>
         </div>
     @endforeach
-
     <!-- end delete -->
+
+    <!-- add work history -->
+    <div class="modal fade" style="margin-top:10%" id="addworkhistory" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Work History</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/workhistroy', 'files' => 'true']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('start_time', 'Start Time', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('start_time', null, ['id' => 'start_time', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('end_time', 'End Time', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('end_time', null, ['id' => 'end_time', 'placeholder' => 'End time', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('industry', 'Industry', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('industry', null, ['placeholder' => 'Industry name', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('company', 'Company', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('company', null, ['placeholder' => 'Company name', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('companyaddress', null, ['placeholder' => 'Company name', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('current', 'Current', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::select('current', ['current' => 'Current', 'past' => 'Past'], null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Add', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end add work history -->
+
 
 
 
