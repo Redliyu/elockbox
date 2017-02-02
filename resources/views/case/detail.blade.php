@@ -17,12 +17,12 @@
                 changeYear: true,
                 changeMonth: true
             });
-            $('#start_time').datepicker({
+            $('#start_date').datepicker({
                 dateFormat: "mm/dd/yy",
                 changeYear: true,
                 changeMonth: true
             });
-            $('#end_time').datepicker({
+            $('#end_date').datepicker({
                 dateFormat: "mm/dd/yy",
                 changeYear: true,
                 changeMonth: true,
@@ -299,7 +299,7 @@
                                 <th style="width: 14%;">Phone</th>
                                 <th style="width: 14%;">Email</th>
                                 <th style="width: 14%;">Address</th>
-                                <th style="width: 14%;">Current</th>
+                                <th style="width: 14%;">Status</th>
                                 <th style="width: 14%;">Action</th>
                             </tr>
                             </thead>
@@ -326,7 +326,7 @@
                                 <th style="width: 14%;">School</th>
                                 <th style="width: 14%;">Level</th>
                                 <th style="width: 14%;">Address</th>
-                                <th style="width: 14%;">Current</th>
+                                <th style="width: 14%;">Status</th>
                                 <th style="width: 14%;">Action</th>
                             </tr>
                             </thead>
@@ -353,14 +353,34 @@
                                 <th style="width: 14%;">Start Date</th>
                                 <th style="width: 14%;">End Date</th>
                                 <th style="width: 14%;">Company</th>
-                                <th style="width: 14%;">Level</th>
+                                <th style="width: 14%;">Industry</th>
                                 <th style="width: 14%;">Address</th>
-                                <th style="width: 14%;">Current</th>
+                                <th style="width: 14%;">Status</th>
                                 <th style="width: 14%;">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr></tr>
+                            @foreach($workhistorys as $workhistory)
+                                <tr>
+                                    <td>{{$workhistory->start_date}}</td>
+                                    <td>{{$workhistory->end_date}}</td>
+                                    <td>{{$workhistory->company}}</td>
+                                    <td>{{$workhistory->industry}}</td>
+                                    <td>{{$workhistory->address}}</td>
+                                    <td>{{$workhistory->status}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#viewworkhistory{{$workhistory->id}}">
+                                            <i class="fa fa-search-plus" style="width: 10px"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editworkhistory{{$workhistory->id}}">
+                                            <i class="fa fa-pencil-square-o" style="width: 10px"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteworkhistory{{$workhistory->id}}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -386,30 +406,30 @@
                                 <th style="width: 21%;">Last Modified Date</th>
                                 <th style="width: 14%;">Action</th>
                             </tr>
-                                @foreach($docs as $doc)
-                                    <tr>
-                                        <td>{{$doc->type}}</td>
-                                        <td><a href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}" target="_blank">{{$doc->title}}</a></td>
-                                        <td>{{$doc->uploader}}</td>
-                                        <td>{{$doc->created_at}}</td>
-                                        <td>{{$doc->updated_at}}</td>
-                                        <td>
-                                            <a class="btn btn-success" href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}" target="_blank">
-                                                <i class="fa fa-file-pdf-o" style="width: 10px"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#{{$doc->id}}">
-                                                <i class="fa fa-pencil-square-o" style="width: 10px"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del{{$doc->id}}">
-                                                <i class="fa fa-trash-o" style="width: 10px"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
 
-                                    @endforeach
                             </thead>
                             <tbody>
-                            <tr></tr>
+                            @foreach($docs as $doc)
+                                <tr>
+                                    <td>{{$doc->type}}</td>
+                                    <td><a href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}" target="_blank">{{$doc->title}}</a></td>
+                                    <td>{{$doc->uploader}}</td>
+                                    <td>{{$doc->created_at}}</td>
+                                    <td>{{$doc->updated_at}}</td>
+                                    <td>
+                                        <a class="btn btn-success" href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}" target="_blank">
+                                            <i class="fa fa-file-pdf-o" style="width: 10px"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#{{$doc->id}}">
+                                            <i class="fa fa-pencil-square-o" style="width: 10px"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del{{$doc->id}}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -653,21 +673,21 @@
                     <h4 class="modal-title" id="myModalLabel">Work History</h4>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['url' => '/admin/case/workhistroy', 'files' => 'true']) !!}
+                    {!! Form::open(['url' => '/admin/case/workhistory']) !!}
                     {{ csrf_field() }}
                     <div class="form-group" style="display: none; visibility: hidden">
                         {!! Form::text('id', $data->id) !!}
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('start_time', 'Start Time', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('start_time', null, ['id' => 'start_time', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
+                            {{ Form::text('start_date', null, ['id' => 'start_date', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('end_time', 'End Time', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('end_time', null, ['id' => 'end_time', 'placeholder' => 'End time', 'class' => 'form-control']) }}
+                            {{ Form::text('end_date', null, ['id' => 'end_date', 'placeholder' => 'End time', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -689,9 +709,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('current', 'Current', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::select('current', ['current' => 'Current', 'past' => 'Past'], null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                            {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
                         </div>
                     </div>
 
@@ -708,7 +728,72 @@
     </div>
     <!-- end add work history -->
 
-
+    <!-- edit work history-->
+    @foreach($workhistorys as $workhistory)
+        <div class="modal fade" style="margin-top:10%" id="editworkhistory{{$workhistory->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Edit Work History</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['url' => '/admin/case/workhistory/'.$workhistory->id.'/edit']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group" style="display: none; visibility: hidden">
+                            {!! Form::text('id', $data->id) !!}
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('start_date', $workhistory->start_date, ['id' => 'start_date', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('end_date', $workhistory->end_date, ['id' => 'end_date', 'placeholder' => 'End time', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('industry', 'Industry', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('industry', $workhistory->industry, ['placeholder' => 'Industry name', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('company', 'Company', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('company', $workhistory->company, ['placeholder' => 'Company name', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('companyaddress', $workhistory->address, ['placeholder' => 'Company name', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], $workhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end work history-->
 
 
 @endsection

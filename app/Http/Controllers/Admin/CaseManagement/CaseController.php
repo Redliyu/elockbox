@@ -16,6 +16,7 @@ use App\CreateCase;
 use App\User;
 use App\Docs;
 use Illuminate\Support\Facades\File;
+use App\WorkHistory;
 
 
 class CaseController extends Controller
@@ -55,10 +56,12 @@ class CaseController extends Controller
         $email = $data->email;
         $caseUser = User::where('email', $email)->first();
         $docs = Docs::where('case_id', $id)->get();
+        $workhistorys = WorkHistory::where('case_id', $id)->get();
         return view('case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
             'docs' => $docs,
+            'workhistorys' => $workhistorys,
         ]);
     }
     public function editdetail($id) {
@@ -166,7 +169,16 @@ class CaseController extends Controller
         $doc->delete();
         return redirect()->back();
     }
-    public function viewtest() {
-        return view('test');
+    public function storeWorkHistory(Request $request) {
+        $workhistory = new WorkHistory;
+        $workhistory->case_id = $request->get('id');
+        $workhistory->start_date = $request->get('start_date');
+        $workhistory->end_date = $request->get('end_date');
+        $workhistory->company = $request->get('company');
+        $workhistory->address = $request->get('companyaddress');
+        $workhistory->industry = $request->get('industry');
+        $workhistory->status = $request->get('status');
+        $workhistory->save();
+        return redirect()->back();
     }
 }

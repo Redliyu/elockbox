@@ -49,7 +49,6 @@ class CreateCase extends Migration
         Schema::create('additional_contacts', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('case_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
             $table->string('name')->nullable();
             $table->string('relationship')->nullable();
             $table->string('phone')->nullable();
@@ -62,7 +61,6 @@ class CreateCase extends Migration
         Schema::create('edu_history', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('case_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
             $table->string('start_date')->nullable();
             $table->string('end_date')->nullable();
             $table->string('school')->nullable();
@@ -75,13 +73,12 @@ class CreateCase extends Migration
         Schema::create('work_history', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('case_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
             $table->string('start_date')->nullable();
             $table->string('end_date')->nullable();
             $table->string('company')->nullable();
-            $table->string('level')->nullable();
+            $table->string('industry')->nullable();
             $table->string('address')->nullable();
-            $table->string('current')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
