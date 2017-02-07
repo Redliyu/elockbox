@@ -17,6 +17,7 @@ class CreateCase extends Migration
         {
             $table->increments('id');
             $table->string('email');
+            $table->string('cm_id')->default('N/A');
             $table->string('first_name');
             $table->string('last_name');
             $table->date('birthday')->nullable();
