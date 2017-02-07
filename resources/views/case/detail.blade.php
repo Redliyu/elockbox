@@ -213,7 +213,7 @@
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
                                                                    style="color: #4C4F53"></i><strong> Manager</strong>
                                     </div>
-                                    <div style="color: #6699CC">BLANK
+                                    <div style="color: #6699CC">{{ $data->cm_id }}
                                     </div>
                                 </li>
                             </ul>
