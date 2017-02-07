@@ -54,7 +54,7 @@ class CreateCase extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('address')->nullable();
-            $table->string('current')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
 
@@ -66,7 +66,7 @@ class CreateCase extends Migration
             $table->string('school')->nullable();
             $table->string('level')->nullable();
             $table->string('address')->nullable();
-            $table->string('current')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
 

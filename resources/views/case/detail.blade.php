@@ -5,6 +5,14 @@
     <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
     <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
     <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
 
     <script type="text/javascript">
@@ -17,12 +25,22 @@
                 changeYear: true,
                 changeMonth: true
             });
-            $('#start_date').datepicker({
+            $('#start_date1').datepicker({
                 dateFormat: "mm/dd/yy",
                 changeYear: true,
                 changeMonth: true
             });
-            $('#end_date').datepicker({
+            $('#end_date1').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
+            $('#start_date2').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true
+            });
+            $('#end_date2').datepicker({
                 dateFormat: "mm/dd/yy",
                 changeYear: true,
                 changeMonth: true,
@@ -412,7 +430,7 @@
                             @foreach($docs as $doc)
                                 <tr>
                                     <td>{{$doc->type}}</td>
-                                    <td><a href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}" target="_blank">{{$doc->title}}</a></td>
+                                    <td><a href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}" target="_blank" data-toggle="tooltip" data-placement="top" title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
                                     <td>{{$doc->created_at}}</td>
                                     <td>{{$doc->updated_at}}</td>
@@ -659,7 +677,7 @@
             </div>
         </div>
     @endforeach
-    <!-- end delete -->
+    <!-- end delete doc-->
 
     <!-- add work history -->
     <div class="modal fade" style="margin-top:10%" id="addworkhistory" tabindex="-1" role="dialog"
@@ -681,13 +699,13 @@
                     <div class="form-group row">
                         {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('start_date', null, ['id' => 'start_date', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
+                            {{ Form::text('start_date', null, ['id' => 'start_date1', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('end_date', null, ['id' => 'end_date', 'placeholder' => 'End time', 'class' => 'form-control']) }}
+                            {{ Form::text('end_date', null, ['id' => 'end_date1', 'placeholder' => 'End time', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -749,13 +767,13 @@
                         <div class="form-group row">
                             {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('start_date', $workhistory->start_date, ['id' => 'start_date', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
+                                {{ Form::text('start_date', $workhistory->start_date, ['id' => 'start_date2', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('end_date', $workhistory->end_date, ['id' => 'end_date', 'placeholder' => 'End time', 'class' => 'form-control']) }}
+                                {{ Form::text('end_date', $workhistory->end_date, ['id' => 'end_date2', 'placeholder' => 'End time', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -793,7 +811,107 @@
             </div>
         </div>
     @endforeach
-    <!-- end work history-->
+    <!-- end edit work history-->
 
+    <!-- view work history-->
+    @foreach($workhistorys as $workhistory)
+        <div class="modal fade" style="margin-top:10%" id="viewworkhistory{{$workhistory->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Work History</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['url' => '/admin/case/workhistory/'.$workhistory->id.'/edit']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group" style="display: none; visibility: hidden">
+                            {!! Form::text('id', $data->id) !!}
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('start_date', $workhistory->start_date, ['id' => 'start_date2', 'placeholder' => 'Start time', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('end_date', $workhistory->end_date, ['id' => 'end_date2', 'placeholder' => 'End time', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('industry', 'Industry', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('industry', $workhistory->industry, ['placeholder' => 'Industry name', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('company', 'Company', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('company', $workhistory->company, ['placeholder' => 'Company name', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('companyaddress', $workhistory->address, ['placeholder' => 'Company name', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], $workhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Exit</button>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end view work history-->
+
+    <!-- delete workhistory -->
+    @foreach($workhistorys as $workhistory)
+        <div class="modal fade" style="margin-top:10%" id="deleteworkhistory{{$workhistory->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Delete Work History</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding-left: 130px">
+                            <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                            <p><strong>Please confirm work history:</strong></p>
+                            <p><strong>Start date: </strong>{{$workhistory->start_date}}</p>
+                            <p><strong>End date: </strong>{{$workhistory->end_date}}</p>
+                            <p><strong>Company: </strong>{{$workhistory->company}}</p>
+                            <p><strong>Industry: </strong>{{$workhistory->industry}}</p>
+                            <p><strong>Last Modify date: </strong>{{$workhistory->updated_at}}</p>
+                            <p><strong>Created date: </strong>{{$workhistory->created_at}}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <a role="button" class="btn btn-danger" href={{ url('/admin/case/workhistory/'.$workhistory->id.'/delete') }}>Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end delete workhistory-->
 
 @endsection

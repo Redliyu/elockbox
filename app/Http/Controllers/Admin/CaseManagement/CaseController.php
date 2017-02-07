@@ -181,4 +181,22 @@ class CaseController extends Controller
         $workhistory->save();
         return redirect()->back();
     }
+    public function editWorkHistory($id, Request $request) {
+        $case_id = $request->get('id');
+        $workhistoryid = $id;
+        $workhistory = WorkHistory::find($workhistoryid);
+        $workhistory->start_date = $request->get('start_date');
+        $workhistory->end_date = $request->get('end_date');
+        $workhistory->company = $request->get('company');
+        $workhistory->address = $request->get('companyaddress');
+        $workhistory->industry = $request->get('industry');
+        $workhistory->status = $request->get('status');
+        $workhistory->save();
+        return redirect()->back();
+    }
+    public function deleteWorkHistory($id) {
+        $workhistory = WorkHistory::find($id);
+        $workhistory->delete();
+        return redirect()->back();
+    }
 }
