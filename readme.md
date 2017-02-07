@@ -1,7 +1,7 @@
 ## Installation
 1. download the repo and cd into it
 2. `composer install`
-3. rename file ".env.example" to ".env", and set up the db accordingly 
+3. rename file ".env.example" to ".env", and create your db
 4. `php artisan key:generate`
 5. `php artisan migrate`
 6. `php artisan db:seed`
