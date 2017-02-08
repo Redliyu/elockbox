@@ -53,6 +53,26 @@
                 changeYear: true,
                 changeMonth: true,
             });
+            $('#start_date_edu1').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true
+            });
+            $('#end_date_edu1').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
+            $('#start_date_edu2').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true
+            });
+            $('#end_date_edu2').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
 
 
         });
@@ -345,7 +365,7 @@
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-primary"
-                                    style="padding-left: 50px; padding-right: 50px"> Add
+                                    style="padding-left: 50px; padding-right: 50px" data-toggle="modal" data-target="#addeduhistory"> Add
                             </button>
                         </div>
                         <table class="table table-striped">
@@ -361,7 +381,27 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr></tr>
+                            @foreach($eduhistorys as $eduhistory)
+                                <tr>
+                                    <td>{{$eduhistory->start_date}}</td>
+                                    <td>{{$eduhistory->end_date}}</td>
+                                    <td>{{$eduhistory->school}}</td>
+                                    <td>{{$eduhistory->level}}</td>
+                                    <td>{{$eduhistory->address}}</td>
+                                    <td>{{$eduhistory->status}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#vieweduhistory{{$eduhistory->id}}">
+                                            <i class="fa fa-search-plus" style="width: 10px"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editeduhistory{{$eduhistory->id}}">
+                                            <i class="fa fa-pencil-square-o" style="width: 10px"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteeduhistory{{$eduhistory->id}}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -937,7 +977,7 @@
     @endforeach
     <!-- end view work history-->
 
-    <!-- delete workhistory -->
+    <!-- delete work history -->
     @foreach($workhistorys as $workhistory)
         <div class="modal fade" style="margin-top:10%" id="deleteworkhistory{{$workhistory->id}}" tabindex="-1"
              role="dialog"
@@ -971,6 +1011,241 @@
             </div>
         </div>
     @endforeach
-    <!-- end delete workhistory-->
+    <!-- end delete work history-->
+
+    <!-- add edu history -->
+    <div class="modal fade" style="margin-top:10%" id="addeduhistory" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Education History</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/eduhistory']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('start_date', null, ['id' => 'start_date_edu1', 'placeholder' => 'Start date', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('end_date', null, ['id' => 'end_date_edu1', 'placeholder' => 'End date', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('school', 'School', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('school', null, ['placeholder' => 'School name', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('level', 'Level', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('level', null, ['placeholder' => 'Level', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('schooladdress', null, ['placeholder' => 'School address', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Add', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end add edu history -->
+
+    <!-- edit edu history-->
+    @foreach($eduhistorys as $eduhistory)
+        <div class="modal fade" style="margin-top:10%" id="editeduhistory{{$eduhistory->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Edit Educatioon History</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['url' => '/admin/case/eduhistory/'.$eduhistory->id.'/edit']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group" style="display: none; visibility: hidden">
+                            {!! Form::text('id', $data->id) !!}
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('start_date', $eduhistory->start_date, ['id' => 'start_date_edu2', 'placeholder' => 'Start date', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('end_date', $eduhistory->end_date, ['id' => 'end_date_edu2', 'placeholder' => 'End date', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('school', 'School', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('school', $eduhistory->school, ['placeholder' => 'School name', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('level', 'Level', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('level', $eduhistory->level, ['placeholder' => 'Level', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('schooladdress', $eduhistory->address, ['placeholder' => 'School address', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], $eduhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end edit edu history-->
+
+    <!-- view edu history-->
+    @foreach($eduhistorys as $eduhistory)
+        <div class="modal fade" style="margin-top:10%" id="vieweduhistory{{$eduhistory->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Education History</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['url' => '/admin/case/eduhistory/'.$eduhistory->id.'/edit']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group" style="display: none; visibility: hidden">
+                            {!! Form::text('id', $data->id) !!}
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('start_date', $eduhistory->start_date, ['id' => 'start_date_edu2', 'placeholder' => 'Start date', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('end_date', $eduhistory->end_date, ['id' => 'end_date_edu2', 'placeholder' => 'End date', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('school', 'School', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('school', $eduhistory->school, ['placeholder' => 'School name', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('level', 'Level', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('level', $eduhistory->level, ['placeholder' => 'Level', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('schooladdress', $eduhistory->address, ['placeholder' => 'School address', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], $eduhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Exit</button>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end view edu history-->
+
+    <!-- delete edu history -->
+    @foreach($eduhistorys as $eduhistory)
+        <div class="modal fade" style="margin-top:10%" id="deleteeduhistory{{$eduhistory->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Delete Education History</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding-left: 130px">
+                            <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                            <p><strong>Please confirm education history:</strong></p>
+                            <p><strong>Start date: </strong>{{$eduhistory->start_date}}</p>
+                            <p><strong>End date: </strong>{{$eduhistory->end_date}}</p>
+                            <p><strong>School: </strong>{{$eduhistory->school}}</p>
+                            <p><strong>Level: </strong>{{$eduhistory->level}}</p>
+                            <p><strong>Last Modify date: </strong>{{$eduhistory->updated_at}}</p>
+                            <p><strong>Created date: </strong>{{$eduhistory->created_at}}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <a role="button" class="btn btn-danger" href={{ url('/admin/case/eduhistory/'.$eduhistory->id.'/delete') }}>Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end delete edu history-->
 
 @endsection
