@@ -134,6 +134,7 @@ class CaseController extends Controller
             Docs::where('case_id', $id)->delete();
             $deletepath = "uploads/".$id;
             Storage::deleteDirectory($deletepath);
+            //additional contact delete
             return redirect('/admin/case/view');
         } else {
             return redirect()->back();
@@ -184,6 +185,7 @@ class CaseController extends Controller
         $newprofile->state = $request->get('state');
         $newprofile->zip = $request->get('zip');
         $newprofile->save();
+        return redirect()->back();
     }
 
     //Doc

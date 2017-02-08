@@ -83,6 +83,32 @@ class CreateCase extends Migration
             $table->string('status')->nullable();
             $table->timestamps();
         });
+        Schema::create('case_mobile', function (Blueprint $table) {
+            $table->increments('id');
+            $table->bigInteger('case_id')->unsigned();
+            $table->string('number')->nullable();
+            $table->string('type')->nullable();
+            $table->string('status')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('case_address', function (Blueprint $table) {
+            $table->increments('id');
+            $table->bigInteger('case_id')->unsigned();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('status')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('case_email', function (Blueprint $table) {
+            $table->increments('id');
+            $table->bigInteger('case_id')->unsigned();
+            $table->string('email')->nullable();
+            $table->string('primary')->nullable();
+            $table->string('status')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

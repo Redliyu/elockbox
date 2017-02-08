@@ -12,9 +12,9 @@
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
-        function test(obj){
+        function test(obj) {
 
-            if(obj.value == document.getElementById('youth_name').innerHTML){
+            if (obj.value == document.getElementById('youth_name').innerHTML) {
                 document.getElementById("delCase").disabled = false;
             } else {
                 document.getElementById("delCase").disabled = true;
@@ -115,7 +115,8 @@
                         <div class="text-center">
                             <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}">
                         </div>
-                        <h3 class="text-center"><strong id="youth_name">{{ $data->last_name }}, {{ $data->first_name }}</strong></h3>
+                        <h3 class="text-center"><strong id="youth_name">{{ $data->last_name }}
+                                , {{ $data->first_name }}</strong></h3>
                         @if($caseUser == null)
                             <button type="button" class="btn btn-block btn-success center-block" style="width: 45%"
                                     data-toggle="modal" data-target="#createAccount">
@@ -281,28 +282,84 @@
                     {{--Contact Information--}}
                     <div class="col-md-12" style="border-top: 1px #EEEEEE solid; margin-top: 15px; padding-top: 10px">
                         <h4><strong>Contact Information</strong></h4>
-                        <ul class="profile-details col-md-4">
-                            <li>
-                                <div style="color: #4C4F53"><i class="fa fa-tablet" style="color: #4C4F53"></i> Mobile
-                                </div>
+                        <div class="col-md-12" style="">
+                            <div class="col-md-10">
+                                <h5><strong>Mobile</strong></h5>
+                            </div>
+                            <table class="table table-striped" style="margin-left: 15px">
+                                <thead>
+                                <tr>
+                                    <th style="width: 14%;">Type</th>
+                                    <th style="width: 14%;">Number</th>
+                                    <th style="width: 14%;">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12" style="">
+                            <div class="col-md-10">
+                                <h5><strong>Email</strong></h5>
+                            </div>
+                            <table class="table table-striped" style="margin-left: 15px">
+                                <thead>
+                                <tr>
+                                    <th style="width: 14%;">Primary</th>
+                                    <th style="width: 14%;">Email</th>
+                                    <th style="width: 14%;">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12" style="">
+                            <div class="col-md-10">
+                                <h5><strong>Address</strong></h5>
+                            </div>
+                            <table class="table table-striped" style="margin-left: 15px">
+                                <thead>
+                                <tr>
+                                    <th style="width: 14%;">Address</th>
+                                    <th style="width: 14%;">City</th>
+                                    <th style="width: 14%;">State</th>
+                                    <th style="width: 14%;">ZipCode</th>
+                                    <th style="width: 14%;">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                            </li>
 
-                        </ul>
-                        <ul class="profile-details col-md-4">
-                            <li>
-                                <div style="color: #4C4F53"><i class="fa fa-envelope" style="color: #4C4F53"></i> E-mail
-                                </div>
+                        {{--<ul class="profile-details col-md-4">--}}
+                        {{--<li>--}}
+                        {{--<div style="color: #4C4F53"><i class="fa fa-tablet" style="color: #4C4F53"></i> Mobile--}}
+                        {{--</div>--}}
+                        {{----}}
 
-                            </li>
-                        </ul>
-                        <ul class="profile-details col-md-4">
-                            <li>
-                                <div style="color: #4C4F53"><i class="fa fa-map-marker" style="color: #4C4F53"></i>
-                                    Address
-                                </div>
-                            </li>
-                        </ul>
+                        {{--</li>--}}
+
+                        {{--</ul>--}}
+                        {{--<ul class="profile-details col-md-4">--}}
+                        {{--<li>--}}
+                        {{--<div style="color: #4C4F53"><i class="fa fa-envelope" style="color: #4C4F53"></i> E-mail--}}
+                        {{--</div>--}}
+
+                        {{--</li>--}}
+                        {{--</ul>--}}
+                        {{--<ul class="profile-details col-md-4">--}}
+                        {{--<li>--}}
+                        {{--<div style="color: #4C4F53"><i class="fa fa-map-marker" style="color: #4C4F53"></i>--}}
+                        {{--Address--}}
+                        {{--</div>--}}
+                        {{--</li>--}}
+                        {{--</ul>--}}
                     </div>
                     {{--Notes --}}
                     <div class="col-md-12" style="border-top: 1px #EEEEEE solid; margin-top: 15px; padding-top: 10px">
@@ -365,7 +422,8 @@
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-primary"
-                                    style="padding-left: 50px; padding-right: 50px" data-toggle="modal" data-target="#addeduhistory"> Add
+                                    style="padding-left: 50px; padding-right: 50px" data-toggle="modal"
+                                    data-target="#addeduhistory"> Add
                             </button>
                         </div>
                         <table class="table table-striped">
@@ -390,18 +448,21 @@
                                     <td>{{$eduhistory->address}}</td>
                                     <td>{{$eduhistory->status}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#vieweduhistory{{$eduhistory->id}}">
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#vieweduhistory{{$eduhistory->id}}">
                                             <i class="fa fa-search-plus" style="width: 10px"></i>
                                         </button>
-                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editeduhistory{{$eduhistory->id}}">
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                data-target="#editeduhistory{{$eduhistory->id}}">
                                             <i class="fa fa-pencil-square-o" style="width: 10px"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteeduhistory{{$eduhistory->id}}">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteeduhistory{{$eduhistory->id}}">
                                             <i class="fa fa-trash-o" style="width: 10px"></i>
                                         </button>
                                     </td>
                                 </tr>
-                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -485,7 +546,8 @@
                             @foreach($docs as $doc)
                                 <tr>
                                     <td>{{$doc->type}}</td>
-                                    <td><a href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
+                                    <td>
+                                        <a href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
                                            target="_blank" data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
@@ -605,7 +667,7 @@
 
                         {{ Form::submit('I understand the consequences, delete this case', ['id' => 'delCase', 'class' => 'btn btn-danger pull-right', 'disabled']) }}
                     </div>
-                        {{ Form::close() }}
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>
@@ -1082,7 +1144,8 @@
 
     <!-- edit edu history-->
     @foreach($eduhistorys as $eduhistory)
-        <div class="modal fade" style="margin-top:10%" id="editeduhistory{{$eduhistory->id}}" tabindex="-1" role="dialog"
+        <div class="modal fade" style="margin-top:10%" id="editeduhistory{{$eduhistory->id}}" tabindex="-1"
+             role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -1149,7 +1212,8 @@
 
     <!-- view edu history-->
     @foreach($eduhistorys as $eduhistory)
-        <div class="modal fade" style="margin-top:10%" id="vieweduhistory{{$eduhistory->id}}" tabindex="-1" role="dialog"
+        <div class="modal fade" style="margin-top:10%" id="vieweduhistory{{$eduhistory->id}}" tabindex="-1"
+             role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -1216,7 +1280,8 @@
 
     <!-- delete edu history -->
     @foreach($eduhistorys as $eduhistory)
-        <div class="modal fade" style="margin-top:10%" id="deleteeduhistory{{$eduhistory->id}}" tabindex="-1" role="dialog"
+        <div class="modal fade" style="margin-top:10%" id="deleteeduhistory{{$eduhistory->id}}" tabindex="-1"
+             role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -1240,7 +1305,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <a role="button" class="btn btn-danger" href={{ url('/admin/case/eduhistory/'.$eduhistory->id.'/delete') }}>Delete</a>
+                        <a role="button" class="btn btn-danger"
+                           href={{ url('/admin/case/eduhistory/'.$eduhistory->id.'/delete') }}>Delete</a>
                     </div>
                 </div>
             </div>
