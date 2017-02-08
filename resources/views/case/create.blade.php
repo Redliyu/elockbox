@@ -3,6 +3,26 @@
 
 @section('head')
 
+    <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
+    <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
+    <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
+
+
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#birthday_create').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
+
+
+        });
+
+    </script>
 
 @stop
 
@@ -52,13 +72,13 @@
             <div class="form-group row">
                 {!! Form::label('birthday', 'DOB', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::text('birthday', date("m/d/Y", time()), ['id' => 'birthday', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                    {!! Form::text('birthday', date("m/d/Y", time()), ['id' => 'birthday_create', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="form-group row">
                 {!! Form::label('gender', 'Gender',['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'Other' => 'Other'], null, ['placeholder' => 'Choose your gender...', 'class' => 'form-control']) !!}
+                    {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], null, ['placeholder' => 'Choose your gender...', 'class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="form-group row">

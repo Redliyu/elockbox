@@ -35,8 +35,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/create', ['as' => 'admin.case.store', 'uses' => 'CaseManagement\CaseController@store']);
     Route::get('case/view', ['uses' => 'CaseManagement\CaseController@view']);
     Route::get('case/{id}/view', ['uses' => 'CaseManagement\CaseController@viewdetail']);
-    Route::get('case/{id}/edit', ['uses' => 'CaseManagement\CaseController@editdetail']);
-    Route::post('case/{id}/edit', ['as' => 'update', 'uses' => 'CaseManagement\CaseController@update']);
+    Route::post('case/{id}/edit', 'CaseManagement\CaseController@update');
     Route::get('case/{id}/active', ['uses' => 'CaseManagement\CaseController@active']);
     Route::get('case/{id}/inactive', ['uses' => 'CaseManagement\CaseController@inactive']);
     Route::post('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);

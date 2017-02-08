@@ -73,6 +73,11 @@
                 changeYear: true,
                 changeMonth: true,
             });
+            $('#birthday_edit').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
 
 
         });
@@ -249,10 +254,16 @@
                         </div>
                         <div class="col-md-12" style="margin-top: 13px">
                             <div class="row">
+                                {{--<div class="col-md-4">--}}
+                                {{--<a href="{{ url('admin/case/'.$data->id.'/edit') }}"--}}
+                                {{--class="btn btn-block btn-primary"--}}
+                                {{--role="button">Edit</a>--}}
+                                {{--</div>--}}
                                 <div class="col-md-4">
-                                    <a href="{{ url('admin/case/'.$data->id.'/edit') }}"
-                                       class="btn btn-block btn-primary"
-                                       role="button">Edit</a>
+                                    <button type="button" class="btn btn-block btn-primary"
+                                            data-toggle="modal" data-target="#editProfile">
+                                        Edit
+                                    </button>
                                 </div>
                                 @if($data->status)
                                     <div class="col-md-4">
@@ -1313,5 +1324,73 @@
         </div>
     @endforeach
     <!-- end delete edu history-->
-
+    <!-- edit profile -->
+    <div class="modal fade" style="margin-top:10%" id="editProfile" tabindex="-1"
+         role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => 'admin/case/'.$data->id.'/edit']) !!}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('Email') !!}
+                        <input type="text" class="form-control" value="{{ $data->email }}" disabled>
+                        <a href="#" class="help-block">Want to change email ?</a>
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('First Name*') !!}
+                        {!! Form::text('first_name', $data->first_name, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('Last Name*') !!}
+                        {!! Form::text('last_name', $data->last_name, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('Date of Birth') !!}
+                        {!! Form::text('birthday', date('m/d/Y', strtotime($data->birthday)), ['id' => 'birthday_edit', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('Gender') !!}
+                        {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], $data->gender, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('Web Page') !!}
+                        {!! Form::text('webpage', $data->webpage, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('SSN') !!}
+                        {!! Form::text('ssn', $data->ssn, ['Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('ILP') !!}
+                        {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No'], null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('Ethnicity') !!}
+                        {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], $data->ethnicity, ['placeholder' => 'Choose your ethnicity...', 'class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('Program') !!}
+                        {!! Form::select('program', ['Program1' => 'Program1'], $data->program, ['placeholder' => 'Choose your program...', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end edit profile -->
 @endsection

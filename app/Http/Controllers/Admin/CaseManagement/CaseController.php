@@ -77,20 +77,12 @@ class CaseController extends Controller
         ]);
     }
 
-    public function editdetail($id)
-    {
-        $data = CreateCase::find($id);
-        return view('case.edit', [
-            'data' => $data,
-        ]);
-    }
-
     public function update($id, UpdateCaseFormRequest $request)
     {
         $case = CreateCase::find($id);
         $case->first_name = $request->get('first_name');
         $case->last_name = $request->get('last_name');
-        $case->birthday = $request->get('birthday');
+        $case->birthday = date("Y-m-d", strtotime($request->get('birthday')));
         $case->gender = $request->get('gender');
         $case->webpage = $request->get('webpage');
         $case->ssn = $request->get('ssn');
