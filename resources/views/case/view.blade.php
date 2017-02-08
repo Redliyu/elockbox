@@ -39,7 +39,7 @@
                                 <td>{{ $data->last_name }}, {{ $data->first_name }}</td>
                                 <td><?php $date = new DateTime($data->birthday); echo $date->format('m/d/Y') ?></td>
                                 <td><?php $now = new DateTime(); echo $date->diff($now)->y ?></td>
-                                <td>{{ $data->cm_id }}</td>
+                                <td>{{ $data->cm_name }}</td>
                                 <td>{{ $data->program }}</td>
                                 <td>
                                     @if($data->status)
