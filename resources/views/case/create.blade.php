@@ -26,75 +26,87 @@
         </div>
     @endif
     <div class="col-md-8 col-md-offset-2" style="background-color: #FFFFFF">
-    <div class="col-md-12">
-        <br><br>
-    <div class="form-group row">
-        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::text('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control']) !!}
-        @if($errors->has('email'))
-            {!! $errors->first('email') !!}
-        @endif
+        <div class="col-md-12">
+            <br><br>
+            <div class="form-group row">
+                {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::text('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control']) !!}
+                    @if($errors->has('email'))
+                        {!! $errors->first('email') !!}
+                    @endif
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('first_name', 'First Name*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::text('first_name', null, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('last_name', 'Last Name*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::text('last_name', null, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('birthday', 'DOB', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::text('birthday', date("m/d/Y", time()), ['id' => 'birthday', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('gender', 'Gender',['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'Other' => 'Other'], null, ['placeholder' => 'Choose your gender...', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('webpage', 'Web Page', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::text('webpage', null, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('ssn', 'SSN', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::text('ssn', null, ['Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('ilp', 'ILP', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No'], null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('ethnicity', 'Ethnicity', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], null, ['placeholder' => 'Choose your ethnicity...', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('program', 'Program', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::select('program', ['Program1' => 'Program1'], null, ['placeholder' => 'Choose your program...', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('creator', 'Created By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::text('creator', Sentinel::getUser()->email, ['class' => 'form-control', 'disabled']) !!}
+                </div>
+            </div>
+            <div class="form-group row" style="display: none; visibility: hidden">
+                {!! Form::label('creator', 'Created By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                <div class="col-md-10">
+                    {!! Form::text('creator', Sentinel::getUser()->email, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group pull-right">
+                {!! Form::submit('Create Case', ['class' => 'btn btn-primary']) !!}
+            </div>
+            {!! Form::close() !!}
         </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('first_name', 'First Name*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::text('first_name', null, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('last_name', 'Last Name*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::text('last_name', null, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('birthday', 'DOB', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::text('birthday', date("m/d/Y", time()), ['id' => 'birthday', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('gender', 'Gender',['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'Other' => 'Other'], null, ['placeholder' => 'Choose your gender...', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('webpage', 'Web Page', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::text('webpage', null, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('ssn', 'SSN', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::text('ssn', null, ['Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('ilp', 'ILP', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No'], null, ['class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('ethnicity', 'Ethnicity', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], null, ['placeholder' => 'Choose your ethnicity...', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        {!! Form::label('program', 'Program', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-        <div class="col-md-10">
-        {!! Form::select('program', ['Program1' => 'Program1'], null, ['placeholder' => 'Choose your program...', 'class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="form-group pull-right">
-        {!! Form::submit('Create Case', ['class' => 'btn btn-primary']) !!}
-    </div>
-    {!! Form::close() !!}
-    </div>
     </div>
 @endsection

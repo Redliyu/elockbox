@@ -9,9 +9,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
+        function test(obj){
+
+            if(obj.value == document.getElementById('youth_name').innerHTML){
+                document.getElementById("delCase").disabled = false;
+            } else {
+                document.getElementById("delCase").disabled = true;
+            }
+        }
     </script>
 
 
@@ -87,7 +95,7 @@
                         <div class="text-center">
                             <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}">
                         </div>
-                        <h3 class="text-center"><strong>{{ $data->last_name }}, {{ $data->first_name }}</strong></h3>
+                        <h3 class="text-center"><strong id="youth_name">{{ $data->last_name }}, {{ $data->first_name }}</strong></h3>
                         @if($caseUser == null)
                             <button type="button" class="btn btn-block btn-success center-block" style="width: 45%"
                                     data-toggle="modal" data-target="#createAccount">
@@ -213,7 +221,7 @@
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
                                                                    style="color: #4C4F53"></i><strong> Manager</strong>
                                     </div>
-                                    <div style="color: #6699CC">{{ $data->cm_id }}
+                                    <div style="color: #6699CC">{{ $data->cm_name }}
                                     </div>
                                 </li>
                             </ul>
@@ -239,9 +247,13 @@
                                     </div>
                                 @endif
                                 <div class="col-md-4">
-                                    <a href="{{ url('admin/case/'.$data->id.'/delete') }}"
-                                       class="btn btn-block btn-danger"
-                                       role="button">Delete</a>
+                                    {{--<a href="{{ url('admin/case/'.$data->id.'/delete') }}"--}}
+                                    {{--class="btn btn-block btn-danger"--}}
+                                    {{--role="button">Delete</a>--}}
+                                    <button type="button" class="btn btn-block btn-danger"
+                                            data-toggle="modal" data-target="#deleteCase">
+                                        Delete
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -387,18 +399,21 @@
                                     <td>{{$workhistory->address}}</td>
                                     <td>{{$workhistory->status}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#viewworkhistory{{$workhistory->id}}">
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#viewworkhistory{{$workhistory->id}}">
                                             <i class="fa fa-search-plus" style="width: 10px"></i>
                                         </button>
-                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editworkhistory{{$workhistory->id}}">
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                data-target="#editworkhistory{{$workhistory->id}}">
                                             <i class="fa fa-pencil-square-o" style="width: 10px"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteworkhistory{{$workhistory->id}}">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteworkhistory{{$workhistory->id}}">
                                             <i class="fa fa-trash-o" style="width: 10px"></i>
                                         </button>
                                     </td>
                                 </tr>
-                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -430,24 +445,30 @@
                             @foreach($docs as $doc)
                                 <tr>
                                     <td>{{$doc->type}}</td>
-                                    <td><a href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}" target="_blank" data-toggle="tooltip" data-placement="top" title="{{$doc->description}}">{{$doc->title}}</a></td>
+                                    <td><a href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
+                                           target="_blank" data-toggle="tooltip" data-placement="top"
+                                           title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
                                     <td>{{$doc->created_at}}</td>
                                     <td>{{$doc->updated_at}}</td>
                                     <td>
-                                        <a class="btn btn-success" href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}" target="_blank">
+                                        <a class="btn btn-success"
+                                           href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
+                                           target="_blank">
                                             <i class="fa fa-file-pdf-o" style="width: 10px"></i>
                                         </a>
-                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#{{$doc->id}}">
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                data-target="#{{$doc->id}}">
                                             <i class="fa fa-pencil-square-o" style="width: 10px"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del{{$doc->id}}">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#del{{$doc->id}}">
                                             <i class="fa fa-trash-o" style="width: 10px"></i>
                                         </button>
                                     </td>
                                 </tr>
 
-                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -517,6 +538,40 @@
         </div>
     </div>
     <!-- end create account -->
+
+    <!-- delete case -->
+    <div class="modal fade" style="margin-top:10%" id="deleteCase" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Are you ABSOLUTELY sure?</h4>
+                </div>
+                <div style="background-color: #F8EEC7; padding-top: 10px; padding-bottom: 10px; padding-left: 15px">
+                    Unexpected bad things will happen if you don’t read this!
+                </div>
+                <div class="modal-body">
+                    This action <strong>CANNOT</strong> be undone.<br>
+                    This will permanently delete this case, case profile, youth account, history and documents.<br>
+                    We <strong>SUGGEST</strong> you to <strong>inactivate</strong> instead.<br><br>
+                    <strong>Please input Youth name of this case:</strong><br>
+                    Notice: There is a space between last name and first name
+                    {!! Form::open(['url' => 'admin/case/'.$data->id.'/delete']) !!}
+                    <div class="form-group row" style="margin-top: 10px; padding-left: 15px; padding-right: 15px;">
+                        {{ Form::text('youth_name', null, ['placeholder' => 'Last name, First name', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)']) }}
+
+                        {{ Form::submit('I understand the consequences, delete this case', ['id' => 'delCase', 'class' => 'btn btn-danger pull-right', 'disabled']) }}
+                    </div>
+                        {{ Form::close() }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end delete case -->
+
     <!-- upload doc-->
     <div class="modal fade" style="margin-top:10%" id="uploaddocument" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
@@ -585,65 +640,65 @@
 
     <!-- edit doc-->
     @foreach($docs as $doc)
-    <div class="modal fade" style="margin-top:10%" id="{{$doc->id}}" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Edit Documents</h4>
-                </div>
-                <div class="modal-body">
-                    {!! Form::open(['url' => '/admin/case/doc/'.$doc->id.'/edit', 'files' => 'true']) !!}
-                    {{ csrf_field() }}
-                    <div class="form-group" style="display: none; visibility: hidden">
-                        {!! Form::text('id', $data->id) !!}
+        <div class="modal fade" style="margin-top:10%" id="{{$doc->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Edit Documents</h4>
                     </div>
-                    <div class="form-group" style="display: none; visibility: hidden">
-                        {!! Form::text('doc_id', $doc->id) !!}
-                    </div>
-                    <div class="form-group row">
-                        {{ Form::label('title', 'Title', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
-                            {{ Form::text('title', $doc->title, ['placeholder' => 'Document title', 'class' => 'form-control']) }}
+                    <div class="modal-body">
+                        {!! Form::open(['url' => '/admin/case/doc/'.$doc->id.'/edit', 'files' => 'true']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group" style="display: none; visibility: hidden">
+                            {!! Form::text('id', $data->id) !!}
+                        </div>
+                        <div class="form-group" style="display: none; visibility: hidden">
+                            {!! Form::text('doc_id', $doc->id) !!}
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('title', 'Title', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('title', $doc->title, ['placeholder' => 'Document title', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::select('type', ['SS' => 'Social Security', 'DL' => 'Driver License'], $doc->type, ['placeholder' => 'Choose document type...', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('description', 'Description', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::textarea('description', $doc->description, ['placeholder' => 'Input document description', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('xxx', $user->last_name.', '.$user->first_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control', 'disabled']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row" style="display: none; visibility: hidden">
+                            {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('uploader', $user->last_name.', '.$user->first_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control']) }}
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
-                            {{ Form::select('type', ['SS' => 'Social Security', 'DL' => 'Driver License'], $doc->type, ['placeholder' => 'Choose document type...', 'class' => 'form-control']) }}
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                            {{ Form::close() }}
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        {{ Form::label('description', 'Description', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
-                            {{ Form::textarea('description', $doc->description, ['placeholder' => 'Input document description', 'class' => 'form-control']) }}
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
-                            {{ Form::text('xxx', $user->last_name.', '.$user->first_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control', 'disabled']) }}
-                        </div>
-                    </div>
-                    <div class="form-group row" style="display: none; visibility: hidden">
-                        {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
-                            {{ Form::text('uploader', $user->last_name.', '.$user->first_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control']) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="form-group pull-right">
-                        {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
-                        {{ Form::close() }}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endforeach
     <!-- end edit doc-->
 
@@ -661,12 +716,12 @@
                     </div>
                     <div class="modal-body">
                         <div style="padding-left: 130px">
-                        <p style="font-size: 20px; color: red">Are you sure to delete {{$doc->title}}?</p>
-                        <p><strong>Document information:</strong></p>
-                        <p><strong>Title: </strong>{{$doc->title}}</p>
-                        <p><strong>Type: </strong>{{$doc->type}}</p>
+                            <p style="font-size: 20px; color: red">Are you sure to delete {{$doc->title}}?</p>
+                            <p><strong>Document information:</strong></p>
+                            <p><strong>Title: </strong>{{$doc->title}}</p>
+                            <p><strong>Type: </strong>{{$doc->type}}</p>
                             <p><strong>Last Modified Date: </strong>{{$doc->updated_at}}</p>
-                        <p><strong>Uploaded By: </strong>{{$doc->uploader}}</p>
+                            <p><strong>Uploaded By: </strong>{{$doc->uploader}}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -699,13 +754,13 @@
                     <div class="form-group row">
                         {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('start_date', null, ['id' => 'start_date1', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
+                            {{ Form::text('start_date', null, ['id' => 'start_date1', 'placeholder' => 'Start date', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('end_date', null, ['id' => 'end_date1', 'placeholder' => 'End time', 'class' => 'form-control']) }}
+                            {{ Form::text('end_date', null, ['id' => 'end_date1', 'placeholder' => 'End date', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -723,7 +778,7 @@
                     <div class="form-group row">
                         {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('companyaddress', null, ['placeholder' => 'Company name', 'class' => 'form-control']) }}
+                            {{ Form::text('companyaddress', null, ['placeholder' => 'Company address', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -748,7 +803,8 @@
 
     <!-- edit work history-->
     @foreach($workhistorys as $workhistory)
-        <div class="modal fade" style="margin-top:10%" id="editworkhistory{{$workhistory->id}}" tabindex="-1" role="dialog"
+        <div class="modal fade" style="margin-top:10%" id="editworkhistory{{$workhistory->id}}" tabindex="-1"
+             role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -767,13 +823,13 @@
                         <div class="form-group row">
                             {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('start_date', $workhistory->start_date, ['id' => 'start_date2', 'placeholder' => 'Start time', 'class' => 'form-control']) }}
+                                {{ Form::text('start_date', $workhistory->start_date, ['id' => 'start_date2', 'placeholder' => 'Start date', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('end_date', $workhistory->end_date, ['id' => 'end_date2', 'placeholder' => 'End time', 'class' => 'form-control']) }}
+                                {{ Form::text('end_date', $workhistory->end_date, ['id' => 'end_date2', 'placeholder' => 'End date', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -791,7 +847,7 @@
                         <div class="form-group row">
                             {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('companyaddress', $workhistory->address, ['placeholder' => 'Company name', 'class' => 'form-control']) }}
+                                {{ Form::text('companyaddress', $workhistory->address, ['placeholder' => 'Company address', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -815,7 +871,8 @@
 
     <!-- view work history-->
     @foreach($workhistorys as $workhistory)
-        <div class="modal fade" style="margin-top:10%" id="viewworkhistory{{$workhistory->id}}" tabindex="-1" role="dialog"
+        <div class="modal fade" style="margin-top:10%" id="viewworkhistory{{$workhistory->id}}" tabindex="-1"
+             role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -882,7 +939,8 @@
 
     <!-- delete workhistory -->
     @foreach($workhistorys as $workhistory)
-        <div class="modal fade" style="margin-top:10%" id="deleteworkhistory{{$workhistory->id}}" tabindex="-1" role="dialog"
+        <div class="modal fade" style="margin-top:10%" id="deleteworkhistory{{$workhistory->id}}" tabindex="-1"
+             role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -906,7 +964,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <a role="button" class="btn btn-danger" href={{ url('/admin/case/workhistory/'.$workhistory->id.'/delete') }}>Delete</a>
+                        <a role="button" class="btn btn-danger"
+                           href={{ url('/admin/case/workhistory/'.$workhistory->id.'/delete') }}>Delete</a>
                     </div>
                 </div>
             </div>
