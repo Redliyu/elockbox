@@ -83,7 +83,7 @@ class CreateCase extends Migration
             $table->string('status')->nullable();
             $table->timestamps();
         });
-        Schema::create('case_mobile', function (Blueprint $table) {
+        Schema::create('case_phone', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('case_id')->unsigned();
             $table->string('number')->nullable();

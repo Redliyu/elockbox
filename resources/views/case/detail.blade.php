@@ -284,7 +284,7 @@
                         <h4><strong>Contact Information</strong></h4>
                         <div class="col-md-12" style="">
                             <div class="col-md-10">
-                                <h5><strong>Mobile</strong></h5>
+                                <h5><strong>Phone</strong></h5>
                             </div>
                             <table class="table table-striped" style="margin-left: 15px">
                                 <thead>
