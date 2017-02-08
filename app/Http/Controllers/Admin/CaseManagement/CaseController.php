@@ -17,6 +17,7 @@ use App\User;
 use App\Docs;
 use Illuminate\Support\Facades\File;
 use App\WorkHistory;
+use App\EduHistory;
 
 
 class CaseController extends Controller
@@ -57,11 +58,13 @@ class CaseController extends Controller
         $caseUser = User::where('email', $email)->first();
         $docs = Docs::where('case_id', $id)->get();
         $workhistorys = WorkHistory::where('case_id', $id)->get();
+        $eduhistorys = EduHistory::where('case_id', $id)->get();
         return view('case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
             'docs' => $docs,
             'workhistorys' => $workhistorys,
+            'eduhistorys' => $eduhistorys,
         ]);
     }
     public function editdetail($id) {
@@ -150,7 +153,7 @@ class CaseController extends Controller
         $newprofile->zip = $request->get('zip');
         $newprofile->save();
     }
-
+    //Doc
     public function editfile(Request $request) {
         $case_id = $request->get('id');
         $doc_id = $request->get('doc_id');
@@ -169,6 +172,7 @@ class CaseController extends Controller
         $doc->delete();
         return redirect()->back();
     }
+    //Work History
     public function storeWorkHistory(Request $request) {
         $workhistory = new WorkHistory;
         $workhistory->case_id = $request->get('id');
@@ -197,6 +201,37 @@ class CaseController extends Controller
     public function deleteWorkHistory($id) {
         $workhistory = WorkHistory::find($id);
         $workhistory->delete();
+        return redirect()->back();
+    }
+    //Edu History
+    public function storeEduHistory(Request $request) {
+        $eduhistory = new EduHistory;
+        $eduhistory->case_id = $request->get('id');
+        $eduhistory->start_date = $request->get('start_date');
+        $eduhistory->end_date = $request->get('end_date');
+        $eduhistory->school = $request->get('school');
+        $eduhistory->level = $request->get('level');
+        $eduhistory->address = $request->get('schooladdress');
+        $eduhistory->status = $request->get('status');
+        $eduhistory->save();
+        return redirect()->back();
+    }
+    public function editEduHistory($id, Request $request) {
+        $case_id = $request->get('id');
+        $eduhistoryid = $id;
+        $eduhistory = EduHistory::find($eduhistoryid);
+        $eduhistory->start_date = $request->get('start_date');
+        $eduhistory->end_date = $request->get('end_date');
+        $eduhistory->school = $request->get('school');
+        $eduhistory->level = $request->get('level');
+        $eduhistory->address = $request->get('schooladdress');
+        $eduhistory->status = $request->get('status');
+        $eduhistory->save();
+        return redirect()->back();
+    }
+    public function deleteEduHistory($id) {
+        $eduhistory = EduHistory::find($id);
+        $eduhistory->delete();
         return redirect()->back();
     }
 }
