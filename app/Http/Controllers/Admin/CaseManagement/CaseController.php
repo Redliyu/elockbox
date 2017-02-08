@@ -18,6 +18,7 @@ use App\Docs;
 use Illuminate\Support\Facades\File;
 use App\WorkHistory;
 use App\EduHistory;
+use Illuminate\Support\Facades\Storage;
 
 
 class CaseController extends Controller
@@ -123,10 +124,16 @@ class CaseController extends Controller
 
     public function delete($id, Request $request)
     {
+        //$id is case id
         $case = CreateCase::find($id);
         $name = $case->last_name.', '.$case->first_name;
         if ($request->youth_name == $name) {
             CreateCase::find($id)->delete();
+            WorkHistory::where('case_id', $id)->delete();
+            EduHistory::where('case_id', $id)->delete();
+            Docs::where('case_id', $id)->delete();
+            $deletepath = "uploads/".$id;
+            Storage::deleteDirectory($deletepath);
             return redirect('/admin/case/view');
         } else {
             return redirect()->back();
@@ -197,7 +204,8 @@ class CaseController extends Controller
     {
         $doc = Docs::find($id);
         $doc_path_name = $doc->path . '/' . $doc->filename;
-        File::delete($doc_path_name);
+//        File::delete($doc_path_name);
+        Storage::delete($doc_path_name);
         $doc->delete();
         return redirect()->back();
     }

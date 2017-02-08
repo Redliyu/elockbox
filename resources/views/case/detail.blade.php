@@ -485,7 +485,7 @@
                             @foreach($docs as $doc)
                                 <tr>
                                     <td>{{$doc->type}}</td>
-                                    <td><a href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
+                                    <td><a href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
                                            target="_blank" data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
@@ -493,7 +493,7 @@
                                     <td>{{$doc->updated_at}}</td>
                                     <td>
                                         <a class="btn btn-success"
-                                           href="http://localhost/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
+                                           href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
                                            target="_blank">
                                             <i class="fa fa-file-pdf-o" style="width: 10px"></i>
                                         </a>
@@ -601,7 +601,7 @@
                     Notice: There is a space between last name and first name
                     {!! Form::open(['url' => 'admin/case/'.$data->id.'/delete']) !!}
                     <div class="form-group row" style="margin-top: 10px; padding-left: 15px; padding-right: 15px;">
-                        {{ Form::text('youth_name', null, ['placeholder' => 'Last name, First name', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)']) }}
+                        {{ Form::text('youth_name', null, ['placeholder' => 'Last name, First name', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)', 'autocomplete' => 'off']) }}
 
                         {{ Form::submit('I understand the consequences, delete this case', ['id' => 'delCase', 'class' => 'btn btn-danger pull-right', 'disabled']) }}
                     </div>

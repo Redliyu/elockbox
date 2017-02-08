@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Docs;
+use Illuminate\Support\Facades\Storage;
 
 class FileuploadingController extends Controller
 {
@@ -41,8 +42,9 @@ class FileuploadingController extends Controller
 
         // move uploaded File
         $destinationPath = 'uploads/'.$id;
-        $file->move($destinationPath, $newName);
-
+        $filenewname = 'uploads/'.$id.'/'.$newName;
+//        $file->move($destinationPath, $newName);
+        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
         //save information in database docs
         $doc = new Docs;
         $doc->case_id = $id;
