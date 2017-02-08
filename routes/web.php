@@ -39,7 +39,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/{id}/edit', ['as' => 'update', 'uses' => 'CaseManagement\CaseController@update']);
     Route::get('case/{id}/active', ['uses' => 'CaseManagement\CaseController@active']);
     Route::get('case/{id}/inactive', ['uses' => 'CaseManagement\CaseController@inactive']);
-    Route::get('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
+    Route::post('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
     Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
     Route::post('case/{id}/account', ['as' => 'admin.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
     Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
@@ -79,4 +79,4 @@ Route::get('/logout', ['uses' => 'LoginController@logout']);
 
 //Route::get('/uploadfile', 'FileuploadingController@index');
 //Route::post('/uploadfile', 'FileuploadingController@showfileupload');
-Route::get('/test', ['uses' => 'Admin\CaseManagement\CaseController@viewtest']);
+//Route::get('/test', ['uses' => 'Admin\CaseManagement\CaseController@viewtest']);
