@@ -16,16 +16,23 @@ use App\CreateCase;
 use App\User;
 use App\Docs;
 use Illuminate\Support\Facades\File;
+use App\WorkHistory;
+use App\EduHistory;
+use App\AddContact;
+use Illuminate\Support\Facades\Storage;
 
 
 class CaseController extends Controller
 {
     //
-    public function create() {
+    public function create()
+    {
         return view('case.create');
     }
 
-    public function store(CreateCaseFormRequest $request) {
+    public function store(CreateCaseFormRequest $request)
+    {
+        $currentUser = User::where('email', $request->creator)->first();
         $input = $request->only('email', 'first_name', 'last_name', 'birthday', 'gender', 'webpage', 'ssn', 'ilp', 'ethnicity', 'program');
         $case = new CreateCase;
         $case->email = $request->get('email');
@@ -38,11 +45,14 @@ class CaseController extends Controller
         $case->ilp = $request->get('ilp');
         $case->ethnicity = $request->get('ethnicity');
         $case->program = $request->get('program');
+        $case->cm_id = $currentUser->id;
+        $case->cm_name = $currentUser->last_name . ', ' . $currentUser->first_name;
         $case->save();
         return redirect('admin/case/create')->withFlashMessage('Case Successfully Created and Activated!');
     }
 
-    public function view() {
+    public function view()
+    {
 //        $data = CreateCase::all()->sortByDesc('id')->paginate(10);
         //orderBy('id','desc')
         $data = CreateCase::orderBy('id', 'desc')->paginate(10);
@@ -50,28 +60,32 @@ class CaseController extends Controller
             'datas' => $data,
         ]);
     }
-    public function viewdetail($id) {
+
+    public function viewdetail($id)
+    {
         $data = CreateCase::find($id);
         $email = $data->email;
         $caseUser = User::where('email', $email)->first();
         $docs = Docs::where('case_id', $id)->get();
+        $workhistorys = WorkHistory::where('case_id', $id)->get();
+        $eduhistorys = EduHistory::where('case_id', $id)->get();
+        $addcontacts = AddContact::where('case_id', $id)->get();
         return view('case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
             'docs' => $docs,
+            'workhistorys' => $workhistorys,
+            'eduhistorys' => $eduhistorys,
+            'addcontacts' => $addcontacts,
         ]);
     }
-    public function editdetail($id) {
-        $data = CreateCase::find($id);
-        return view('case.edit', [
-            'data' => $data,
-        ]);
-    }
-    public function update($id, UpdateCaseFormRequest $request) {
+
+    public function update($id, UpdateCaseFormRequest $request)
+    {
         $case = CreateCase::find($id);
         $case->first_name = $request->get('first_name');
         $case->last_name = $request->get('last_name');
-        $case->birthday = $request->get('birthday');
+        $case->birthday = date("Y-m-d", strtotime($request->get('birthday')));
         $case->gender = $request->get('gender');
         $case->webpage = $request->get('webpage');
         $case->ssn = $request->get('ssn');
@@ -79,39 +93,59 @@ class CaseController extends Controller
         $case->ethnicity = $request->get('ethnicity');
         $case->program = $request->get('program');
         $case->save();
-        return redirect('admin/case/'. $id . '/view');
+        return redirect('admin/case/' . $id . '/view');
     }
-    public function test() {
+
+    public function test()
+    {
         return view('case.edit');
     }
 
-    public static function active($id) {
+    public static function active($id)
+    {
         $case = CreateCase::find($id);
         $case->status = 1;
         $case->save();
-        return redirect('/admin/case/'.$id.'/view');
+        return redirect('/admin/case/' . $id . '/view');
     }
 
-    public static function inactive($id) {
+    public static function inactive($id)
+    {
         $case = CreateCase::find($id);
         $case->status = 0;
         $case->save();
-        return redirect('/admin/case/'.$id.'/view');
+        return redirect('/admin/case/' . $id . '/view');
     }
 
-    public function delete($id) {
-        CreateCase::find($id)->delete();
-        return redirect('/admin/case/view');
+    public function delete($id, Request $request)
+    {
+        //$id is case id
+        $case = CreateCase::find($id);
+        $name = $case->last_name.', '.$case->first_name;
+        if ($request->youth_name == $name) {
+            CreateCase::find($id)->delete();
+            WorkHistory::where('case_id', $id)->delete();
+            EduHistory::where('case_id', $id)->delete();
+            Docs::where('case_id', $id)->delete();
+            $deletepath = "uploads/".$id;
+            Storage::deleteDirectory($deletepath);
+            //additional contact delete
+            return redirect('/admin/case/view');
+        } else {
+            return redirect()->back();
+        }
     }
 
-    public function createaccount($id) {
+    public function createaccount($id)
+    {
         $case = CreateCase::find($id);
         return view('case.account', [
             'case' => $case,
         ]);
     }
 
-    public function storeaccount($id, Request $request) {
+    public function storeaccount($id, Request $request)
+    {
         $case = CreateCase::find($id);
         $first_name = $case->first_name;
         $last_name = $case->last_name;
@@ -146,9 +180,12 @@ class CaseController extends Controller
         $newprofile->state = $request->get('state');
         $newprofile->zip = $request->get('zip');
         $newprofile->save();
+        return redirect()->back();
     }
 
+    //Doc
     public function editfile(Request $request) {
+
         $case_id = $request->get('id');
         $doc_id = $request->get('doc_id');
         $doc = Docs::find($doc_id);
@@ -157,16 +194,118 @@ class CaseController extends Controller
         $doc->type = $request->get('type');
         $doc->description = $request->get('description');
         $doc->save();
-        return redirect('admin/case/'.$case_id.'/view');
+        return redirect('admin/case/' . $case_id . '/view');
     }
-    public function deletefile($id) {
+
+    public function deletefile($id)
+    {
         $doc = Docs::find($id);
-        $doc_path_name = $doc->path.'/'.$doc->filename;
-        File::delete($doc_path_name);
+        $doc_path_name = $doc->path . '/' . $doc->filename;
+//        File::delete($doc_path_name);
+        Storage::delete($doc_path_name);
         $doc->delete();
         return redirect()->back();
     }
-    public function viewtest() {
-        return view('test');
+  
+    //Work History
+    public function storeWorkHistory(Request $request) {
+  
+        $workhistory = new WorkHistory;
+        $workhistory->case_id = $request->get('id');
+        $workhistory->start_date = $request->get('start_date');
+        $workhistory->end_date = $request->get('end_date');
+        $workhistory->company = $request->get('company');
+        $workhistory->address = $request->get('companyaddress');
+        $workhistory->industry = $request->get('industry');
+        $workhistory->status = $request->get('status');
+        $workhistory->save();
+        return redirect()->back();
+    }
+
+    public function editWorkHistory($id, Request $request)
+    {
+        $case_id = $request->get('id');
+        $workhistoryid = $id;
+        $workhistory = WorkHistory::find($workhistoryid);
+        $workhistory->start_date = $request->get('start_date');
+        $workhistory->end_date = $request->get('end_date');
+        $workhistory->company = $request->get('company');
+        $workhistory->address = $request->get('companyaddress');
+        $workhistory->industry = $request->get('industry');
+        $workhistory->status = $request->get('status');
+        $workhistory->save();
+        return redirect()->back();
+    }
+
+    public function deleteWorkHistory($id)
+    {
+        $workhistory = WorkHistory::find($id);
+        $workhistory->delete();
+        return redirect()->back();
+    }
+    //Edu History
+    public function storeEduHistory(Request $request) {
+        $eduhistory = new EduHistory;
+        $eduhistory->case_id = $request->get('id');
+        $eduhistory->start_date = $request->get('start_date');
+        $eduhistory->end_date = $request->get('end_date');
+        $eduhistory->school = $request->get('school');
+        $eduhistory->level = $request->get('level');
+        $eduhistory->address = $request->get('schooladdress');
+        $eduhistory->status = $request->get('status');
+        $eduhistory->save();
+        return redirect()->back();
+    }
+    public function editEduHistory($id, Request $request) {
+        $case_id = $request->get('id');
+        $eduhistoryid = $id;
+        $eduhistory = EduHistory::find($eduhistoryid);
+        $eduhistory->start_date = $request->get('start_date');
+        $eduhistory->end_date = $request->get('end_date');
+        $eduhistory->school = $request->get('school');
+        $eduhistory->level = $request->get('level');
+        $eduhistory->address = $request->get('schooladdress');
+        $eduhistory->status = $request->get('status');
+        $eduhistory->save();
+        return redirect()->back();
+    }
+    public function deleteEduHistory($id) {
+        $eduhistory = EduHistory::find($id);
+        $eduhistory->delete();
+        return redirect()->back();
+    }
+
+
+
+
+    //additional contacts 
+    public function storeAddContacts(Request $request) {
+        $contact = new AddContact;
+        $contact->case_id = $request->get('id');
+        $contact->name = $request->get('name');
+        $contact->relationship = $request->get('relationship');
+        $contact->phone = $request->get('phone');
+        $contact->email = $request->get('email');
+        $contact->address = $request->get('address');
+        $contact->status = $request->get('status');
+        $contact->save();
+        return redirect()->back();
+    }
+    public function editAddContacts($id, Request $request) {
+        $contact = AddContact::find($id);
+        $contact->case_id = $request->get('id');
+        $contact->name = $request->get('name');
+        $contact->relationship= $request->get('relationship');
+        $contact->phone = $request->get('phone');
+        $contact->email = $request->get('email');
+        $contact->address = $request->get('address');
+        $contact->status = $request->get('status');
+        $contact->save();
+        return redirect()->back();
+    }
+    public function deleteAddContacts($id) {
+        $contact = AddContact::find($id);
+        $contact->delete();
+        return redirect()->back();
     }
 }
