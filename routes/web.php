@@ -51,6 +51,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/eduhistory', 'CaseManagement\CaseController@storeEduHistory');
     Route::post('case/eduhistory/{id}/edit', 'CaseManagement\CaseController@editEduHistory');
     Route::get('case/eduhistory/{id}/delete', 'CaseManagement\CaseController@deleteEduHistory');
+    Route::post('case/addcontacts', 'CaseManagement\CaseController@storeAddContacts');
+    Route::post('case/addcontacts/{id}/edit', 'CaseManagement\CaseController@editAddContacts');
+    Route::get('case/addcontacts/{id}/delete', 'CaseManagement\CaseController@deleteAddContacts');
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);

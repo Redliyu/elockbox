@@ -18,6 +18,7 @@ use App\Docs;
 use Illuminate\Support\Facades\File;
 use App\WorkHistory;
 use App\EduHistory;
+use App\AddContact;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -269,6 +270,37 @@ class CaseController extends Controller
     public function deleteEduHistory($id) {
         $eduhistory = EduHistory::find($id);
         $eduhistory->delete();
+        return redirect()->back();
+    }
+
+    //additional contacts 
+    public function storeAddContacts(Request $request) {
+        $contact = new AddContact;
+        $contact->case_id = $request->get('id');
+        $contact->name = $request->get('name');
+        $contact->relationship = $request->get('relationship');
+        $contact->phone = $request->get('phone');
+        $contact->email = $request->get('email');
+        $contact->address = $request->get('address');
+        $contact->status = $request->get('status');
+        $contact->save();
+        return redirect()->back();
+    }
+    public function editAddContacts($id, Request $request) {
+        $contact = AddContact::find($id);
+        $contact->case_id = $request->get('id');
+        $contact->name = $request->get('name');
+        $contact->relationship= $request->get('relationship');
+        $contact->phone = $request->get('phone');
+        $contact->email = $request->get('email');
+        $contact->address = $request->get('address');
+        $contact->status = $request->get('status');
+        $contact->save();
+        return redirect()->back();
+    }
+    public function deleteAddContacts($id) {
+        $contact = AddContact::find($id);
+        $contact->delete();
         return redirect()->back();
     }
 }
