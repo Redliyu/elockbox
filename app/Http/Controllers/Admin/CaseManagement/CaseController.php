@@ -69,12 +69,14 @@ class CaseController extends Controller
         $docs = Docs::where('case_id', $id)->get();
         $workhistorys = WorkHistory::where('case_id', $id)->get();
         $eduhistorys = EduHistory::where('case_id', $id)->get();
+        $addcontacts = AddContact::where('case_id', $id)->get();
         return view('case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
             'docs' => $docs,
             'workhistorys' => $workhistorys,
             'eduhistorys' => $eduhistorys,
+            'addcontacts' => $addcontacts,
         ]);
     }
 
@@ -124,6 +126,7 @@ class CaseController extends Controller
             CreateCase::find($id)->delete();
             WorkHistory::where('case_id', $id)->delete();
             EduHistory::where('case_id', $id)->delete();
+            AddContact::where('case_id', $id)->delete();
             Docs::where('case_id', $id)->delete();
             $deletepath = "uploads/".$id;
             Storage::deleteDirectory($deletepath);
