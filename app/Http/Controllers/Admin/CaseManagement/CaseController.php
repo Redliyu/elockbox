@@ -18,6 +18,7 @@ use App\Docs;
 use Illuminate\Support\Facades\File;
 use App\WorkHistory;
 use App\EduHistory;
+use App\AddContact;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -68,12 +69,14 @@ class CaseController extends Controller
         $docs = Docs::where('case_id', $id)->get();
         $workhistorys = WorkHistory::where('case_id', $id)->get();
         $eduhistorys = EduHistory::where('case_id', $id)->get();
+        $addcontacts = AddContact::where('case_id', $id)->get();
         return view('case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
             'docs' => $docs,
             'workhistorys' => $workhistorys,
             'eduhistorys' => $eduhistorys,
+            'addcontacts' => $addcontacts,
         ]);
     }
 
@@ -123,6 +126,7 @@ class CaseController extends Controller
             CreateCase::find($id)->delete();
             WorkHistory::where('case_id', $id)->delete();
             EduHistory::where('case_id', $id)->delete();
+            AddContact::where('case_id', $id)->delete();
             Docs::where('case_id', $id)->delete();
             $deletepath = "uploads/".$id;
             Storage::deleteDirectory($deletepath);
@@ -269,6 +273,37 @@ class CaseController extends Controller
     public function deleteEduHistory($id) {
         $eduhistory = EduHistory::find($id);
         $eduhistory->delete();
+        return redirect()->back();
+    }
+
+    //additional contacts 
+    public function storeAddContacts(Request $request) {
+        $contact = new AddContact;
+        $contact->case_id = $request->get('id');
+        $contact->name = $request->get('name');
+        $contact->relationship = $request->get('relationship');
+        $contact->phone = $request->get('phone');
+        $contact->email = $request->get('email');
+        $contact->address = $request->get('address');
+        $contact->status = $request->get('status');
+        $contact->save();
+        return redirect()->back();
+    }
+    public function editAddContacts($id, Request $request) {
+        $contact = AddContact::find($id);
+        $contact->case_id = $request->get('id');
+        $contact->name = $request->get('name');
+        $contact->relationship= $request->get('relationship');
+        $contact->phone = $request->get('phone');
+        $contact->email = $request->get('email');
+        $contact->address = $request->get('address');
+        $contact->status = $request->get('status');
+        $contact->save();
+        return redirect()->back();
+    }
+    public function deleteAddContacts($id) {
+        $contact = AddContact::find($id);
+        $contact->delete();
         return redirect()->back();
     }
 }
