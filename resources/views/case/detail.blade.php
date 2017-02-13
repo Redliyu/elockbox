@@ -591,8 +591,8 @@
                                            target="_blank" data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
-                                    <td>{{$doc->created_at}}</td>
-                                    <td>{{$doc->updated_at}}</td>
+                                    <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
+                                    <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
                                     <td>
                                         <a class="btn btn-success"
                                            href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
@@ -862,8 +862,10 @@
                             <p><strong>Document information:</strong></p>
                             <p><strong>Title: </strong>{{$doc->title}}</p>
                             <p><strong>Type: </strong>{{$doc->type}}</p>
-                            <p><strong>Last Modified Date: </strong>{{$doc->updated_at}}</p>
                             <p><strong>Uploaded By: </strong>{{$doc->uploader}}</p>
+                            <p><strong>Last Modified Date: </strong>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</p>
+                            <p><strong>Upload Date: </strong>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</p>
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1100,8 +1102,8 @@
                             <p><strong>End date: </strong>{{$workhistory->end_date}}</p>
                             <p><strong>Company: </strong>{{$workhistory->company}}</p>
                             <p><strong>Industry: </strong>{{$workhistory->industry}}</p>
-                            <p><strong>Last Modify date: </strong>{{$workhistory->updated_at}}</p>
-                            <p><strong>Created date: </strong>{{$workhistory->created_at}}</p>
+                            <p><strong>Last Modify date: </strong>{{date("m/d/Y H:i:s", strtotime($workhistory->updated_at))}}</p>
+                            <p><strong>Created date: </strong>{{date("m/d/Y H:i:s", strtotime($workhistory->created_at))}}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1339,8 +1341,8 @@
                             <p><strong>End date: </strong>{{$eduhistory->end_date}}</p>
                             <p><strong>School: </strong>{{$eduhistory->school}}</p>
                             <p><strong>Level: </strong>{{$eduhistory->level}}</p>
-                            <p><strong>Last Modify date: </strong>{{$eduhistory->updated_at}}</p>
-                            <p><strong>Created date: </strong>{{$eduhistory->created_at}}</p>
+                            <p><strong>Last Modify date: </strong>{{date("m/d/Y H:i:s", strtotime($eduhistory->updated_at))}}</p>
+                            <p><strong>Created date: </strong>{{date("m/d/Y H:i:s", strtotime($eduhistory->created_at))}}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1376,7 +1378,7 @@
                     <div class="form-group row">
                         {{ Form::label('name', 'Name', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('name', null, ['placeholder' => 'Lastname, Firstname', 'class' => 'form-control']) }}
+                            {{ Form::text('name', null, ['placeholder' => 'Firstname Lastname', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -1406,7 +1408,7 @@
                     <div class="form-group row">
                         {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                            {{ Form::text('status', null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
                         </div>
                     </div>
                 </div>
@@ -1512,7 +1514,7 @@
                     <div class="form-group row">
                         {{ Form::label('name', 'Name', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('name', $addcontact->name, ['placeholder' => 'Lastname, Firstname', 'class' => 'form-control']) }}
+                            {{ Form::text('name', $addcontact->name, ['placeholder' => 'Firstname Lastname', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -1542,7 +1544,7 @@
                     <div class="form-group row">
                         {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], $addcontact->status, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                            {{ Form::text('status', $addcontact->status, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
                         </div>
                     </div>
                 </div>
@@ -1582,8 +1584,8 @@
                             <p><strong>Email: </strong>{{$addcontact->email}}</p>
                             <p><strong>Address: </strong>{{$addcontact->address}}</p>
                             <p><strong>Status: </strong>{{$addcontact->status}}</p>
-                            <p><strong>Last Modify date: </strong>{{$addcontact->updated_at}}</p>
-                            <p><strong>Created date: </strong>{{$addcontact->created_at}}</p>
+                            <p><strong>Last Modify date: </strong>{{date("m/d/Y H:i:s", strtotime($addcontact->updated_at))}}</p>
+                            <p><strong>Created date: </strong>{{date("m/d/Y H:i:s", strtotime($addcontact->created_at))}}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
