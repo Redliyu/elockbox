@@ -6,15 +6,15 @@
     <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
     <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
+    {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
         function test(obj) {
 
-            if (obj.value == document.getElementById('youth_name').innerHTML) {
+            if ((obj.value == document.getElementById('youth_name1').innerHTML) || (obj.value == document.getElementById('youth_name2').innerHTML)) {
                 document.getElementById("delCase").disabled = false;
             } else {
                 document.getElementById("delCase").disabled = true;
@@ -86,7 +86,9 @@
 @stop
 
 @section('content')
-
+    <?php $youth_name1 = $data->last_name.', '.$data->first_name; $youth_name2 = $data->first_name.' '.$data->last_name ?>
+    <div id="youth_name1" style="display: none; visibility: hidden;">{{$youth_name1}}</div>
+    <div id="youth_name2" style="display: none; visibility: hidden;">{{$youth_name2}}</div>
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-file-text"></i>Profile</h3>
@@ -120,7 +122,7 @@
                         <div class="text-center">
                             <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}">
                         </div>
-                        <h3 class="text-center"><strong id="youth_name">{{ $data->last_name }}
+                        <h3 class="text-center"><strong>{{ $data->last_name }}
                                 , {{ $data->first_name }}</strong></h3>
                         @if($caseUser == null)
                             <button type="button" class="btn btn-block btn-success center-block" style="width: 45%"
@@ -406,7 +408,8 @@
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-primary"
-                                    style="padding-left: 50px; padding-right: 50px"> Add
+                                    style="padding-left: 50px; padding-right: 50px" data-toggle="modal"
+                                    data-target="#addcontact"> Add
                             </button>
                         </div>
                         <table class="table table-striped">
@@ -422,7 +425,33 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr></tr>
+                            @foreach($addcontacts as $addcontact)
+                                <tr>
+                                    <td>{{$addcontact->name}}</td>
+                                    <td>{{$addcontact->relationship}}</td>
+                                    <td>{{$addcontact->phone}}</td>
+                                    <td>{{$addcontact->email}}</td>
+                                    <td>{{$addcontact->address}}</td>
+                                    <td>{{$addcontact->status}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#viewaddcontact{{$addcontact->id}}"
+                                                >
+                                            <i class="fa fa-search-plus" style="width: 10px"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                data-target="#editaddcontact{{$addcontact->id}}"
+                                                >
+                                            <i class="fa fa-pencil-square-o" style="width: 10px"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" 
+                                        data-target="#deleteaddcontact{{$addcontact->id}}"
+                                                >
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -671,10 +700,10 @@
                     This will permanently delete this case, case profile, youth account, history and documents.<br>
                     We <strong>SUGGEST</strong> you to <strong>inactivate</strong> instead.<br><br>
                     <strong>Please input Youth name of this case:</strong><br>
-                    Notice: There is a space between last name and first name
+                    Notice: Either "Firstname Lastname" or "Lastname, Firstname" is OK.
                     {!! Form::open(['url' => 'admin/case/'.$data->id.'/delete']) !!}
                     <div class="form-group row" style="margin-top: 10px; padding-left: 15px; padding-right: 15px;">
-                        {{ Form::text('youth_name', null, ['placeholder' => 'Last name, First name', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)', 'autocomplete' => 'off']) }}
+                        {{ Form::text('youth_name', null, ['placeholder' => '"Lastname, Firstname" or "Firstname Lastname"', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)', 'autocomplete' => 'off']) }}
 
                         {{ Form::submit('I understand the consequences, delete this case', ['id' => 'delCase', 'class' => 'btn btn-danger pull-right', 'disabled']) }}
                     </div>
@@ -1324,6 +1353,253 @@
         </div>
     @endforeach
     <!-- end delete edu history-->
+
+
+
+    <!-- add additional contact -->
+    <div class="modal fade" style="margin-top:10%" id="addcontact" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="">Additional Contact</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/addcontacts']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('name', 'Name', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('name', null, ['placeholder' => 'Lastname, Firstname', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('relationship', 'Relationship', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('relationship', null, ['placeholder' => 'Relationship', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('phone', null, ['placeholder' => '+1 213 XXXXXXX', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('email', null, ['placeholder' => 'xxxx@gmail.com', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('address', null, ['placeholder' => 'Resident address', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Add', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end add additional contact-->
+    
+    <!-- view additional contact-->
+    @foreach($addcontacts as $addcontact)
+        <div class="modal fade" style="margin-top:10%" id="viewaddcontact{{$addcontact->id}}" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="">Additional Contact</h4>
+                    </div>
+                    <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/addcontacts']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+
+                    <div class="form-group row">
+                        {{ Form::label('name', 'Name', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('name', $addcontact->name, ['class' => 'form-control', 'disabled']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('relationship', 'Relationship', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('relationship', $addcontact->relationship, ['class' => 'form-control', 'disabled']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('phone', $addcontact->phone, ['class' => 'form-control', 'disabled']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('email', $addcontact->email, ['class' => 'form-control', 'disabled']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('address', $addcontact->address, ['class' => 'form-control', 'disabled']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('status', $addcontact->status, ['class' => 'form-control', 'disabled']) }}
+                        </div>
+                    </div>
+                </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Exit</button>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end view additional contact-->
+
+    <!-- edit additional contact-->
+    @foreach($addcontacts as $addcontact)
+        <div class="modal fade" style="margin-top:10%" id="editaddcontact{{$addcontact->id}}" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="">Additional Contact</h4>
+                    </div>
+                    <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/addcontacts/'.$addcontact->id.'/edit']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('name', 'Name', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('name', $addcontact->name, ['placeholder' => 'Lastname, Firstname', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('relationship', 'Relationship', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('relationship', $addcontact->relationship, ['placeholder' => 'Relationship', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('phone', $addcontact->phone, ['placeholder' => '+1 213 XXXXXXX', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('email', $addcontact->email, ['placeholder' => 'xxxx@gmail.com', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('address', $addcontact->address, ['placeholder' => 'Resident address', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], $addcontact->status, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end edit additional contact-->
+
+
+    <!-- delete additional contact -->
+    @foreach($addcontacts as $addcontact)
+        <div class="modal fade" style="margin-top:10%" id="deleteaddcontact{{$addcontact->id}}" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Delete Education History</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding-left: 130px">
+                            <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                            <p><strong>Please confirm additonal contact:</strong></p>
+                            <p><strong>Name: </strong>{{$addcontact->name}}</p>
+                            <p><strong>Relationship: </strong>{{$addcontact->relationship}}</p>
+                            <p><strong>Phone: </strong>{{$addcontact->phone}}</p>
+                            <p><strong>Email: </strong>{{$addcontact->email}}</p>
+                            <p><strong>Address: </strong>{{$addcontact->address}}</p>
+                            <p><strong>Status: </strong>{{$addcontact->status}}</p>
+                            <p><strong>Last Modify date: </strong>{{$addcontact->updated_at}}</p>
+                            <p><strong>Created date: </strong>{{$addcontact->created_at}}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <a role="button" class="btn btn-danger"
+                           href={{ url('/admin/case/addcontacts/'.$addcontact->id.'/delete') }}>Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end delete additional contact-->
+
+
+
+
     <!-- edit profile -->
     <div class="modal fade" style="margin-top:10%" id="editProfile" tabindex="-1"
          role="dialog"
