@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\CaseManagement;
 
+use App\CaseAddress;
+use App\UserRole;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -46,7 +48,7 @@ class CaseController extends Controller
         $case->ethnicity = $request->get('ethnicity');
         $case->program = $request->get('program');
         $case->cm_id = $currentUser->id;
-        $case->cm_name = $currentUser->last_name . ', ' . $currentUser->first_name;
+        $case->cm_name = $currentUser->first_name.' '.$currentUser->last_name;
         $case->save();
         return redirect('admin/case/create')->withFlashMessage('Case Successfully Created and Activated!');
     }
@@ -70,6 +72,18 @@ class CaseController extends Controller
         $workhistorys = WorkHistory::where('case_id', $id)->get();
         $eduhistorys = EduHistory::where('case_id', $id)->get();
         $addcontacts = AddContact::where('case_id', $id)->get();
+        $cm_id_list = UserRole::where('role_id', 2)->get();
+        $ad_id_list = UserRole::where('role_id', 1)->get();
+        $all_list = null;
+        foreach ($cm_id_list as $cm_id) {
+            $cm = User::find($cm_id->user_id);
+            $all_list[$cm_id->user_id] = $cm->first_name.' '.$cm->last_name;
+        }
+        foreach ($ad_id_list as $ad_id) {
+            $ad = User::find($ad_id->user_id);
+            $all_list[$ad_id->user_id] = $ad->first_name.' '.$ad->last_name;
+        }
+        $case_address = CaseAddress::where('case_id', $id)->get();
         return view('case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
@@ -77,11 +91,16 @@ class CaseController extends Controller
             'workhistorys' => $workhistorys,
             'eduhistorys' => $eduhistorys,
             'addcontacts' => $addcontacts,
+            'all_list' => $all_list,
+            'case_address' => $case_address,
         ]);
     }
 
     public function update($id, UpdateCaseFormRequest $request)
     {
+        $cm_id = $request->get('cm_name');
+        $cm = User::where('id', $cm_id)->first();
+        $cm_name = $cm->first_name.' '.$cm->last_name;
         $case = CreateCase::find($id);
         $case->first_name = $request->get('first_name');
         $case->last_name = $request->get('last_name');
@@ -92,6 +111,8 @@ class CaseController extends Controller
         $case->ilp = $request->get('ilp');
         $case->ethnicity = $request->get('ethnicity');
         $case->program = $request->get('program');
+        $case->cm_id = $cm_id;
+        $case->cm_name = $cm_name;
         $case->save();
         return redirect('admin/case/' . $id . '/view');
     }
@@ -194,6 +215,7 @@ class CaseController extends Controller
         $doc->title = $request->get('title');
         $doc->type = $request->get('type');
         $doc->description = $request->get('description');
+        $doc->visible = $request->get('visible');
         $doc->save();
         return redirect('admin/case/' . $case_id . '/view');
     }
@@ -305,5 +327,21 @@ class CaseController extends Controller
         $contact = AddContact::find($id);
         $contact->delete();
         return redirect()->back();
+    }
+    //contact information
+    public function addAddress(Request $request) {
+        $address = new CaseAddress;
+        $address->case_id = $request->get('id');
+        $address->address = $request->get('address');
+        $address->city = $request->get('city');
+        $address->state = $request->get('state');
+        $address->zipcode = $request->get('zipcode');
+        $address->status = $request->get('status');
+        $address->save();
+        return redirect()->back();
+    }
+
+    public function viewtest() {
+        return view('test');
     }
 }

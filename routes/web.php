@@ -54,6 +54,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/addcontacts', 'CaseManagement\CaseController@storeAddContacts');
     Route::post('case/addcontacts/{id}/edit', 'CaseManagement\CaseController@editAddContacts');
     Route::get('case/addcontacts/{id}/delete', 'CaseManagement\CaseController@deleteAddContacts');
+    Route::post('case/addaddress', 'CaseManagement\CaseController@addAddress');
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
@@ -81,4 +82,4 @@ Route::get('/logout', ['uses' => 'LoginController@logout']);
 
 //Route::get('/uploadfile', 'FileuploadingController@index');
 //Route::post('/uploadfile', 'FileuploadingController@showfileupload');
-//Route::get('/test', ['uses' => 'Admin\CaseManagement\CaseController@viewtest']);
+Route::get('/test', ['uses' => 'Admin\CaseManagement\CaseController@viewtest']);
