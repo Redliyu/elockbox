@@ -111,6 +111,18 @@ class CreateCase extends Migration
             $table->string('status')->nullable();
             $table->timestamps();
         });
+        Schema::create('program_list', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('program_abbr')->nullable();
+            $table->string('program_name')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('document_list', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('document_abbr')->nullable();
+            $table->string('document_type')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

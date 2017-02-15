@@ -244,7 +244,7 @@
                                         </div>
                                         <div style="color: #6699CC">
                                             @if($data->program)
-                                                {{ $data->program }}
+                                                {{ $program_name[$data->program] }}
                                             @else
                                                 N/A
                                             @endif
@@ -318,12 +318,14 @@
                                 <table class="table table-striped" style="margin-left: 15px">
                                     <thead>
                                     <tr>
-                                        <th style="width: 14%;">Address</th>
+                                        <th style="width: 28%;">Address</th>
                                         <th style="width: 14%;">City</th>
                                         <th style="width: 14%;">State</th>
                                         <th style="width: 14%;">ZipCode</th>
                                         <th style="width: 14%;">Status</th>
-                                        <th style="width: 14%;">Action</th>
+                                        @if($data->status)
+                                            <th style="width: 14%;">Action</th>
+                                        @endif
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -334,7 +336,22 @@
                                             <td>{{$address->state}}</td>
                                             <td>{{$address->zipcode}}</td>
                                             <td>{{$address->status}}</td>
-                                            <td>Actions</td>
+                                            @if($data->status)
+                                                <td>
+                                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                                            data-target="#viewaddress{{$address->id}}">
+                                                        <i class="fa fa-search-plus" style="width: 10px"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                            data-target="#editaddress{{$address->id}}">
+                                                        <i class="fa fa-pencil-square-o" style="width: 10px"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                            data-target="#deleteaddress{{$address->id}}">
+                                                        <i class="fa fa-trash-o" style="width: 10px"></i>
+                                                    </button>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -356,13 +373,37 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 14%;">Type</th>
-                                        <th style="width: 14%;">Number</th>
-                                        <th style="width: 14%;">Status</th>
-                                        <th style="width: 14%;">Action</th>
+                                        <th style="width: 28%;">Number</th>
+                                        <th style="width: 42%;">Status</th>
+                                        @if($data->status)
+                                            <th style="width: 14%;">Action</th>
+                                        @endif
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr></tr>
+                                    @foreach($case_phone as $phone)
+                                        <tr>
+                                            <td>{{$phone->type}}</td>
+                                            <td>{{$phone->number}}</td>
+                                            <td>{{$phone->status}}</td>
+                                            @if($data->status)
+                                                <td>
+                                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                                            data-target="#viewphone{{$phone->id}}">
+                                                        <i class="fa fa-search-plus" style="width: 10px"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                            data-target="#editphone{{$phone->id}}">
+                                                        <i class="fa fa-pencil-square-o" style="width: 10px"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                            data-target="#deletephone{{$phone->id}}">
+                                                        <i class="fa fa-trash-o" style="width: 10px"></i>
+                                                    </button>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -381,14 +422,34 @@
                                 <table class="table table-striped" style="margin-left: 15px">
                                     <thead>
                                     <tr>
-                                        <th style="width: 14%;">Primary</th>
-                                        <th style="width: 14%;">Email</th>
-                                        <th style="width: 14%;">Status</th>
+                                        <th style="width: 42%;">Email</th>
+                                        <th style="width: 42%;">Status</th>
                                         <th style="width: 14%;">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr></tr>
+                                    @foreach($case_email as $email)
+                                        <tr>
+                                            <td>{{$email->email}}</td>
+                                            <td>{{$email->status}}</td>
+                                            @if($data->status)
+                                                <td>
+                                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                                            data-target="#viewemail{{$email->id}}">
+                                                        <i class="fa fa-search-plus" style="width: 10px"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                            data-target="#editemail{{$email->id}}">
+                                                        <i class="fa fa-pencil-square-o" style="width: 10px"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                            data-target="#deleteemail{{$email->id}}">
+                                                        <i class="fa fa-trash-o" style="width: 10px"></i>
+                                                    </button>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -488,18 +549,15 @@
                                         @if($data->status)
                                             <td>
                                                 <button type="button" class="btn btn-success" data-toggle="modal"
-                                                        data-target="#viewaddcontact{{$addcontact->id}}"
-                                                >
+                                                        data-target="#viewaddcontact{{$addcontact->id}}">
                                                     <i class="fa fa-search-plus" style="width: 10px"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                        data-target="#editaddcontact{{$addcontact->id}}"
-                                                >
+                                                        data-target="#editaddcontact{{$addcontact->id}}">
                                                     <i class="fa fa-pencil-square-o" style="width: 10px"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        data-target="#deleteaddcontact{{$addcontact->id}}"
-                                                >
+                                                        data-target="#deleteaddcontact{{$addcontact->id}}">
                                                     <i class="fa fa-trash-o" style="width: 10px"></i>
                                                 </button>
                                             </td>
@@ -658,7 +716,7 @@
                                 <tbody>
                                 @foreach($docs as $doc)
                                     <tr>
-                                        <td>{{$doc->type}}</td>
+                                        <td>{{ $doc_type_abbr[$doc->type] }}</td>
                                         <td>
                                             <a href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
                                                target="_blank" data-toggle="tooltip" data-placement="top"
@@ -815,7 +873,7 @@
                         <div class="form-group row">
                             {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::select('type', ['SS' => 'Social Security', 'DL' => 'Driver License'], null, ['placeholder' => 'Choose document type...', 'class' => 'form-control']) }}
+                                {{ Form::select('type', $doc_type_name, null, ['class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -891,7 +949,7 @@
                             <div class="form-group row">
                                 {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                 <div class="col-md-10">
-                                    {{ Form::select('type', ['SS' => 'Social Security', 'DL' => 'Driver License'], $doc->type, ['placeholder' => 'Choose document type...', 'class' => 'form-control']) }}
+                                    {{ Form::select('type', $doc_type_name, $doc_type_name[$doc->type], ['class' => 'form-control']) }}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -1156,7 +1214,7 @@
                             <div class="form-group row">
                                 {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                 <div class="col-md-10">
-                                    {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], $workhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control', 'disabled']) }}
+                                    {{ Form::text('status', $workhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control', 'disabled']) }}
                                 </div>
                             </div>
                         </div>
@@ -1397,7 +1455,7 @@
                             <div class="form-group row">
                                 {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                 <div class="col-md-10">
-                                    {{ Form::select('status', ['current' => 'Current', 'past' => 'Past'], $eduhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control', 'disabled']) }}
+                                    {{ Form::text('status', $eduhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control', 'disabled']) }}
                                 </div>
                             </div>
                         </div>
@@ -1598,7 +1656,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 class="modal-title" id="">Additional Contact</h4>
+                            <h4 class="modal-title" id="">Edit Additional Contact</h4>
                         </div>
                         <div class="modal-body">
                             {!! Form::open(['url' => '/admin/case/addcontacts/'.$addcontact->id.'/edit']) !!}
@@ -1667,7 +1725,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 class="modal-title" id="myModalLabel">Delete Education History</h4>
+                            <h4 class="modal-title" id="myModalLabel">Delete Additional Contact</h4>
                         </div>
                         <div class="modal-body">
                             <div style="padding-left: 130px">
@@ -1755,7 +1813,7 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('Program') !!}
-                            {!! Form::select('program', ['Program1' => 'Program1'], $data->program, ['placeholder' => 'Choose your program...', 'class' => 'form-control']) !!}
+                            {!! Form::select('program', $program_name, $program_name[$data->program], ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Case Manager') !!}
@@ -1774,6 +1832,7 @@
         <!-- end edit profile -->
 
         <!-- add contact information -->
+        <!-- address -->
         <div class="modal fade" style="margin-top:10%" id="addaddress" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -1826,9 +1885,48 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('email', null, ['placeholder' => 'xxxx@gmail.com', 'class' => 'form-control']) }}
+                                {{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            {{ Form::submit('Add', ['class' => 'btn btn-primary']) }}
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- phone -->
+        <div class="modal fade" style="margin-top:10%" id="addphone" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="">Add Phone</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['url' => '/admin/case/addphone']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group" style="display: none; visibility: hidden">
+                            {!! Form::text('id', $data->id) !!}
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('number', null, ['placeholder' => 'Phone Number', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('type', null, ['placeholder' => 'Type', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -1847,25 +1945,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" style="margin-top:10%" id="addphone" tabindex="-1" role="dialog"
-             aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="">Add Phone</h4>
-                    </div>
-                    <div class="modal-body">
-
-                    </div>
-                    <div class="modal-footer">
-
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- email -->
         <div class="modal fade" style="margin-top:10%" id="addemail" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -1877,15 +1957,442 @@
                         <h4 class="modal-title" id="">Add Email</h4>
                     </div>
                     <div class="modal-body">
-
+                        {!! Form::open(['url' => '/admin/case/addemail']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group" style="display: none; visibility: hidden">
+                            {!! Form::text('id', $data->id) !!}
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-
+                        <div class="form-group pull-right">
+                            {{ Form::submit('Add', ['class' => 'btn btn-primary']) }}
+                            {{ Form::close() }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- end add contact information-->
+
+        <!-- edit contact information -->
+        <!-- address -->
+        @foreach($case_address as $address)
+            <div class="modal fade" style="margin-top:10%" id="editaddress{{$address->id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="">Edit Address</h4>
+                        </div>
+                        <div class="modal-body">
+                            {!! Form::open(['url' => '/admin/case/contact/address/'.$address->id.'/edit']) !!}
+                            {{ csrf_field() }}
+                            <div class="form-group" style="display: none; visibility: hidden">
+                                {!! Form::text('id', $data->id) !!}
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('address', $address->address, ['placeholder' => 'Address', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('city', $address->city, ['placeholder' => 'Relationship', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {!! Form::select('state', ['N/A'=>'--',
+                        'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',
+                        'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',
+                        'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',
+                        'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',
+                        'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',
+                        'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',
+                        'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',
+                        'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
+                        'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
+                        'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
+                        'WY' => 'WY'], $address->state, ['placeholder' => 'Choose state code...','class' => 'form-control']) !!}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('zipcode', 'Zip', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('zipcode', $address->zipcode, ['placeholder' => '90000', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('status', $address->status, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group pull-right">
+                                {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!-- phone -->
+        @foreach($case_phone as $phone)
+            <div class="modal fade" style="margin-top:10%" id="editphone{{$phone->id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="">Edit Phone</h4>
+                        </div>
+                        <div class="modal-body">
+                            {!! Form::open(['url' => '/admin/case/contact/phone/'.$phone->id.'/edit']) !!}
+                            {{ csrf_field() }}
+                            <div class="form-group" style="display: none; visibility: hidden">
+                                {!! Form::text('id', $data->id) !!}
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('number', $phone->number, ['placeholder' => 'Phone Number', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('type', $phone->type, ['placeholder' => 'Type', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('status', $phone->status, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group pull-right">
+                                {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!-- email -->
+        @foreach($case_email as $email)
+            <div class="modal fade" style="margin-top:10%" id="editemail{{$email->id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="">Edit Email</h4>
+                        </div>
+                        <div class="modal-body">
+                            {!! Form::open(['url' => '/admin/case/contact/email/'.$email->id.'/edit']) !!}
+                            {{ csrf_field() }}
+                            <div class="form-group row">
+                                {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('email', $email->email, ['placeholder' => 'Email', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('status', $email->status, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group pull-right">
+                                {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!-- end edit contact information -->
+
+        <!-- view contact information -->
+        <!-- address -->
+        @foreach($case_address as $address)
+            <div class="modal fade" style="margin-top:10%" id="viewaddress{{$address->id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="">Address Information</h4>
+                        </div>
+                        <div class="modal-body">
+                            {!! Form::open(['url' => '/admin/case/contact/address/'.$address->id.'/edit']) !!}
+                            {{ csrf_field() }}
+                            <div class="form-group row">
+                                {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('address', $address->address, ['placeholder' => 'Address', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('city', $address->city, ['placeholder' => 'Relationship', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {!! Form::text('state', $address->state, ['placeholder' => 'Choose state code...','class' => 'form-control', 'disabled']) !!}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('zipcode', 'Zip', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('zipcode', $address->zipcode, ['placeholder' => '90000', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('status', $address->status, ['placeholder' => 'Input status', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Exit</button>
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!-- phone -->
+        @foreach($case_phone as $phone)
+            <div class="modal fade" style="margin-top:10%" id="viewphone{{$phone->id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="">Edit Phone</h4>
+                        </div>
+                        <div class="modal-body">
+                            {!! Form::open(['url' => '/admin/case/contact/phone/'.$phone->id.'/edit']) !!}
+                            {{ csrf_field() }}
+                            <div class="form-group row">
+                                {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('number', $phone->number, ['placeholder' => 'Phone Number', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('type', $phone->type, ['placeholder' => 'Type', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('status', $phone->status, ['placeholder' => 'Input status', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Exit</button>
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!-- email -->
+        @foreach($case_email as $email)
+            <div class="modal fade" style="margin-top:10%" id="viewemail{{$email->id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="">Edit Email</h4>
+                        </div>
+                        <div class="modal-body">
+                            {!! Form::open(['url' => '/admin/case/contact/email/'.$email->id.'/edit']) !!}
+                            {{ csrf_field() }}
+                            <div class="form-group row">
+                                {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('email', $email->email, ['placeholder' => 'Email', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                <div class="col-md-10">
+                                    {{ Form::text('status', $email->status, ['placeholder' => 'Input status', 'class' => 'form-control', 'disabled']) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Exit</button>
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!-- end view contact information -->
+
+        <!-- delete contact information -->
+        <!-- address -->
+        @foreach($case_address as $address)
+            <div class="modal fade" style="margin-top:10%" id="deleteaddress{{$address->id}}" tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Delete Address</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div style="padding-left: 130px">
+                                <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                                <p><strong>Please confirm address information:</strong></p>
+                                <p><strong>Address: </strong>{{$address->address}}</p>
+                                <p><strong>City: </strong>{{$address->city}}</p>
+                                <p><strong>State: </strong>{{$address->state}}</p>
+                                <p><strong>ZipCode: </strong>{{$address->zipcode}}</p>
+                                <p><strong>Status: </strong>{{$address->status}}</p>
+                                <p><strong>Last Modify
+                                        date: </strong>{{date("m/d/Y H:i:s", strtotime($address->updated_at))}}</p>
+                                <p><strong>Created
+                                        date: </strong>{{date("m/d/Y H:i:s", strtotime($address->created_at))}}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-danger"
+                               href={{ url('/admin/case/contact/address/'.$address->id.'/delete') }}>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!-- phone -->
+        @foreach($case_phone as $phone)
+            <div class="modal fade" style="margin-top:10%" id="deletephone{{$phone->id}}" tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Delete Phone</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div style="padding-left: 130px">
+                                <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                                <p><strong>Please confirm phone information:</strong></p>
+                                <p><strong>Type: </strong>{{$phone->type}}</p>
+                                <p><strong>Number: </strong>{{$phone->number}}</p>
+                                <p><strong>Status: </strong>{{$phone->status}}</p>
+                                <p><strong>Last Modify
+                                        date: </strong>{{date("m/d/Y H:i:s", strtotime($phone->updated_at))}}</p>
+                                <p><strong>Created
+                                        date: </strong>{{date("m/d/Y H:i:s", strtotime($phone->created_at))}}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-danger"
+                               href={{ url('/admin/case/contact/phone/'.$phone->id.'/delete') }}>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!- email -->
+        @foreach($case_email as $email)
+            <div class="modal fade" style="margin-top:10%" id="deleteemail{{$email->id}}" tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Delete Education History</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div style="padding-left: 130px">
+                                <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                                <p><strong>Please confirm email information:</strong></p>
+                                <p><strong>Email: </strong>{{$email->email}}</p>
+                                <p><strong>Status: </strong>{{$email->status}}</p>
+                                <p><strong>Last Modify
+                                        date: </strong>{{date("m/d/Y H:i:s", strtotime($email->updated_at))}}</p>
+                                <p><strong>Created
+                                        date: </strong>{{date("m/d/Y H:i:s", strtotime($email->created_at))}}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-danger"
+                               href={{ url('/admin/case/contact/email/'.$email->id.'/delete') }}>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <!-- end delete contact information -->
     @elseif($user->inRole($manager))
         Manager
     @elseif($user->inRole($staff))

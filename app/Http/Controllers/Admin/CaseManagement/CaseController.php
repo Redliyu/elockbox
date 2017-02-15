@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin\CaseManagement;
 
 use App\CaseAddress;
+use App\CaseEmail;
+use App\CasePhone;
+use App\DocType;
+use App\ProgramList;
 use App\UserRole;
 use Illuminate\Http\Request;
 
@@ -29,7 +33,14 @@ class CaseController extends Controller
     //
     public function create()
     {
-        return view('case.create');
+        $program_list = ProgramList::all();
+        $program_name = null;
+        foreach ($program_list as $program) {
+            $program_name[$program->id] = $program->program_name;
+        }
+        return view('case.create', [
+            'program_name' => $program_name,
+        ]);
     }
 
     public function store(CreateCaseFormRequest $request)
@@ -58,8 +69,14 @@ class CaseController extends Controller
 //        $data = CreateCase::all()->sortByDesc('id')->paginate(10);
         //orderBy('id','desc')
         $data = CreateCase::orderBy('id', 'desc')->paginate(10);
+        $program_list = ProgramList::all();
+        $program_name = null;
+        foreach ($program_list as $program) {
+            $program_name[$program->id] = $program->program_name;
+        }
         return view('case.view', [
             'datas' => $data,
+            'program_name' => $program_name,
         ]);
     }
 
@@ -84,6 +101,20 @@ class CaseController extends Controller
             $all_list[$ad_id->user_id] = $ad->first_name.' '.$ad->last_name;
         }
         $case_address = CaseAddress::where('case_id', $id)->get();
+        $case_phone = CasePhone::where('case_id', $id)->get();
+        $case_email = CaseEmail::where('case_id', $id)->get();
+        $program_name = null;
+        $program_list = ProgramList::all();
+        foreach ($program_list as $program) {
+            $program_name[$program->id] = $program->program_name;
+        }
+        $doc_type_name = null;
+        $doc_type_abbr = null;
+        $doc_type = DocType::all();
+        foreach ($doc_type as $doc_name) {
+            $doc_type_name[$doc_name->id] = $doc_name->document_type;
+            $doc_type_abbr[$doc_name->id] = $doc_name->document_abbr;
+        }
         return view('case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
@@ -93,6 +124,11 @@ class CaseController extends Controller
             'addcontacts' => $addcontacts,
             'all_list' => $all_list,
             'case_address' => $case_address,
+            'case_phone' => $case_phone,
+            'case_email' => $case_email,
+            'program_name' => $program_name,
+            'doc_type_name' => $doc_type_name,
+            'doc_type_abbr' => $doc_type_abbr,
         ]);
     }
 
@@ -340,7 +376,63 @@ class CaseController extends Controller
         $address->save();
         return redirect()->back();
     }
-
+    public function editAddress($id, Request $request) {
+        $address = CaseAddress::find($id);
+        $address->address = $request->get('address');
+        $address->city = $request->get('city');
+        $address->state = $request->get('state');
+        $address->zipcode = $request->get('zipcode');
+        $address->status = $request->get('status');
+        $address->save();
+        return redirect()->back();
+    }
+    public function deleteAddress($id) {
+        $address = CaseAddress::find($id);
+        $address->delete();
+        return redirect()->back();
+    }
+    public function addPhone(Request $request) {
+        $phone = new CasePhone;
+        $phone->case_id = $request->get('id');
+        $phone->number = $request->get('number');
+        $phone->type = $request->get('type');
+        $phone->status = $request->get('status');
+        $phone->save();
+        return redirect()->back();
+    }
+    public function editPhone($id, Request $request) {
+        $phone = CasePhone::find($id);
+        $phone->number = $request->get('number');
+        $phone->type = $request->get('type');
+        $phone->status = $request->get('status');
+        $phone->save();
+        return redirect()->back();
+    }
+    public function deletePhone($id) {
+        $phone = CasePhone::find($id);
+        $phone->delete();
+        return redirect()->back();
+    }
+    public function addEmail(Request $request) {
+        $email = new CaseEmail();
+        $email->case_id = $request->get('id');
+        $email->email = $request->get('email');
+        $email->status = $request->get('status');
+        $email->save();
+        return redirect()->back();
+    }
+    public function editEmail($id, Request $request) {
+        $email = CaseEmail::find($id);
+        $email->email = $request->get('email');
+        $email->status = $request->get('status');
+        $email->save();
+        return redirect()->back();
+    }
+    public function deleteEmail($id) {
+        $email = CaseEmail::find($id);
+        $email->delete();
+        return redirect()->back();
+    }
     public function viewtest() {
         return view('test');
     }

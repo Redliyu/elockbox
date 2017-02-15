@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CaseEmail extends Model
+class DocType extends Model
 {
     //
-    protected $table = 'case_email';
+    protected $table = 'document_list';
     protected $fillable = [
-        'case_id', 'email', 'status',
+        'document_abbr', 'document_type',
     ];
 }
