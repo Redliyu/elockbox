@@ -19,8 +19,24 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'RegistrationController@debugstore']);
     Route::get('/create', 'RegistrationController@create');
     Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
-    Route::get('reset', 'Admin\PasswordController@resetPwd');
-    Route::post('reset', 'Admin\PasswordController@savePwd');
+    Route::get('/reset', 'Admin\PasswordController@initResetPwd');
+    Route::post('/reset', 'Admin\PasswordController@sendEmailPwd');
+//    Route::get('/reset/{time}/{id}/{mdemail}/{mdrandom}', 'Admin\PasswordController@resetPwd');
+    Route::get('/reset/{time}/{id}/{mdemail}/{mdrandom}', function ($time, $id) {
+        $cur_time = time();
+        $user = \App\User::where('id', $id)->first();
+        $name = $user->first_name.' '.$user->last_name;
+        if($cur_time - $time > 1800) {
+            echo "Expired Link";
+        } else {
+            $url = URL::current();
+            return view('admin.reset', [
+                'url' => $url,
+                'name' => $name,
+            ]);
+        }
+    });
+    Route::post('/reset/{time}/{id}/{mdemail}/{mdrandom}', 'Admin\PasswordController@storeNewPwd');
 });
 Route::get('/login', 'LoginController@login');
 Route::any('/verify', ['as' => 'generate', 'uses' => 'LoginController@authenticate']);

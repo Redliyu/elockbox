@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{url('css/styles.css')}}" />
     <!-- Font Awesome -->
     <link href="{{url('font/css/font-awesome.min.css')}}" rel="stylesheet">
+    @yield('head')
 </head>
 <body class="home">
 

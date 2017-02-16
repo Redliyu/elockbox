@@ -9,14 +9,6 @@
     {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required']) !!}
 </div>
 <div class="form-group">
-    {!! Form::label('Password*') !!}
-    {!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required']) !!}
-</div>
-<div class="form-group">
-    {!! Form::label('Password*') !!}
-    {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'required' => 'required']) !!}
-</div>
-<div class="form-group">
-    {!! Form::submit('Change Password') !!}
+    {!! Form::submit('Request') !!}
 </div>
 {!! Form::close() !!}
