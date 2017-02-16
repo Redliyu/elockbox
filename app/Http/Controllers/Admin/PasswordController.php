@@ -64,7 +64,7 @@ class PasswordController extends Controller
         $imgPath = 'https://cdn.shopify.com/s/files/1/1090/4924/files/Living_Advantage_Logo_large.png?13792516517561167664';
         $data = ['name' => $first_name, 'email' => $email, 'imgPath' => $imgPath, 'link' => $link];
         Mail::send('resetemail', $data, function ($message) use ($email, $first_name) {
-            $message->to($email, $first_name)->subject('E-lockbox Verification code');
+            $message->to($email, $first_name)->subject('e-Lockbox Reset Password');
             $message->from('marisafkj@gmail.com', 'Living Advantage Inc.');
         });
     }
