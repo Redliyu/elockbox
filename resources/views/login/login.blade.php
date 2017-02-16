@@ -70,7 +70,10 @@
                               data-target="#notes"><a>Forgot your password?</a></span>
                     </div>
                     <div id="notes" class="collapse">
-                        <p>If you forget your password, please contact your case manager for help.</p>
+                        <p>
+                            If you are youth and you forget your password, please contact your case manager for help.<br>
+                            If you are admin and you forget your password, please <a href="{{ url("/reset") }}">click here</a>.<br>
+                        </p>
                     </div>
                 </div>
             </div>

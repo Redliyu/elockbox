@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\SettingsManagement;
 
 use App\CreateCase;
+use App\Docs;
+use App\DocType;
 use App\ProgramList;
 use Illuminate\Http\Request;
 
@@ -23,7 +25,7 @@ class SettingsController extends Controller
                 $program_check[$program->id] = 0;
             }
         }
-        return view('settings.program', [
+        return view('admin.settings.program', [
             'program_list' => $program_list,
             'program_check' => $program_check,
         ]);
@@ -48,7 +50,39 @@ class SettingsController extends Controller
         return redirect()->back();
     }
     public function viewDocumentSettings() {
-        return view('settings.document');
+        $doc_type_list = DocType::all();
+        $doc_check = null;
+        foreach ($doc_type_list as $doc_type) {
+            $doc = Docs::where('type', $doc_type->id)->first();
+            if($doc) {
+                $doc_check[$doc_type->id] = 1;
+            } else {
+                $doc_check[$doc_type->id] = 0;
+            }
+        }
+        return view('admin.settings.document', [
+            'doc_type_list' => $doc_type_list,
+            'doc_check' => $doc_check,
+        ]);
+    }
+    public function addDocumentSettings(Request $request) {
+        $doc_type = new DocType;
+        $doc_type->document_abbr = $request->get('document_abbr');
+        $doc_type->document_type = $request->get('document_type');
+        $doc_type->save();
+        return redirect()->back();
+    }
+    public function editDocumentSettings($id, Request $request) {
+        $doc_type = DocType::find($id);
+        $doc_type->document_abbr = $request->get('document_abbr');
+        $doc_type->document_type = $request->get('document_type');
+        $doc_type->save();
+        return redirect()->back();
+    }
+    public function deleteDocumentSettings($id) {
+        $doc_type = DocType::find($id);
+        $doc_type->delete();
+        return redirect()->back();
     }
 
 }

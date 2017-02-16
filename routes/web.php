@@ -19,6 +19,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'RegistrationController@debugstore']);
     Route::get('/create', 'RegistrationController@create');
     Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
+    Route::get('reset', 'Admin\PasswordController@resetPwd');
+    Route::post('reset', 'Admin\PasswordController@savePwd');
 });
 Route::get('/login', 'LoginController@login');
 Route::any('/verify', ['as' => 'generate', 'uses' => 'LoginController@authenticate']);
@@ -67,7 +69,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('settings/program/add', 'SettingsManagement\SettingsController@addProgramSettings');
     Route::post('settings/program/{id}/edit', 'SettingsManagement\SettingsController@editProgramSettings');
     Route::get('settings/program/{id}/delete', 'SettingsManagement\SettingsController@deleteProgramSettings');
-    Route::get('settings/document', 'SettingsManagement\SettingsController@viewDocumentSettings');
+    Route::get('settings/doctype', 'SettingsManagement\SettingsController@viewDocumentSettings');
+    Route::post('settings/doctype/add', 'SettingsManagement\SettingsController@addDocumentSettings');
+    Route::post('settings/doctype/{id}/edit', 'SettingsManagement\SettingsController@editDocumentSettings');
+    Route::get('settings/doctype/{id}/delete', 'SettingsManagement\SettingsController@deleteDocumentSettings');
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);

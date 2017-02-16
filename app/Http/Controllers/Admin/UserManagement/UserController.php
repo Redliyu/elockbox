@@ -84,7 +84,7 @@ class UserController extends Controller
         $perPage = 20;
         $currentPageSearchResults = $collection->slice(($currentPage -1) * $perPage, $perPage)->all();
         $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
-        return view('user.view', [
+        return view('admin.user.view', [
             'datas' => $paginatedSearchResults,
         ]);
     }

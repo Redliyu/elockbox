@@ -6,7 +6,7 @@
 @endif
 <div class="form-group">
     {!! Form::label('Email*') !!}
-    {!! Form::text('email', null, ['placeholder' => 'Email', 'required' => 'required']) !!}
+    {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required']) !!}
     @if($errors->has('email'))
         {!! $errors->first('email') !!}
     @endif

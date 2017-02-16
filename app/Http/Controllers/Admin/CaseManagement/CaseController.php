@@ -38,7 +38,7 @@ class CaseController extends Controller
         foreach ($program_list as $program) {
             $program_name[$program->id] = $program->program_name;
         }
-        return view('case.create', [
+        return view('admin.case.create', [
             'program_name' => $program_name,
         ]);
     }
@@ -74,7 +74,7 @@ class CaseController extends Controller
         foreach ($program_list as $program) {
             $program_name[$program->id] = $program->program_name;
         }
-        return view('case.view', [
+        return view('admin.case.view', [
             'datas' => $data,
             'program_name' => $program_name,
         ]);
@@ -115,7 +115,7 @@ class CaseController extends Controller
             $doc_type_name[$doc_name->id] = $doc_name->document_type;
             $doc_type_abbr[$doc_name->id] = $doc_name->document_abbr;
         }
-        return view('case.detail', [
+        return view('admin.case.detail', [
             'data' => $data,
             'caseUser' => $caseUser,
             'docs' => $docs,
@@ -155,7 +155,7 @@ class CaseController extends Controller
 
     public function test()
     {
-        return view('case.edit');
+        return view('admin.case.edit');
     }
 
     public static function active($id)
@@ -197,7 +197,7 @@ class CaseController extends Controller
     public function createaccount($id)
     {
         $case = CreateCase::find($id);
-        return view('case.account', [
+        return view('admin.case.account', [
             'case' => $case,
         ]);
     }
@@ -432,8 +432,5 @@ class CaseController extends Controller
         $email = CaseEmail::find($id);
         $email->delete();
         return redirect()->back();
-    }
-    public function viewtest() {
-        return view('test');
     }
 }

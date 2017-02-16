@@ -158,7 +158,7 @@
                 <ul class="dropdown-menu update-menu" role="menu">
                     <li><a href="{{ url('admin/settings/program') }}"><i class="fa fa-list-alt"></i> Program List </a>
                     </li>
-                    <li><a href="{{ url('admin/settings/document') }}"><i class="fa fa-file-text-o"></i> Document Types </a>
+                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-file-text-o"></i> Document Types </a>
                     </li>
                     <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-rotate-right"></i> Reset Password</a>
                     </li>
@@ -251,7 +251,7 @@
                                 <ul class="nav sub">
                                     <li><a href="{{ url('admin/settings/program') }}"><i class="fa fa-gear"></i><span class="text"> Program Settings</span></a></li>
                                     </li>
-                                    <li><a href="#"><i class="fa fa-gear"></i><span class="text"> Document Settings</span></a></li>
+                                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-gear"></i><span class="text"> Document Settings</span></a></li>
                                     </li>
                                 </ul>
                             </li>
