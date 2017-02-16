@@ -98,7 +98,7 @@ class LoginController extends Controller
         $imgPath = 'https://cdn.shopify.com/s/files/1/1090/4924/files/Living_Advantage_Logo_large.png?13792516517561167664';
         $data = ['name' => $first_name, 'code' => $code, 'email' => $email, 'imgPath' => $imgPath];
         Mail::send('mail', $data, function($message) use($email, $first_name){
-            $message->to($email, $first_name )->subject('E-lockbox Verification code');
+            $message->to($email, $first_name )->subject('e-Lockbox Verification code');
             $message->from('marisafkj@gmail.com', 'Living Advantage Inc.');
         });
 //        echo 'A verification code email was sent to ';

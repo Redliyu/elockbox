@@ -40,7 +40,7 @@
                                 <td><?php $date = new DateTime($data->birthday); echo $date->format('m/d/Y') ?></td>
                                 <td><?php $now = new DateTime(); echo $date->diff($now)->y ?></td>
                                 <td>{{ $data->cm_name }}</td>
-                                <td>{{ $data->program }}</td>
+                                <td>{{ $program_name[$data->program] }}</td>
                                 <td>
                                     @if($data->status)
                                         <span class="label label-success">Active</span>

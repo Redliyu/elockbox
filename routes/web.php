@@ -19,6 +19,24 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'RegistrationController@debugstore']);
     Route::get('/create', 'RegistrationController@create');
     Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
+    Route::get('/reset', 'Admin\PasswordController@initResetPwd');
+    Route::post('/reset', 'Admin\PasswordController@sendEmailPwd');
+//    Route::get('/reset/{time}/{id}/{mdemail}/{mdrandom}', 'Admin\PasswordController@resetPwd');
+    Route::get('/reset/{time}/{id}/{mdemail}/{mdrandom}', function ($time, $id) {
+        $cur_time = time();
+        $user = \App\User::where('id', $id)->first();
+        $name = $user->first_name.' '.$user->last_name;
+        if($cur_time - $time > 1800) {
+            echo "Expired Link";
+        } else {
+            $url = URL::current();
+            return view('admin.reset', [
+                'url' => $url,
+                'name' => $name,
+            ]);
+        }
+    });
+    Route::post('/reset/{time}/{id}/{mdemail}/{mdrandom}', 'Admin\PasswordController@storeNewPwd');
 });
 Route::get('/login', 'LoginController@login');
 Route::any('/verify', ['as' => 'generate', 'uses' => 'LoginController@authenticate']);
@@ -54,6 +72,23 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/addcontacts', 'CaseManagement\CaseController@storeAddContacts');
     Route::post('case/addcontacts/{id}/edit', 'CaseManagement\CaseController@editAddContacts');
     Route::get('case/addcontacts/{id}/delete', 'CaseManagement\CaseController@deleteAddContacts');
+    Route::post('case/addaddress', 'CaseManagement\CaseController@addAddress');
+    Route::post('case/contact/address/{id}/edit', 'CaseManagement\CaseController@editAddress');
+    Route::get('case/contact/address/{id}/delete', 'CaseManagement\CaseController@deleteAddress');
+    Route::post('case/addphone', 'CaseManagement\CaseController@addPhone');
+    Route::post('case/contact/phone/{id}/edit', 'CaseManagement\CaseController@editPhone');
+    Route::get('case/contact/phone/{id}/delete', 'CaseManagement\CaseController@deletePhone');
+    Route::post('case/addemail', 'CaseManagement\CaseController@addEmail');
+    Route::post('case/contact/email/{id}/edit', 'CaseManagement\CaseController@editEmail');
+    Route::get('case/contact/email/{id}/delete', 'CaseManagement\CaseController@deleteEmail');
+    Route::get('settings/program', 'SettingsManagement\SettingsController@viewProgramSettings');
+    Route::post('settings/program/add', 'SettingsManagement\SettingsController@addProgramSettings');
+    Route::post('settings/program/{id}/edit', 'SettingsManagement\SettingsController@editProgramSettings');
+    Route::get('settings/program/{id}/delete', 'SettingsManagement\SettingsController@deleteProgramSettings');
+    Route::get('settings/doctype', 'SettingsManagement\SettingsController@viewDocumentSettings');
+    Route::post('settings/doctype/add', 'SettingsManagement\SettingsController@addDocumentSettings');
+    Route::post('settings/doctype/{id}/edit', 'SettingsManagement\SettingsController@editDocumentSettings');
+    Route::get('settings/doctype/{id}/delete', 'SettingsManagement\SettingsController@deleteDocumentSettings');
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
@@ -81,4 +116,4 @@ Route::get('/logout', ['uses' => 'LoginController@logout']);
 
 //Route::get('/uploadfile', 'FileuploadingController@index');
 //Route::post('/uploadfile', 'FileuploadingController@showfileupload');
-//Route::get('/test', ['uses' => 'Admin\CaseManagement\CaseController@viewtest']);
+Route::get('/test', ['uses' => 'Admin\CaseManagement\CaseController@viewtest']);

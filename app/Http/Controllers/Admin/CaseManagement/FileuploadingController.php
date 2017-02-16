@@ -53,6 +53,7 @@ class FileuploadingController extends Controller
         $doc->description = $request->get('description');
         $doc->uploader = $request->get('uploader');
         $doc->path = $destinationPath;
+        $doc->visible = $request->get('visible');
         $doc->filename = $newName;
         $doc->save();
         return redirect('admin/case/'.$id.'/view');
