@@ -88,4 +88,24 @@ class UserController extends Controller
             'datas' => $paginatedSearchResults,
         ]);
     }
+    public function viewdetail($user_id) {
+        $user = User::where('id', $user_id)->first();
+        $profile = UserProfile::where('user_id', $user_id)->first();
+        $role_id = UserRole::where('user_id', $user_id)->first()->role_id;
+        $role = 'N/A';
+        if($role_id == 1) {
+            $role = 'Administrator';
+        } else if($role_id == 2) {
+            $role = 'Manager';
+        } else if($role_id == 3) {
+            $role = 'Staff';
+        } else if($role_id == 4) {
+            $role = 'Youth';
+        }
+        return view('admin.user.detail', [
+            'user' => $user,
+            'profile' => $profile,
+            'role' => $role,
+        ]);
+    }
 }

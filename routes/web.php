@@ -89,6 +89,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('settings/doctype/add', 'SettingsManagement\SettingsController@addDocumentSettings');
     Route::post('settings/doctype/{id}/edit', 'SettingsManagement\SettingsController@editDocumentSettings');
     Route::get('settings/doctype/{id}/delete', 'SettingsManagement\SettingsController@deleteDocumentSettings');
+    Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
+    Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
+//    Route::get('settings/password', 'PasswordController@')
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
