@@ -49,6 +49,7 @@ Route::get('/email', 'LoginController@basic_email');
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['admin']], function()
 {
     Route::get('', ['as' => 'admin_dashboard', 'uses' => 'AdminController@getHome']);
+    Route::get('user/view', 'UserManagement\UserController@view');
     Route::get('case/create', 'CaseManagement\CaseController@create');
     Route::post('case/create', ['as' => 'admin.case.store', 'uses' => 'CaseManagement\CaseController@store']);
     Route::get('case/view', ['uses' => 'CaseManagement\CaseController@view']);
@@ -59,7 +60,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
     Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
     Route::post('case/{id}/account', ['as' => 'admin.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
-    Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
     Route::post('case/upload', 'CaseManagement\FileuploadingController@showfileupload');
     Route::post('case/doc/{id}/edit', 'CaseManagement\CaseController@editfile');
     Route::get('case/doc/{id}/delete', 'CaseManagement\CaseController@deletefile');
@@ -89,13 +89,46 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('settings/doctype/add', 'SettingsManagement\SettingsController@addDocumentSettings');
     Route::post('settings/doctype/{id}/edit', 'SettingsManagement\SettingsController@editDocumentSettings');
     Route::get('settings/doctype/{id}/delete', 'SettingsManagement\SettingsController@deleteDocumentSettings');
+    Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
+    Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
+//    Route::get('settings/password', 'PasswordController@')
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
 //    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
 });
-Route::group(['middleware' => ['manager']], function()
+Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware' => ['manager']], function()
 {
-    Route::get('manager',['as' => 'manager_dashboard', 'uses' => 'Manager\ManagerController@getHome']);
+    Route::get('',['as' => 'manager_dashboard', 'uses' => 'ManagerController@getHome']);
+    Route::get('user/view', 'UserManagement\UserController@view');
+    Route::get('case/create', 'CaseManagement\CaseController@create');
+    Route::post('case/create', ['as' => 'manager.case.store', 'uses' => 'CaseManagement\CaseController@store']);
+    Route::get('case/view', 'CaseManagement\CaseController@view');
+    Route::get('case/{id}/view', 'CaseManagement\CaseController@viewdetail');
+    Route::post('case/{id}/edit', 'CaseManagement\CaseController@update');
+    Route::get('case/{id}/active', 'CaseManagement\CaseController@active');
+    Route::get('case/{id}/inactive', 'CaseManagement\CaseController@inactive');
+    Route::post('case/{id}/account', ['as' => 'manager.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
+    Route::post('case/upload', 'CaseManagement\FileuploadingController@showfileupload');
+    Route::post('case/doc/{id}/edit', 'CaseManagement\CaseController@editfile');
+    Route::get('case/doc/{id}/delete', 'CaseManagement\CaseController@deletefile');
+    Route::post('case/workhistory', 'CaseManagement\CaseController@storeWorkHistory');
+    Route::post('case/workhistory/{id}/edit', 'CaseManagement\CaseController@editWorkHistory');
+    Route::get('case/workhistory/{id}/delete', 'CaseManagement\CaseController@deleteWorkHistory');
+    Route::post('case/eduhistory', 'CaseManagement\CaseController@storeEduHistory');
+    Route::post('case/eduhistory/{id}/edit', 'CaseManagement\CaseController@editEduHistory');
+    Route::get('case/eduhistory/{id}/delete', 'CaseManagement\CaseController@deleteEduHistory');
+    Route::post('case/addcontacts', 'CaseManagement\CaseController@storeAddContacts');
+    Route::post('case/addcontacts/{id}/edit', 'CaseManagement\CaseController@editAddContacts');
+    Route::get('case/addcontacts/{id}/delete', 'CaseManagement\CaseController@deleteAddContacts');
+    Route::post('case/addaddress', 'CaseManagement\CaseController@addAddress');
+    Route::post('case/contact/address/{id}/edit', 'CaseManagement\CaseController@editAddress');
+    Route::get('case/contact/address/{id}/delete', 'CaseManagement\CaseController@deleteAddress');
+    Route::post('case/addphone', 'CaseManagement\CaseController@addPhone');
+    Route::post('case/contact/phone/{id}/edit', 'CaseManagement\CaseController@editPhone');
+    Route::get('case/contact/phone/{id}/delete', 'CaseManagement\CaseController@deletePhone');
+    Route::post('case/addemail', 'CaseManagement\CaseController@addEmail');
+    Route::post('case/contact/email/{id}/edit', 'CaseManagement\CaseController@editEmail');
+    Route::get('case/contact/email/{id}/delete', 'CaseManagement\CaseController@deleteEmail');
 //    Route::get('manager/case/create', 'CaseManagement\CaseController@create');
 //    Route::get('manager_logout', ['uses' => 'Manager\ManagerController@logout']);
 });

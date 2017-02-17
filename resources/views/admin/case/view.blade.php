@@ -36,7 +36,7 @@
                         @foreach($datas as $data)
                             <tr>
                                 <td>{{ $data->id }}</td>
-                                <td>{{ $data->last_name }}, {{ $data->first_name }}</td>
+                                <td>{{ $data->first_name.' '.$data->last_name }}</td>
                                 <td><?php $date = new DateTime($data->birthday); echo $date->format('m/d/Y') ?></td>
                                 <td><?php $now = new DateTime(); echo $date->diff($now)->y ?></td>
                                 <td>{{ $data->cm_name }}</td>
