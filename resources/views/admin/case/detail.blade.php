@@ -949,7 +949,7 @@
                             <div class="form-group row">
                                 {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                 <div class="col-md-10">
-                                    {{ Form::select('type', $doc_type_name, $doc_type_name[$doc->type], ['class' => 'form-control']) }}
+                                    {{ Form::select('type', $doc_type_name, $doc->type, ['class' => 'form-control']) }}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -1813,11 +1813,11 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('Program') !!}
-                            {!! Form::select('program', $program_name, $program_name[$data->program], ['class' => 'form-control']) !!}
+                            {!! Form::select('program', $program_name, $data->program, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Case Manager') !!}
-                            {!! Form::select('cm_name', $all_list, null, ['class' => 'form-control']) !!}
+                            {!! Form::select('cm_name', $all_list, $data->cm_id, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="modal-footer">

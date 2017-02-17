@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\UserManagement;
+namespace App\Http\Controllers\Manager\UserManagement;
 
 use Illuminate\Http\Request;
 
@@ -84,28 +84,8 @@ class UserController extends Controller
         $perPage = 20;
         $currentPageSearchResults = $collection->slice(($currentPage -1) * $perPage, $perPage)->all();
         $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
-        return view('admin.user.view', [
+        return view('manager.user.view', [
             'datas' => $paginatedSearchResults,
-        ]);
-    }
-    public function viewdetail($user_id) {
-        $user = User::where('id', $user_id)->first();
-        $profile = UserProfile::where('user_id', $user_id)->first();
-        $role_id = UserRole::where('user_id', $user_id)->first()->role_id;
-        $role = 'N/A';
-        if($role_id == 1) {
-            $role = 'Administrator';
-        } else if($role_id == 2) {
-            $role = 'Manager';
-        } else if($role_id == 3) {
-            $role = 'Staff';
-        } else if($role_id == 4) {
-            $role = 'Youth';
-        }
-        return view('admin.user.detail', [
-            'user' => $user,
-            'profile' => $profile,
-            'role' => $role,
         ]);
     }
 }
