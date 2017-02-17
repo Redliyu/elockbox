@@ -132,9 +132,14 @@ Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware' => [
 //    Route::get('manager/case/create', 'CaseManagement\CaseController@create');
 //    Route::get('manager_logout', ['uses' => 'Manager\ManagerController@logout']);
 });
-Route::group(['middleware' => ['staff']], function ()
+Route::group(['namespace' => 'Staff', 'prefix' => 'staff', 'middleware' => ['staff']], function ()
 {
-    Route::get('staff',['as' => 'staff_dashboard', 'uses' => 'Staff\StaffController@getHome']);
+    Route::get('',['as' => 'staff_dashboard', 'uses' => 'StaffController@getHome']);
+    Route::get('user/view', 'UserManagement\UserController@view');
+    Route::get('case/view', ['uses' => 'CaseManagement\CaseController@view']);
+    Route::get('case/{id}/view', ['uses' => 'CaseManagement\CaseController@viewdetail']);
+    Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
+    Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
 //    Route::get('staff_logout', ['uses' => 'Staff\StaffController@logout']);
 });
 Route::group(['middleware' => ['youth']], function ()

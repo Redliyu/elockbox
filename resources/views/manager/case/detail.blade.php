@@ -2350,10 +2350,6 @@
             </div>
         @endforeach
         <!-- end delete contact information -->
-    @elseif($user->inRole($manager))
-        Manager
-    @elseif($user->inRole($staff))
-        Staff
     @endif
 
 @endsection

@@ -12,8 +12,7 @@ class StaffController extends Controller
 {
     //
     public function getHome() {
-        echo 'Staff page';
-        return null;
+        return view('layouts.dashboard');
     }
     public function logout() {
         Sentinel::logout();
