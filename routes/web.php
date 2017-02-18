@@ -48,7 +48,7 @@ Route::get('/email', 'LoginController@basic_email');
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['admin']], function()
 {
-    Route::get('', ['as' => 'admin_dashboard', 'uses' => 'AdminController@getHome']);
+    Route::get('', ['as' => 'admin_dashboard', 'uses' => 'ActivityManagement\ActivityController@view']);
     Route::get('user/view', 'UserManagement\UserController@view');
     Route::get('case/create', 'CaseManagement\CaseController@create');
     Route::post('case/create', ['as' => 'admin.case.store', 'uses' => 'CaseManagement\CaseController@store']);
@@ -89,8 +89,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('settings/doctype/add', 'SettingsManagement\SettingsController@addDocumentSettings');
     Route::post('settings/doctype/{id}/edit', 'SettingsManagement\SettingsController@editDocumentSettings');
     Route::get('settings/doctype/{id}/delete', 'SettingsManagement\SettingsController@deleteDocumentSettings');
+    Route::get('settings/password', 'SettingsManagement\SettingsController@password');
     Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
     Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
+    Route::post('user/{id}/edit', 'UserManagement\UserController@update');
+    Route::get('user/{id}/active', 'UserManagement\UserController@active');
+    Route::get('user/{id}/inactive', 'UserManagement\UserController@inactive');
+
 //    Route::get('settings/password', 'PasswordController@')
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
@@ -149,6 +154,9 @@ Route::group(['middleware' => ['youth']], function ()
 });
 Route::get('/fail', function() {
     echo 'You do not have premission!';
+});
+Route::get('/error', function () {
+    return view('errors.503');
 });
 Route::get('/logout', ['uses' => 'LoginController@logout']);
 

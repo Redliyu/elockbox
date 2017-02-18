@@ -253,13 +253,15 @@
                                     </li>
                                     <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-gear"></i><span class="text"> Document Settings</span></a></li>
                                     </li>
+                                    <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-gear"></i><span class="text"> Reset Password</span></a></li>
+                                    </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Shortcut</span> <span
+                                <a href="#"><i class="fa fa-folder"></i><span class="text"> TroubleShooting</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> Other</span></a></li>
+                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> Activate Account</span></a></li>
                                     </li>
                                 </ul>
                             </li>
