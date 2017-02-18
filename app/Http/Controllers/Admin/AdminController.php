@@ -12,7 +12,7 @@ class AdminController extends Controller
     //
     public function getHome() {
 //        return view('admin.admin_dashboard');
-        return view('layouts.dashboard');
+        return view('admin.activity.view');
     }
 
     public function logout() {

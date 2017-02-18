@@ -84,5 +84,8 @@ class SettingsController extends Controller
         $doc_type->delete();
         return redirect()->back();
     }
+    public function password() {
+        return view('admin.settings.password');
+    }
 
 }
