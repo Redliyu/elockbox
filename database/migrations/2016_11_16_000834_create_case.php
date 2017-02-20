@@ -45,6 +45,7 @@ class CreateCase extends Migration
             $table->text('description')->nullable();
             $table->string('filename');
             $table->string('uploader', 255);
+            $table->string('visible')->nullable();
             $table->timestamps();
         });
 
@@ -79,6 +80,7 @@ class CreateCase extends Migration
             $table->string('end_date')->nullable();
             $table->string('company')->nullable();
             $table->string('industry')->nullable();
+            $table->string('position')->nullable();
             $table->string('address')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
@@ -107,6 +109,18 @@ class CreateCase extends Migration
             $table->string('email')->nullable();
             $table->string('primary')->nullable();
             $table->string('status')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('program_list', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('program_abbr')->nullable();
+            $table->string('program_name')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('document_list', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('document_abbr')->nullable();
+            $table->string('document_type')->nullable();
             $table->timestamps();
         });
     }

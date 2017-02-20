@@ -32,14 +32,13 @@
     <link href="{{ asset('cssnew/assets/css/style.min.css') }}" rel="stylesheet">
     <link href="{{ asset('cssnew/assets/css/add-ons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('cssnew/assets/plugins/dropzone/css/dropzone.css') }}" rel="stylesheet">
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    {{--<!--<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->--}}
+    {{--<!--<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->--}}
     <![endif]-->
 
-@yield('head')
+    @yield('head')
 
 </head>
 <body>
@@ -157,25 +156,13 @@
             <li class="dropdown visible-md visible-lg">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gears"></i></a>
                 <ul class="dropdown-menu update-menu" role="menu">
-                    <li><a href="#"><i class="fa fa-database"></i> Database </a>
+                    <li><a href="{{ url('admin/settings/program') }}"><i class="fa fa-list-alt"></i> Program List </a>
                     </li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o"></i> Connection </a>
+                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-file-text-o"></i> Document Types </a>
                     </li>
-                    <li><a href="#"><i class="fa fa-bell"></i> Notification </a>
+                    <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-rotate-right"></i> Reset Password</a>
                     </li>
-                    <li><a href="#"><i class="fa fa-envelope"></i> Message </a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-flash"></i> Traffic </a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-credit-card"></i> Invoices </a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-dollar"></i> Finances </a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-thumbs-o-up"></i> Orders </a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-folder"></i> Directories </a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-users"></i> Users </a>
+                    <li><a href="{{ url('fund') }}"><i class="fa fa-dollar"></i> Fund Us</a>
                     </li>
                 </ul>
             </li>
@@ -226,245 +213,141 @@
                 @if($user->inRole($admin))
                     <div class="sidebar-menu">
                         <ul class="nav nav-sidebar">
-                            <li><a href="{{ url('admin') }}"><i class="fa fa-laptop"></i><span class="text"> Dashboard</span></a></li>
                             <li>
-                                <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="{{ url('create') }}"><i class="fa fa-plus-circle"></i><span class="text"> Create User</span></a></li>
-                                    <li><a href="{{ url('admin/user/view') }}"><i class="fa fa-list"></i><span class="text"> View Users</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="{{ url('admin/case/create') }}"><i class="fa fa-plus-circle"></i><span class="text"> Create Case</span></a>
-                                    </li>
-                                    <li><a href="{{ url('admin/case/view') }}"><i class="fa fa-list"></i><span class="text"> View Cases</span></a></li>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="table.html"><i class="fa fa-table"></i><span class="text"> Report</span></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-envelope"></i><span class="text"> Email</span> <span class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="#"><i class="fa fa-plus-circle"></i><span class="text"> New Email</span></a>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-cogs"></i><span class="text"> Email Settings</span></a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-cogs"></i><span class="text"> Settings</span> <span class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="ui-sliders-progress.html"><i class="fa fa-align-left"></i><span class="text"> Activity Code</span></a>
-                                    </li>
-                                    <li><a href="ui-nestable-list.html"><i class="fa fa-outdent"></i><span class="text"> Programs</span></a>
-                                    </li>
-                                    <li><a href="ui-elements.html"><i class="fa fa-list"></i><span class="text"> Youth Services</span></a>
-                                    </li>
-                                    <li><a href="ui-panels.html"><i class="fa fa-list-alt"></i><span class="text"> Document Types</span></a>
-                                    </li>
-                                    <li><a href="ui-buttons.html"><i class="fa fa-th"></i><span class="text"> Education Levels</span></a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#"><i class="fa fa-life-bouy"></i><span class="text"> Quick Links</span> <span class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="#"><i class="fa fa-align-left"></i><span class="text"> Activate/Inactivate User</span></a>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-outdent"></i><span class="text"> Assign Case</span></a>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> blank2</span></a>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-list-alt"></i><span class="text"> blank3</span></a>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-th"></i><span class="text"> blank4</span></a></li>
-                                </ul>
-                            </li>
-                            <li><a href="typography.html"><i class="fa fa-font"></i><span
-                                            class="text"> Typography</span></a></li>
-                            <li>
-                                <a href="#"><i class="fa fa-bolt"></i><span class="text"> Icons</span> <span
+                                <a href="#"><i class="fa fa-laptop"></i><span
+                                            class="text"> Dashboard</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="icons-font-awesome.html"><i class="fa fa-meh-o"></i><span class="text"> Font Awesome</span></a>
-                                    </li>
-                                    <li><a href="icons-climacons.html"><i class="fa fa-meh-o"></i><span class="text"> Climacons</span></a>
+                                    <li><a href="{{ url('admin') }}"><i class="fa fa-plus-circle"></i><span
+                                                    class="text"> Activities</span></a>
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="gallery.html"><i class="fa fa-picture-o"></i><span class="text"> Gallery</span></a>
+                            <li>
+                                <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span
+                                            class="fa fa-angle-down pull-right"></span></a>
+                                <ul class="nav sub">
+                                    <li><a href="{{ url('create') }}"><i class="fa fa-plus-circle"></i><span
+                                                    class="text"> Create User</span></a></li>
+                                    <li><a href="{{ url('admin/user/view') }}"><i class="fa fa-list"></i><span
+                                                    class="text"> View Users</span></a></li>
+                                </ul>
                             </li>
-                            <li><a href="calendar.html"><i class="fa fa-calendar"></i><span
-                                            class="text"> Calendar</span></a></li>
+                            <li>
+                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
+                                            class="fa fa-angle-down pull-right"></span></a>
+                                <ul class="nav sub">
+                                    <li><a href="{{ url('admin/case/create') }}"><i class="fa fa-plus-circle"></i><span
+                                                    class="text"> Create Case</span></a>
+                                    </li>
+                                    <li><a href="{{ url('admin/case/view') }}"><i class="fa fa-list"></i><span
+                                                    class="text"> View Cases</span></a></li>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-gears"></i><span class="text"> Settings</span> <span
+                                            class="fa fa-angle-down pull-right"></span></a>
+                                <ul class="nav sub">
+                                    <li><a href="{{ url('admin/settings/program') }}"><i class="fa fa-gear"></i><span class="text"> Program Settings</span></a></li>
+                                    </li>
+                                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-gear"></i><span class="text"> Document Settings</span></a></li>
+                                    </li>
+                                    <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-gear"></i><span class="text"> Reset Password</span></a></li>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-folder"></i><span class="text"> TroubleShooting</span> <span
+                                            class="fa fa-angle-down pull-right"></span></a>
+                                <ul class="nav sub">
+                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> Activate Account</span></a></li>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 @elseif($user->inRole($manager))
                     <div class="sidebar-menu">
                         <ul class="nav nav-sidebar">
-                            <li><a href=""><i class="fa fa-laptop"></i><span class="text"> Dashboard</span></a></li>
                             <li>
-                                <a href="#"><i class="fa fa-file-text"></i><span class="text"> Manager</span> <span class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="page-activity.html"><i class="fa fa-car"></i><span class="text"> Activity</span></a></li>
-                                    <li><a href="page-inbox.html"><i class="fa fa-envelope"></i><span class="text"> Mail</span></a></li>
-                                    <li><a href="page-invoice.html"><i class="fa fa-credit-card"></i><span class="text"> Invoice</span></a></li>
-                                    <li><a href="page-profile.html"><i class="fa fa-heart-o"></i><span class="text"> Profile</span></a></li>
-                                    <li><a href="page-pricing-tables.html"><i class="fa fa-columns"></i><span class="text"> Pricing Tables</span></a></li>
-                                    <li><a href="page-404.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 404</span></a></li>
-                                    <li><a href="page-500.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 500</span></a></li>
-                                    <li><a href="page-lockscreen.html"><i class="fa fa-lock"></i><span class="text"> LockScreen1</span></a></li>
-                                    <li><a href="page-lockscreen2.html"><i class="fa fa-lock"></i><span class="text"> LockScreen2</span></a></li>
-                                    <li><a href="page-login.html"><i class="fa fa-key"></i><span class="text"> Login Page</span></a></li>
-                                    <li><a href="page-register.html"><i class="fa fa-sign-in"></i><span class="text"> Register Page</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-list-alt"></i><span class="text"> Forms</span> <span
+                                <a href="#"><i class="fa fa-laptop"></i><span
+                                            class="text"> Dashboard</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="form-elements.html"><i class="fa fa-indent"></i><span class="text"> Form elements</span></a>
-                                    </li>
-                                    <li><a href="form-wizard.html"><i class="fa fa-tags"></i><span
-                                                    class="text"> Wizard</span></a></li>
-                                    <li><a href="form-dropzone.html"><i class="fa fa-plus-square-o"></i><span
-                                                    class="text"> Dropzone Upload</span></a></li>
-                                    <li><a href="form-x-editable.html"><i class="fa fa-pencil"></i><span class="text"> X-editable</span></a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="table.html"><i class="fa fa-table"></i><span class="text"> Tables</span></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-signal"></i><span class="text"> Visual Chart</span> <span
-                                            class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="chart-flot.html"><i class="fa fa-random"></i><span class="text"> Flot Chart</span></a>
-                                    </li>
-                                    <li><a href="chart-xchart.html"><i class="fa fa-retweet"></i><span class="text"> xChart</span></a>
-                                    </li>
-                                    <li><a href="chart-other.html"><i class="fa fa-bar-chart-o"></i><span class="text"> Other</span></a>
+                                    <li><a href="{{ url('manager') }}"><i class="fa fa-plus-circle"></i><span
+                                                    class="text"> Activities</span></a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-briefcase"></i><span class="text"> UI Features</span> <span
+                                <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="ui-sliders-progress.html"><i class="fa fa-align-left"></i><span
-                                                    class="text"> Progress</span></a></li>
-                                    <li><a href="ui-nestable-list.html"><i class="fa fa-outdent"></i><span class="text"> Nestable Lists</span></a>
-                                    </li>
-                                    <li><a href="ui-elements.html"><i class="fa fa-list"></i><span class="text"> Elements</span></a>
-                                    </li>
-                                    <li><a href="ui-panels.html"><i class="fa fa-list-alt"></i><span class="text"> Panels</span></a>
-                                    </li>
-                                    <li><a href="ui-buttons.html"><i class="fa fa-th"></i><span
-                                                    class="text"> Buttons</span></a></li>
+                                    <li><a href="{{ url('manager/user/view') }}"><i class="fa fa-list"></i><span
+                                                    class="text"> View Users</span></a></li>
                                 </ul>
                             </li>
-                            <li><a href="widgets.html"><i class="fa fa-life-bouy"></i><span class="text"> Widgets</span></a>
-                            </li>
-                            <li><a href="typography.html"><i class="fa fa-font"></i><span
-                                            class="text"> Typography</span></a></li>
                             <li>
-                                <a href="#"><i class="fa fa-bolt"></i><span class="text"> Icons</span> <span
+                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="icons-font-awesome.html"><i class="fa fa-meh-o"></i><span class="text"> Font Awesome</span></a>
+                                    <li><a href="{{ url('manager/case/create') }}"><i class="fa fa-plus-circle"></i><span
+                                                    class="text"> Create Case</span></a>
                                     </li>
-                                    <li><a href="icons-climacons.html"><i class="fa fa-meh-o"></i><span class="text"> Climacons</span></a>
+                                    <li><a href="{{ url('manager/case/view') }}"><i class="fa fa-list"></i><span
+                                                    class="text"> View Cases</span></a></li>
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="gallery.html"><i class="fa fa-picture-o"></i><span class="text"> Gallery</span></a>
+                            <li>
+                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Shortcut</span> <span
+                                            class="fa fa-angle-down pull-right"></span></a>
+                                <ul class="nav sub">
+                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> Other</span></a></li>
+                                    </li>
+                                </ul>
                             </li>
-                            <li><a href="calendar.html"><i class="fa fa-calendar"></i><span
-                                            class="text"> Calendar</span></a></li>
                         </ul>
                     </div>
                 @elseif($user->inRole($staff))
                     <div class="sidebar-menu">
                         <ul class="nav nav-sidebar">
-                            <li><a href=""><i class="fa fa-laptop"></i><span class="text"> Dashboard</span></a></li>
                             <li>
-                                <a href="#"><i class="fa fa-file-text"></i><span class="text"> Staff</span> <span class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="page-activity.html"><i class="fa fa-car"></i><span class="text"> Activity</span></a></li>
-                                    <li><a href="page-inbox.html"><i class="fa fa-envelope"></i><span class="text"> Mail</span></a></li>
-                                    <li><a href="page-invoice.html"><i class="fa fa-credit-card"></i><span class="text"> Invoice</span></a></li>
-                                    <li><a href="page-profile.html"><i class="fa fa-heart-o"></i><span class="text"> Profile</span></a></li>
-                                    <li><a href="page-pricing-tables.html"><i class="fa fa-columns"></i><span class="text"> Pricing Tables</span></a></li>
-                                    <li><a href="page-404.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 404</span></a></li>
-                                    <li><a href="page-500.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 500</span></a></li>
-                                    <li><a href="page-lockscreen.html"><i class="fa fa-lock"></i><span class="text"> LockScreen1</span></a></li>
-                                    <li><a href="page-lockscreen2.html"><i class="fa fa-lock"></i><span class="text"> LockScreen2</span></a></li>
-                                    <li><a href="page-login.html"><i class="fa fa-key"></i><span class="text"> Login Page</span></a></li>
-                                    <li><a href="page-register.html"><i class="fa fa-sign-in"></i><span class="text"> Register Page</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-list-alt"></i><span class="text"> Forms</span> <span
+                                <a href="#"><i class="fa fa-laptop"></i><span
+                                            class="text"> Dashboard</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="form-elements.html"><i class="fa fa-indent"></i><span class="text"> Form elements</span></a>
-                                    </li>
-                                    <li><a href="form-wizard.html"><i class="fa fa-tags"></i><span
-                                                    class="text"> Wizard</span></a></li>
-                                    <li><a href="form-dropzone.html"><i class="fa fa-plus-square-o"></i><span
-                                                    class="text"> Dropzone Upload</span></a></li>
-                                    <li><a href="form-x-editable.html"><i class="fa fa-pencil"></i><span class="text"> X-editable</span></a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="table.html"><i class="fa fa-table"></i><span class="text"> Tables</span></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-signal"></i><span class="text"> Visual Chart</span> <span
-                                            class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="chart-flot.html"><i class="fa fa-random"></i><span class="text"> Flot Chart</span></a>
-                                    </li>
-                                    <li><a href="chart-xchart.html"><i class="fa fa-retweet"></i><span class="text"> xChart</span></a>
-                                    </li>
-                                    <li><a href="chart-other.html"><i class="fa fa-bar-chart-o"></i><span class="text"> Other</span></a>
+                                    <li><a href="{{ url('staff') }}"><i class="fa fa-plus-circle"></i><span
+                                                    class="text"> Activities</span></a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-briefcase"></i><span class="text"> UI Features</span> <span
+                                <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="ui-sliders-progress.html"><i class="fa fa-align-left"></i><span
-                                                    class="text"> Progress</span></a></li>
-                                    <li><a href="ui-nestable-list.html"><i class="fa fa-outdent"></i><span class="text"> Nestable Lists</span></a>
-                                    </li>
-                                    <li><a href="ui-elements.html"><i class="fa fa-list"></i><span class="text"> Elements</span></a>
-                                    </li>
-                                    <li><a href="ui-panels.html"><i class="fa fa-list-alt"></i><span class="text"> Panels</span></a>
-                                    </li>
-                                    <li><a href="ui-buttons.html"><i class="fa fa-th"></i><span
-                                                    class="text"> Buttons</span></a></li>
+                                    <li><a href="{{ url('staff/user/view') }}"><i class="fa fa-list"></i><span
+                                                    class="text"> View Users</span></a></li>
                                 </ul>
                             </li>
-                            <li><a href="widgets.html"><i class="fa fa-life-bouy"></i><span class="text"> Widgets</span></a>
-                            </li>
-                            <li><a href="typography.html"><i class="fa fa-font"></i><span
-                                            class="text"> Typography</span></a></li>
                             <li>
-                                <a href="#"><i class="fa fa-bolt"></i><span class="text"> Icons</span> <span
+                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="icons-font-awesome.html"><i class="fa fa-meh-o"></i><span class="text"> Font Awesome</span></a>
-                                    </li>
-                                    <li><a href="icons-climacons.html"><i class="fa fa-meh-o"></i><span class="text"> Climacons</span></a>
+                                    <li><a href="{{ url('staff/case/view') }}"><i class="fa fa-list"></i><span
+                                                    class="text"> View Cases</span></a></li>
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="gallery.html"><i class="fa fa-picture-o"></i><span class="text"> Gallery</span></a>
+                            <li>
+                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Shortcut</span> <span
+                                            class="fa fa-angle-down pull-right"></span></a>
+                                <ul class="nav sub">
+                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> Other</span></a></li>
+                                    </li>
+                                </ul>
                             </li>
-                            <li><a href="calendar.html"><i class="fa fa-calendar"></i><span
-                                            class="text"> Calendar</span></a></li>
                         </ul>
                     </div>
                 @elseif($user->inRole($youth))
@@ -472,19 +355,31 @@
                         <ul class="nav nav-sidebar">
                             <li><a href=""><i class="fa fa-laptop"></i><span class="text"> Dashboard</span></a></li>
                             <li>
-                                <a href="#"><i class="fa fa-file-text"></i><span class="text"> Youth</span> <span class="fa fa-angle-down pull-right"></span></a>
+                                <a href="#"><i class="fa fa-file-text"></i><span class="text"> Youth</span> <span
+                                            class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="page-activity.html"><i class="fa fa-car"></i><span class="text"> Activity</span></a></li>
-                                    <li><a href="page-inbox.html"><i class="fa fa-envelope"></i><span class="text"> Mail</span></a></li>
-                                    <li><a href="page-invoice.html"><i class="fa fa-credit-card"></i><span class="text"> Invoice</span></a></li>
-                                    <li><a href="page-profile.html"><i class="fa fa-heart-o"></i><span class="text"> Profile</span></a></li>
-                                    <li><a href="page-pricing-tables.html"><i class="fa fa-columns"></i><span class="text"> Pricing Tables</span></a></li>
-                                    <li><a href="page-404.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 404</span></a></li>
-                                    <li><a href="page-500.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 500</span></a></li>
-                                    <li><a href="page-lockscreen.html"><i class="fa fa-lock"></i><span class="text"> LockScreen1</span></a></li>
-                                    <li><a href="page-lockscreen2.html"><i class="fa fa-lock"></i><span class="text"> LockScreen2</span></a></li>
-                                    <li><a href="page-login.html"><i class="fa fa-key"></i><span class="text"> Login Page</span></a></li>
-                                    <li><a href="page-register.html"><i class="fa fa-sign-in"></i><span class="text"> Register Page</span></a></li>
+                                    <li><a href="page-activity.html"><i class="fa fa-car"></i><span class="text"> Activity</span></a>
+                                    </li>
+                                    <li><a href="page-inbox.html"><i class="fa fa-envelope"></i><span
+                                                    class="text"> Mail</span></a></li>
+                                    <li><a href="page-invoice.html"><i class="fa fa-credit-card"></i><span class="text"> Invoice</span></a>
+                                    </li>
+                                    <li><a href="page-profile.html"><i class="fa fa-heart-o"></i><span class="text"> Profile</span></a>
+                                    </li>
+                                    <li><a href="page-pricing-tables.html"><i class="fa fa-columns"></i><span
+                                                    class="text"> Pricing Tables</span></a></li>
+                                    <li><a href="page-404.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 404</span></a>
+                                    </li>
+                                    <li><a href="page-500.html"><i class="fa fa-puzzle-piece"></i><span class="text"> 500</span></a>
+                                    </li>
+                                    <li><a href="page-lockscreen.html"><i class="fa fa-lock"></i><span class="text"> LockScreen1</span></a>
+                                    </li>
+                                    <li><a href="page-lockscreen2.html"><i class="fa fa-lock"></i><span class="text"> LockScreen2</span></a>
+                                    </li>
+                                    <li><a href="page-login.html"><i class="fa fa-key"></i><span class="text"> Login Page</span></a>
+                                    </li>
+                                    <li><a href="page-register.html"><i class="fa fa-sign-in"></i><span class="text"> Register Page</span></a>
+                                    </li>
                                 </ul>
                             </li>
                             <li>

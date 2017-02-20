@@ -1,4 +1,10 @@
 @extends('layouts.welcome')
+
+@section('head')
+
+
+@stop
+
 @section('content')
     <header class="header">
         <div class="container">
@@ -27,18 +33,19 @@
         <!--/.container-->
     </header>
 
+
     <section id="login" class="page-section secPad">
         <div class="container">
             <div class="row">
                 <div class="heading text-center">
                     <!-- Heading -->
                     <br><br>
-                    <h2>Welcome to E-Lockbox!</h2>
-                    <p>Please enter your email and password.</p>
+                    <h2>Reset password.</h2>
+                    <p>You are resetting <em><strong style="color: #cc4646">{{$name}}</strong></em>'s password.<br>
+                    Please enter your new password.</p>
                 </div>
             </div>
-
-            {!! Form::open(['route' => 'generate']) !!}
+            {!! Form::open(['url' => $url]) !!}
             <div class="col-sm-4 col-sm-offset-4 center-block">
                 @if (session()->has('flash_message'))
                     <div class="form-group">
@@ -55,68 +62,24 @@
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-4 center-block">
                     <div class="form-group">
-                        <span class="glyphicon glyphicon-user"></span>
-                        {{ Form::label('Username') }}
-                        {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'email@example.com', 'required' => 'required']) !!}
-                    </div>
-                    <div class="form-group">
                         <span class="glyphicon glyphicon-lock"></span>
                         {{ Form::label('Password') }}
                         {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password', 'required' => 'required']) !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::submit('Log in', ['class' => 'btn btn-block btn-primary']) !!}
-                        <span class="form-group" style="padding-left: 63%" data-toggle="collapse"
-                              data-target="#notes"><a>Forgot your password?</a></span>
+                        <span class="glyphicon glyphicon-lock"></span>
+                        {{ Form::label('Confirm Password') }}
+                        {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password', 'required' => 'required']) !!}
                     </div>
-                    <div id="notes" class="collapse">
-                        <p>
-                            If you are youth and you forget your password, please contact your case manager for help.<br>
-                            If you are admin and you forget your password, please <a href="{{ url("/reset") }}">click here</a>.<br>
-                        </p>
+                    <div class="form-group">
+                        {!! Form::submit('Reset Password', ['class' => 'btn btn-block btn-primary']) !!}
                     </div>
                 </div>
             </div>
         </div>
         <!--/.container-->
     </section>
-    <!-- Address and Info -->
-
-    <!--/.page-section-->
-    <footer style="position: absolute; right: 0; bottom: 0; left: 0; background-color: #E4E4E4">
-        <section class="copyright">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        Copyright 2016 Living Advantage, Inc. All Rights Reserved.
-                    </div>
-                </div>
-                <!-- / .row -->
-            </div>
-        </section>
-    </footer>
 
 
-    {{--{!! Form::open(['route' => 'generate']) !!}--}}
-    {{--@if (session()->has('flash_message'))--}}
-    {{--<div class="form-group">--}}
-    {{--<p>{{ session()->get('flash_message') }}</p>--}}
-    {{--</div>--}}
-    {{--@endif--}}
-    {{--@if (session()->has('error_message'))--}}
-    {{--<div class="form-group">--}}
-    {{--<p>{{ session()->get('error_message') }}</p>--}}
-    {{--</div>--}}
-    {{--@endif--}}
-    {{--<div class="form-group">--}}
-    {{--{!! Form::text('email', null, ['placeholder' => 'Email', 'required' => 'required']) !!}--}}
-    {{--</div>--}}
-    {{--<div class="form-group">--}}
-    {{--{!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required']) !!}--}}
-    {{--</div>--}}
-    {{--<div class="form-group">--}}
-    {{--{!! Form::submit('Log in') !!}--}}
-    {{--</div>--}}
-    {{--{!! Form::close() !!}--}}
+@stop
 
-@endsection

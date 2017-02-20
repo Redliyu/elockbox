@@ -14,6 +14,7 @@
         $(document).ready(function () {
 
             $('#birthday_create').datepicker({
+                maxDate: new Date(),
                 dateFormat: "mm/dd/yy",
                 changeYear: true,
                 changeMonth: true,
@@ -108,7 +109,7 @@
             <div class="form-group row">
                 {!! Form::label('program', 'Program', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::select('program', ['Program1' => 'Program1'], null, ['placeholder' => 'Choose your program...', 'class' => 'form-control']) !!}
+                    {!! Form::select('program', $program_name, null, ['class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="form-group row">

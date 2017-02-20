@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\CaseManagement;
+namespace App\Http\Controllers\Manager\CaseManagement;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -56,6 +56,6 @@ class FileuploadingController extends Controller
         $doc->visible = $request->get('visible');
         $doc->filename = $newName;
         $doc->save();
-        return redirect('admin/case/'.$id.'/view');
+        return redirect('manager/case/'.$id.'/view');
     }
 }
