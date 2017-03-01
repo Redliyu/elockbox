@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-These are the prerequisites for installing on local machine, if your machine do not satisfy these prerequisites or you want to install this project on server, please follow the "Install on Server", there will be a detailed instructions including environment settings and project deploying.
+These are the prerequisites for installing on local machine, if your machine do not satisfy these prerequisites or you want to install this project on server, please follow the [Install on Server](#install-on-server), there will be a detailed instructions including environment settings and project deploying.
 
 #### Environment
 * PHP ≥ 5.6.4
@@ -33,7 +33,7 @@ These are the prerequisites for installing on local machine, if your machine do 
 `$ php artisan key:generate`
 
 ###### 5. Migrate the database.
-``$ php artisan migrate`
+`$ php artisan migrate`
 
 ###### 6. Seed the initial data into the database.
 `$ php artisan db:seed`
