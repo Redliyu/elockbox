@@ -1,6 +1,9 @@
 @extends('layouts.dashboard')
 
 @section('head')
+    <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
+    <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
+    <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
 
     <script>
         var focus_id = "to";
@@ -18,8 +21,20 @@
             focus_id = id;
         }
         function add(elem) {
-            document.getElementById(focus_id).value = elem.childNodes[2].firstChild.nodeValue;
+            document.getElementById(focus_id).value = elem.childNodes[3].childNodes[0].nodeValue;
+//            console.log(elem.childNodes[3].childNodes[0].nodeValue);
         }
+
+        $(document).ready(function () {
+            $('#ddl').datepicker({
+                minDate: new Date(),
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
+
+
+        });
         //        function delete_last(id) {
         //            if(event.keyCode == 8) {
         //                var org_str = document.getElementById(id).value;
@@ -35,24 +50,24 @@
         //            }
         //            document.getElementById(id).value = str;
         //        }
-        function help(id) {
-            var list = document.getElementById("contacts_list");
-            var name = [];
-            for (var i = 0; i < list.childNodes.length; i++) {
-                if (list.childNodes[i].nodeName == "LI") {
-                    name.push(list.childNodes[i].childNodes[2].innerHTML);
-                }
-            }
-            var cur_str = document.getElementById(id).value;
-            var help_result = [];
-            console.log(name);
-            for (var i = 0; i < name.length; i++) {
-                if (name[i].toLowerCase().includes(cur_str.toLowerCase())) {
-                    help_result.push(name[i]);
-                }
-            }
-            console.log(help_result);
-        }
+//        function help(id) {
+//            var list = document.getElementById("contacts_list");
+//            var name = [];
+//            for (var i = 0; i < list.childNodes.length; i++) {
+//                if (list.childNodes[i].nodeName == "LI") {
+//                    name.push(list.childNodes[i].childNodes[2].innerHTML);
+//                }
+//            }
+//            var cur_str = document.getElementById(id).value;
+//            var help_result = [];
+//            console.log(name);
+//            for (var i = 0; i < name.length; i++) {
+//                if (name[i].toLowerCase().includes(cur_str.toLowerCase())) {
+//                    help_result.push(name[i]);
+//                }
+//            }
+//            console.log(help_result);
+//        }
     </script>
 @stop
 
@@ -115,6 +130,7 @@
             </ol>
         </div>
     </div>
+
     <div id="create_table" style="display: none; visibility: hidden">
         <div class="row inbox">
 
@@ -128,18 +144,21 @@
 
                         <ul id="contacts_list">
                             @foreach($admins as $admin)
-                                <li onclick="add(this)">
-                                    <span class="label label-danger"></span><span>{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</span>
+                                <li onclick="add(this)" style="height: 50px">
+                                    <div><span class="label label-danger"></span><span>{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</span></div>
+                                    <div style="font-size: 12px; padding-left: 10px">{{ Sentinel::findById($admin->user_id)->email }}</div>
                                 </li>
                             @endforeach
                             @foreach($managers as $manager)
-                                <li onclick="add(this)">
-                                    <span class="label label-primary"></span><span>{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}</span>
+                                <li onclick="add(this)" style="height: 50px">
+                                    <div><span class="label label-primary"></span><span>{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}</span></div>
+                                    <div style="font-size: 12px; padding-left: 10px">{{ Sentinel::findById($manager->user_id)->email }}</div>
                                 </li>
                             @endforeach
                             @foreach($staffs as $staff)
-                                <li onclick="add(this)">
-                                    <span class="label label-success"></span><span>{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}</span>
+                                <li onclick="add(this)" style="height: 50px">
+                                    <div><span class="label label-success"></span><span>{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}</span></div>
+                                    <div style="font-size: 12px; padding-left: 10px">{{ Sentinel::findById($staff->user_id)->email }}</div>
                                 </li>
                             @endforeach
                         </ul>
@@ -157,56 +176,65 @@
                     <div class="panel-body message">
 
                         {{--<form class="form-horizontal" role="form">--}}
-                            {!! Form::open(['url' => '/admin/activity/create', 'class' => 'form-horizontal']) !!}
-                            {{ csrf_field() }}
-                            <div class="form-group">
-                                <label for="to" class="col-sm-1 control-label">To:</label>
-                                <div class="col-sm-11">
-                                    <input list="recipient" name="recipient" class="form-control" id="to"
-                                           placeholder="Recipient"
-                                           onclick="change_focus(this.id)" onfocus="this.placeholder=''"
-                                           onblur="this.placeholder='Recipient'" required>
-                                    <datalist id="recipient">
-                                        @foreach($admins as $admin)
-                                            <option value="{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}">{{ Sentinel::findById($admin->user_id)->email}}</option>
-                                        @endforeach
-                                        @foreach($managers as $manager)
-                                            <option value="{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}">{{ Sentinel::findById($manager->user_id)->email}}</option>
-                                        @endforeach
-                                        @foreach($staffs as $staff)
-                                            <option value="{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}">{{ Sentinel::findById($staff->user_id)->email}}</option>
-                                        @endforeach
-                                    </datalist>
-                                </div>
+                        {!! Form::open(['url' => '/admin/activity/create', 'class' => 'form-horizontal']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label for="to" class="col-sm-1 control-label">To:</label>
+                            <div class="col-sm-11">
+                                <input list="recipient" name="recipient" class="form-control" id="to"
+                                       placeholder="Recipient"
+                                       onclick="change_focus(this.id)" onfocus="this.placeholder=''"
+                                       onblur="this.placeholder='Recipient'" required>
+                                <datalist id="recipient">
+                                    @foreach($admins as $admin)
+                                        <option value="{{ Sentinel::findById($admin->user_id)->email}}">{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</option>
+                                    @endforeach
+                                    @foreach($managers as $manager)
+                                        <option value="{{ Sentinel::findById($manager->user_id)->email}}">{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}</option>
+                                    @endforeach
+                                    @foreach($staffs as $staff)
+                                        <option value="{{ Sentinel::findById($staff->user_id)->email}}">{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}</option>
+                                    @endforeach
+                                </datalist>
                             </div>
-                            <div class="form-group">
-                                <label for="cc" class="col-sm-1 control-label">CC:</label>
-                                <div class="col-sm-11">
-                                    <input list="mentioned" name="mentioned" class="form-control" id="cc"
-                                           placeholder="Mentioned"
-                                           onclick="change_focus(this.id)" onfocus="this.placeholder=''"
-                                           onblur="this.placeholder='Mentioned'">
-                                    <datalist id="mentioned">
-                                        @foreach($admins as $admin)
-                                            <option value="{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}">{{ Sentinel::findById($admin->user_id)->email}}</option>
-                                        @endforeach
-                                        @foreach($managers as $manager)
-                                            <option value="{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}">{{ Sentinel::findById($manager->user_id)->email}}</option>
-                                        @endforeach
-                                        @foreach($staffs as $staff)
-                                            <option value="{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}">{{ Sentinel::findById($staff->user_id)->email}}</option>
-                                        @endforeach
-                                    </datalist>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cc" class="col-sm-1 control-label">CC:</label>
+                            <div class="col-sm-11">
+                                <input list="mentioned" name="mentioned" class="form-control" id="cc"
+                                       placeholder="Mentioned"
+                                       onclick="change_focus(this.id)" onfocus="this.placeholder=''"
+                                       onblur="this.placeholder='Mentioned'">
+                                <datalist id="mentioned">
+                                    @foreach($admins as $admin)
+                                        <option value="{{ Sentinel::findById($admin->user_id)->email}}">{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</option>
+                                    @endforeach
+                                    @foreach($managers as $manager)
+                                        <option value="{{ Sentinel::findById($manager->user_id)->email}}">{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}</option>
+                                    @endforeach
+                                    @foreach($staffs as $staff)
+                                        <option value="{{ Sentinel::findById($staff->user_id)->email}}">{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}</option>
+                                    @endforeach
+                                </datalist>
                             </div>
-                            <div class="form-group">
-                                <label for="subject" class="col-sm-1 control-label">Subject:</label>
-                                <div class="col-sm-11">
-                                    <input name="subject" type="text" class="form-control" id="subject" placeholder="Subject"
-                                           onkeyup="help(this.id)" onfocus="this.placeholder=''"
-                                           onblur="this.placeholder='Subject'">
-                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="col-sm-1 control-label">Subject:</label>
+                            <div class="col-sm-11">
+                                <input name="subject" type="text" class="form-control" id="subject"
+                                       placeholder="Subject" onfocus="this.placeholder=''"
+                                       onblur="this.placeholder='Subject'">
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject" class="col-sm-1 control-label">Due:</label>
+                            <div class="col-sm-11">
+                                <input name="ddl" type="text" class="form-control" id="ddl"
+                                       placeholder="Deadline" onfocus="this.placeholder=''"
+                                       onblur="this.placeholder='Deadline'">
+                            </div>
+                        </div>
                         {{--</form>--}}
 
                         <div class="col-sm-11 col-sm-offset-1">
@@ -215,7 +243,8 @@
 
                             <div class="form-group">
 
-                                <textarea name="message" maxlength="65535" class="form-control" id="message" name="body" rows="12"
+                                <textarea name="message" maxlength="65535" class="form-control" id="message" name="body"
+                                          rows="12"
                                           placeholder="Message" style="height: 200%" onfocus="this.placeholder=''"
                                           onblur="this.placeholder='Message'"></textarea>
 
@@ -236,5 +265,6 @@
 
             </div><!--/.col-->
         </div>
+    </div>
 
 @stop

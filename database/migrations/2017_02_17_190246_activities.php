@@ -18,6 +18,7 @@ class Activities extends Migration
         {
             $table->increments('id');
             $table->text('subject')->nullable();
+            $table->text('message')->nullable();
             $table->boolean('task')->default(0);//not finished 0; finished 1
             $table->datetime('ddl')->nullable();
             $table->integer('assigned')->nullable();
