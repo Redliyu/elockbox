@@ -9,6 +9,6 @@ class Activity extends Model
     //
     protected $table = 'activities';
     protected $fillable = [
-        'subject', 'task', 'ddl', 'assigned', 'creator', 'mentioned', 'related'
+        'subject', 'message', 'task', 'ddl', 'assigned', 'creator', 'mentioned', 'related'
     ];
 }

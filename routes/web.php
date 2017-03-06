@@ -95,6 +95,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('user/{id}/edit', 'UserManagement\UserController@update');
     Route::get('user/{id}/active', 'UserManagement\UserController@active');
     Route::get('user/{id}/inactive', 'UserManagement\UserController@inactive');
+    Route::post('activity/create', 'ActivityManagement\ActivityController@create');
 
 //    Route::get('settings/password', 'PasswordController@')
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
