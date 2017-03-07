@@ -1,4 +1,35 @@
 @extends('layouts.dashboard')
+@section('head')
+    <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
+    <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
+    <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip({});
+            $('#pwd2').keyup(function () {
+                if(document.getElementById('pwd2').value != document.getElementById('pwd1').value) {
+                    $('#cpwd').fadeIn();
+                } else {
+                    $('#cpwd').fadeOut();
+                }
+            });
+        });
+        function check_input(form) {
+            if (form.pwd1.value != form.pwd2.value) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function format_phone(phone) {
+            var re = /^[(]?(\d{3})[)]?[-/.]?(\d{3})[-/.]?(\d{4})$/;
+            var newstr = phone.replace(re, '$1-$2-$3');
+            document.getElementById('phone').value = newstr;
+        }
+
+    </script>
+
+@stop
 
 @section('content')
     <div class="row">
@@ -11,10 +42,14 @@
             </ol>
         </div>
     </div>
-    {!! Form::open(['route' => 'store']) !!}
+    {!! Form::open(['route' => 'store', 'onsubmit' => 'return check_input(this)']) !!}
     @if (session()->has('flash_message'))
-        <div class="form-group">
+        <div class="alert alert-success col-md-8 col-md-offset-2">
             <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @elseif($errors->any())
+        <div class="alert alert-danger col-md-8 col-md-offset-2">
+            <p>{{ $errors->first() }}</p>
         </div>
     @endif
     {{--improve performance--}}
@@ -25,7 +60,7 @@
             <div class="form-group row">
                 {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::text('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control']) !!}
+                    {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control']) !!}
                     @if($errors->has('email'))
                         {!! $errors->first('email') !!}
                     @endif
@@ -34,7 +69,7 @@
             <div class="form-group row">
                 {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
+                    {!! Form::password('password', ['id' => 'pwd1', 'placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
                     @if($errors->has('password'))
                         {!! $errors->first('password') !!}
                     @endif
@@ -43,7 +78,10 @@
             <div class="form-group row">
                 {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
+                    {!! Form::password('password_confirmation', ['id' => 'pwd2', 'placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
+                </div>
+                <div id="cpwd" style="display: none; color: red;" class="col-md-4 col-md-offset-2">
+                    Password not same.
                 </div>
             </div>
             <div class="form-group row">
@@ -61,7 +99,7 @@
             <div class="form-group row">
                 {!! Form::label('phone_number', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::text('phone_number', null, ['placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control']) !!}
+                    {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)']) !!}
                 </div>
             </div>
             <div class="form-group row">
@@ -96,7 +134,7 @@
                     'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
                     'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
                     'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
-                    'WY' => 'WY'], null, ['placeholder' => 'Choose state code...','class' => 'form-control']) !!}
+                    'WY' => 'WY'], 'N/A', ['class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="form-group row">
@@ -108,11 +146,11 @@
             <div class="form-group row">
                 {!! Form::label('role', 'Level*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff', 'Youths' => 'Youth'], null, ['placeholder' => 'Choose user type...', 'class' => 'form-control']) !!}
+                    {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff'], null, ['class' => 'form-control', 'required' => 'required']) !!}
                 </div>
             </div>
             <div class="form-group pull-right">
-                {!! Form::submit('Create and Activate Account', ['class' => 'btn btn-primary']) !!}
+                {!! Form::submit('Create and Activate Account', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
             </div>
             {!! Form::close() !!}
         </div>
