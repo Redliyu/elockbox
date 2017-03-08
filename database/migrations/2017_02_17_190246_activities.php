@@ -25,6 +25,8 @@ class Activities extends Migration
             $table->integer('creator')->nullable();
             $table->integer('mentioned')->nullable();
             $table->string('related')->nullable();
+            $table->boolean('reci_status')->default(0);//0 not read, 1 read
+            $table->boolean('ment_status')->default(0);//0 not read, 1 read
             $table->timestamps();
 
             $table->engine = 'InnoDB';

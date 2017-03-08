@@ -50,24 +50,24 @@
         //            }
         //            document.getElementById(id).value = str;
         //        }
-//        function help(id) {
-//            var list = document.getElementById("contacts_list");
-//            var name = [];
-//            for (var i = 0; i < list.childNodes.length; i++) {
-//                if (list.childNodes[i].nodeName == "LI") {
-//                    name.push(list.childNodes[i].childNodes[2].innerHTML);
-//                }
-//            }
-//            var cur_str = document.getElementById(id).value;
-//            var help_result = [];
-//            console.log(name);
-//            for (var i = 0; i < name.length; i++) {
-//                if (name[i].toLowerCase().includes(cur_str.toLowerCase())) {
-//                    help_result.push(name[i]);
-//                }
-//            }
-//            console.log(help_result);
-//        }
+        //        function help(id) {
+        //            var list = document.getElementById("contacts_list");
+        //            var name = [];
+        //            for (var i = 0; i < list.childNodes.length; i++) {
+        //                if (list.childNodes[i].nodeName == "LI") {
+        //                    name.push(list.childNodes[i].childNodes[2].innerHTML);
+        //                }
+        //            }
+        //            var cur_str = document.getElementById(id).value;
+        //            var help_result = [];
+        //            console.log(name);
+        //            for (var i = 0; i < name.length; i++) {
+        //                if (name[i].toLowerCase().includes(cur_str.toLowerCase())) {
+        //                    help_result.push(name[i]);
+        //                }
+        //            }
+        //            console.log(help_result);
+        //        }
     </script>
 @stop
 
@@ -106,34 +106,54 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($datas as $data)
-                            <tr>
-                                <td>{{$data['sb']}}</td>
-                                <td style="text-align: center">
-                                    @if($data['task'] == "0")
-                                        <i class="fa fa-square-o"></i>
+                        @foreach($activities as $activity)
+                            @if((($activity->assigned == Sentinel::getUser()->id) && ($activity->reci_status == 0)) || (($activity->mentioned == Sentinel::getUser()->id) && ($activity->ment_status == 0)))
+                                <tr style="font-weight: 800">
+                                    <td>{{$activity->subject}}</td>
+                                    @if($activity->task)
+                                        <td><i class="fa fa-check-square"></i></td>
                                     @else
-                                        <i class="fa fa-check-square-o"></i>
+                                        <td><i class="fa fa-square-o"></i></td>
                                     @endif
-                                </td>
-                                <td>{{$data['ddl']}}</td>
-                                <td>{{$data['asfn'].' '.$data['asln']}}</td>
-                                <td>{{$data['crfn'].' '.$data['crln']}}</td>
-                                <td>{{$data['mefn'].' '.$data['meln']}}</td>
-                                <td>
-                                    @if($data['related'])
-                                        {{$data['related']}}
+                                    <td>{{$activity->ddl}}</td>
+                                    <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
+                                    <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
+                                    @if($activity->mentioned)
+                                        <td>{{Sentinel::findById($activity->mentioned)->first_name." ".Sentinel::findById($activity->mentioned)->last_name}}</td>
                                     @else
-                                        N/A
+                                        <td></td>
                                     @endif
-                                </td>
-                                <td>{{$data['ls']}}</td>
-                                <td>
-                                    <a class="btn btn-success" href="">
-                                        <i class="fa fa-search-plus "></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                    <td>{{$activity->related}}</td>
+                                    <td>{{$activity->updated_at}}</td>
+                                    <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
+                                            <i class="fa fa-search-plus "></i>
+                                        </a></td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td>{{$activity->subject}}</td>
+                                    @if($activity->task)
+                                        <td><i class="fa fa-check-square"></i></td>
+                                    @else
+                                        <td><i class="fa fa-square-o"></i></td>
+                                    @endif
+                                    <td>{{$activity->ddl}}</td>
+                                    <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
+                                    <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
+                                    @if($activity->mentioned)
+                                        <td>{{Sentinel::findById($activity->mentioned)->first_name." ".Sentinel::findById($activity->mentioned)->last_name}}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
+                                    <td>{{$activity->related}}</td>
+                                    <td>{{$activity->updated_at}}</td>
+                                    <td><a class="btn btn-success"
+                                           href="{{ url('admin/'. $activity->id .'/view') }}">
+                                            <i class="fa fa-search-plus "></i>
+                                        </a></td>
+                                </tr>
+                            @endif
+
                         @endforeach
                         </tbody>
                     </table>
@@ -173,19 +193,25 @@
                         <ul id="contacts_list">
                             @foreach($admins as $admin)
                                 <li onclick="add(this)" style="height: 50px">
-                                    <div><span class="label label-danger"></span><span>{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</span></div>
+                                    <div>
+                                        <span class="label label-danger"></span><span>{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</span>
+                                    </div>
                                     <div style="font-size: 12px; padding-left: 10px">{{ Sentinel::findById($admin->user_id)->email }}</div>
                                 </li>
                             @endforeach
                             @foreach($managers as $manager)
                                 <li onclick="add(this)" style="height: 50px">
-                                    <div><span class="label label-primary"></span><span>{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}</span></div>
+                                    <div>
+                                        <span class="label label-primary"></span><span>{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}</span>
+                                    </div>
                                     <div style="font-size: 12px; padding-left: 10px">{{ Sentinel::findById($manager->user_id)->email }}</div>
                                 </li>
                             @endforeach
                             @foreach($staffs as $staff)
                                 <li onclick="add(this)" style="height: 50px">
-                                    <div><span class="label label-success"></span><span>{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}</span></div>
+                                    <div>
+                                        <span class="label label-success"></span><span>{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}</span>
+                                    </div>
                                     <div style="font-size: 12px; padding-left: 10px">{{ Sentinel::findById($staff->user_id)->email }}</div>
                                 </li>
                             @endforeach
@@ -212,7 +238,7 @@
                                 <input list="recipient" name="recipient" class="form-control" id="to"
                                        placeholder="Recipient"
                                        onclick="change_focus(this.id)" onfocus="this.placeholder=''"
-                                       onblur="this.placeholder='Recipient'" required>
+                                       onblur="this.placeholder='Recipient'" required autocomplete="off">
                                 <datalist id="recipient">
                                     @foreach($admins as $admin)
                                         <option value="{{ Sentinel::findById($admin->user_id)->email}}">{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</option>
