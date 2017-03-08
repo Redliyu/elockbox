@@ -32,8 +32,6 @@
                 changeYear: true,
                 changeMonth: true,
             });
-
-
         });
         //        function delete_last(id) {
         //            if(event.keyCode == 8) {
@@ -115,7 +113,7 @@
                                     @else
                                         <td><i class="fa fa-square-o"></i></td>
                                     @endif
-                                    <td>{{$activity->ddl}}</td>
+                                    <td>{{date("m-d-Y", strtotime($activity->ddl))}}</td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -124,7 +122,7 @@
                                         <td></td>
                                     @endif
                                     <td>{{$activity->related}}</td>
-                                    <td>{{$activity->updated_at}}</td>
+                                    <td>{{date("m-d-Y i:m:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
                                         </a></td>
@@ -137,7 +135,7 @@
                                     @else
                                         <td><i class="fa fa-square-o"></i></td>
                                     @endif
-                                    <td>{{$activity->ddl}}</td>
+                                    <td>{{date("m-d-Y", strtotime($activity->ddl))}}</td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -146,7 +144,7 @@
                                         <td></td>
                                     @endif
                                     <td>{{$activity->related}}</td>
-                                    <td>{{$activity->updated_at}}</td>
+                                    <td>{{date("m-d-Y i:m:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success"
                                            href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>

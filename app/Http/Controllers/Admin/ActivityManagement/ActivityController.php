@@ -28,7 +28,49 @@ class ActivityController extends Controller
             'staffs' => $staffs,
         ]);
     }
+    public function viewdetail($activity_id) {
+        $admins = UserRole::where("role_id", 1)->get();
+        $managers = UserRole::where("role_id", 2)->get();
+        $staffs = UserRole::where("role_id", 3)->get();
+        $activity = Activity::where("id", $activity_id)->first();
 
+        if(($activity->assigned == Sentinel::getUser()->id) && ($activity->reci_status == 0)) {
+            $activity->reci_status = 1;
+        }
+        if(($activity->mentioned == Sentinel::getUser()->id) && ($activity->ment_status == 0)) {
+            $activity->ment_status = 1;
+        }
+        $activity->save();
+        $activities = Activity::all();
+
+        return view('admin/activity/detail', [
+            'activities' => $activities,
+            'activity' => $activity,
+            'admins' => $admins,
+            'managers' => $managers,
+            'staffs' => $staffs,
+        ]);
+    }
+    public function update($activity_id, Request $request) {
+        try{
+            $activity = Activity::where('id', $activity_id)->first();
+//            echo $activity;
+            $activity->subject = $request->subject;
+            $activity->task = $request->input('task');
+            $activity->ddl = date("Y-m-d", strtotime($request->ddl));
+            $recipient = User::where('email', $request->recipient)->first()->id;
+            $activity->assigned = $recipient;
+            if($request->get('mentioned')) {
+                $mentioned = User::where('email', $request->mentioned)->first()->id;
+                $activity->mentioned = $mentioned;
+            }
+            $activity->message = $request->message;
+            $activity->save();
+        } catch (InvalidArgumentException $e) {
+            print $e;
+        }
+        return redirect()->back();
+    }
     public function create(Request $request) {
         try{
             $activity = new Activity;
