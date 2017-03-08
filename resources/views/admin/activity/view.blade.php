@@ -106,7 +106,35 @@
                         </tr>
                         </thead>
                         <tbody>
-
+                        @foreach($datas as $data)
+                            <tr>
+                                <td>{{$data['sb']}}</td>
+                                <td style="text-align: center">
+                                    @if($data['task'] == "0")
+                                        <i class="fa fa-square-o"></i>
+                                    @else
+                                        <i class="fa fa-check-square-o"></i>
+                                    @endif
+                                </td>
+                                <td>{{$data['ddl']}}</td>
+                                <td>{{$data['asfn'].' '.$data['asln']}}</td>
+                                <td>{{$data['crfn'].' '.$data['crln']}}</td>
+                                <td>{{$data['mefn'].' '.$data['meln']}}</td>
+                                <td>
+                                    @if($data['related'])
+                                        {{$data['related']}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>{{$data['ls']}}</td>
+                                <td>
+                                    <a class="btn btn-success" href="">
+                                        <i class="fa fa-search-plus "></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
