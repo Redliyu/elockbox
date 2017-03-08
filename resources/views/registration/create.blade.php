@@ -13,9 +13,18 @@
                     $('#cpwd').fadeOut();
                 }
             });
+            $('#phone').blur(function () {
+                if(document.getElementById('phone').value.length != 12) {
+                    $('#cphone').fadeIn();
+                } else {
+                    $('#cphone').fadeOut();
+                }
+            });
         });
         function check_input(form) {
-            if (form.pwd1.value != form.pwd2.value) {
+            if ((form.pwd1.value != form.pwd2.value)) {
+                return false;
+            } else if((form.phone.value.length != 0) && (form.phone.value.length != 12)) {
                 return false;
             } else {
                 return true;
@@ -37,8 +46,8 @@
             <h3 class="page-header"><i class="fa fa-plus-circle"></i> Create User</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-user"></i>User Management</li>
-                <li><i class="fa fa-plus-circle"></i>Create User</li>
+                <li><i class="fa fa-user"></i><a href="{{ url('admin/user/view') }}">User Management</a></li>
+                <li><i class="fa fa-plus-circle"></i><a href="{{ url('create') }}">Create User</a></li>
             </ol>
         </div>
     </div>
@@ -99,7 +108,10 @@
             <div class="form-group row">
                 {!! Form::label('phone_number', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)']) !!}
+                    {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
+                </div>
+                <div id="cphone" style="display: none; color: red;" class="col-md-12 col-md-offset-2">
+                    <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
                 </div>
             </div>
             <div class="form-group row">

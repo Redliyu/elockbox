@@ -6,8 +6,8 @@
             <h3 class="page-header"><i class="fa fa-file-text"></i> View Cases</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-folder-open"></i>Case Management</li>
-                <li><i class="fa fa-list"></i>View Cases</li>
+                <li><i class="fa fa-folder-open"></i><a href="{{ url('admin/case/view') }}">Case Management</a></li>
+                <li><i class="fa fa-list"></i><a href="{{ url('admin/case/view') }}">View Cases</a></li>
             </ol>
         </div>
     </div>

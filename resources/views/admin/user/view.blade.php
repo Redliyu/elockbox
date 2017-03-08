@@ -6,8 +6,8 @@
             <h3 class="page-header"><i class="fa fa-file-text"></i> View Users</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-user"></i>User Management</li>
-                <li><i class="fa fa-list"></i>View Users</li>
+                <li><i class="fa fa-user"></i><a href="{{ url('admin/user/view') }}">User Management</a></li>
+                <li><i class="fa fa-list"></i><a href="{{ url('admin/user/view') }}">View Users</a></li>
             </ol>
         </div>
     </div>
