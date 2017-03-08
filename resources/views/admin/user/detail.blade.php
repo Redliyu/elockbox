@@ -1,12 +1,36 @@
 @extends('layouts.dashboard')
 
 @section('head')
+    <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
+    <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
+    <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
     <script>
         function edit() {
             document.getElementById("view").style.display = "none";
             document.getElementById("view").style.visibility = "hidden";
             document.getElementById("edit").style.display = "block";
             document.getElementById("edit").style.visibility = "visible";
+        }
+        $(document).ready(function () {
+            $('#phone').blur(function () {
+                if(document.getElementById('phone').value.length != 12) {
+                    $('#cphone').fadeIn();
+                } else {
+                    $('#cphone').fadeOut();
+                }
+            });
+        });
+        function check_input(form) {
+            if((form.phone.value.length != 0) && (form.phone.value.length != 12)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function format_phone(phone) {
+            var re = /^[(]?(\d{3})[)]?[-/.]?(\d{3})[-/.]?(\d{4})$/;
+            var newstr = phone.replace(re, '$1-$2-$3');
+            document.getElementById('phone').value = newstr;
         }
     </script>
 @stop
@@ -17,9 +41,9 @@
             <h3 class="page-header"><i class="fa fa-file-text"></i>Profile</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-folder-open"></i>User Management</li>
+                <li><i class="fa fa-folder-open"></i><a href="{{ url('admin/user/view') }}">User Management</a></li>
                 <li><i class="fa fa-list"></i><a href="{{ url('admin/user/view') }}">View Users</a></li>
-                <li><i class="fa fa-file-text"></i>{{$user->first_name.' '.$user->last_name}}</li>
+                <li><i class="fa fa-file-text"></i><a href="{{ url('admin/user/'.$user->id.'/view') }}">{{$user->first_name.' '.$user->last_name}}</a></li>
             </ol>
         </div>
     </div>
@@ -203,10 +227,10 @@
                     </div>
                     {{-- Edit profile--}}
                     <div class="col-md-8" style="margin-top: 20px">
-                        {!! Form::open(['url' => 'admin/user/'.$user->id.'/edit']) !!}
+                        {!! Form::open(['url' => 'admin/user/'.$user->id.'/edit', 'onsubmit' => 'return check_input(this)']) !!}
                         <div class="form-group">
                             {!! Form::label('Email*') !!}
-                            {!! Form::text('email', $user->email, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control', 'disabled']) !!}
+                            {!! Form::email('email', $user->email, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control', 'disabled']) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('first_name','First Name', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
@@ -218,19 +242,22 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('phone_number', 'Phone', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('phone_number', $profile->phone_number, ['placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control']) !!}
+                            {!! Form::text('phone_number', $profile->phone_number, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
+                            <div id="cphone" style="display: none; color: red;" class="col-md-12">
+                                <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
+                            </div>
                         </div>
                         <div class="form-group">
                             {!! Form::label('address1', 'Address1', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('address1', $profile->address1, ['placeholder' => '', 'class' => 'form-control']) !!}
+                            {!! Form::text('address1', $profile->address1, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('address2', 'Address2', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('address2', $profile->address2, ['placeholder' => '', 'class' => 'form-control']) !!}
+                            {!! Form::text('address2', $profile->address2, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('city', 'City', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('city', $profile->city, ['placeholder' => '', 'class' => 'form-control']) !!}
+                            {!! Form::text('city', $profile->city, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('state', 'State', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}

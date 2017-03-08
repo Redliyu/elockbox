@@ -34,8 +34,8 @@
             <h3 class="page-header"><i class="fa fa-plus-circle"></i> Create Case</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-folder-open"></i>Case Management</li>
-                <li><i class="fa fa-plus-circle"></i>Create Case</li>
+                <li><i class="fa fa-folder-open"></i><a href="{{ url('admin/case/view') }}">Case Management</a></li>
+                <li><i class="fa fa-plus-circle"></i><a href="{{ url('admin/case/create') }}">Create Case</a></li>
             </ol>
         </div>
     </div>
@@ -52,7 +52,7 @@
             <div class="form-group row">
                 {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::text('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control']) !!}
+                    {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control']) !!}
                     @if($errors->has('email'))
                         {!! $errors->first('email') !!}
                     @endif
