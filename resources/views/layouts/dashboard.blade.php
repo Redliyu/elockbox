@@ -37,6 +37,18 @@
     {{--<!--<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->--}}
     {{--<!--<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->--}}
     <![endif]-->
+    <script>
+        window.onload = function() {
+            var all_atag = document.querySelectorAll(".nav.nav-sidebar li a");
+            var new_str = String(window.location.pathname).replace(/\/\d+/, "");
+            console.log(new_str);
+            for(var i = 0; i < all_atag.length; i ++) {
+                if(new_str == all_atag[i].pathname) {
+                    all_atag[i].parentNode.setAttribute("class", "active opened");
+                }
+            }
+        }
+    </script>
 
     @yield('head')
 
@@ -158,7 +170,8 @@
                 <ul class="dropdown-menu update-menu" role="menu">
                     <li><a href="{{ url('admin/settings/program') }}"><i class="fa fa-list-alt"></i> Program List </a>
                     </li>
-                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-file-text-o"></i> Document Types </a>
+                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-file-text-o"></i> Document Types
+                        </a>
                     </li>
                     <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-rotate-right"></i> Reset Password</a>
                     </li>
@@ -167,9 +180,9 @@
                 </ul>
             </li>
             <li class="dropdown visible-md visible-lg">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="user-avatar"
-                                                                                src="{{ asset('cssnew/assets/img/avatar.jpg') }}"
-                                                                                alt="user-mail">{{Sentinel::getUser()->email}}
+                <a id="cur_email" href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="user-avatar"
+                                                                                               src="{{ asset('cssnew/assets/img/avatar.jpg') }}"
+                                                                                               alt="user-mail">{{Sentinel::getUser()->email}}
                 </a>
                 <ul class="dropdown-menu">
                     <li class="dropdown-menu-header">
@@ -214,29 +227,23 @@
                     <div class="sidebar-menu">
                         <ul class="nav nav-sidebar">
                             <li>
-                                <a href="#"><i class="fa fa-laptop"></i><span
-                                            class="text"> Dashboard</span> <span
-                                            class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="{{ url('admin') }}"><i class="fa fa-plus-circle"></i><span
-                                                    class="text"> Activities</span></a>
-                                    </li>
-                                </ul>
+                                <a href="{{ url('admin') }}"><i class="fa fa-laptop"></i><span
+                                            class="text"> Dashboard</span></a>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span
+                            <li class="opened">
+                                <a><i class="fa fa-user"></i><span class="text"> User Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
+                                <ul class="nav sub" style="display: block;">
                                     <li><a href="{{ url('create') }}"><i class="fa fa-plus-circle"></i><span
                                                     class="text"> Create User</span></a></li>
                                     <li><a href="{{ url('admin/user/view') }}"><i class="fa fa-list"></i><span
                                                     class="text"> View Users</span></a></li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
+                            <li class="opened">
+                                <a><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
+                                <ul class="nav sub" style="display: block;">
                                     <li><a href="{{ url('admin/case/create') }}"><i class="fa fa-plus-circle"></i><span
                                                     class="text"> Create Case</span></a>
                                     </li>
@@ -245,23 +252,18 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-gears"></i><span class="text"> Settings</span> <span
+                            <li class="opened">
+                                <a><i class="fa fa-gears"></i><span class="text"> Settings</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="{{ url('admin/settings/program') }}"><i class="fa fa-gear"></i><span class="text"> Program Settings</span></a></li>
+                                <ul class="nav sub" style="display: block">
+                                    <li><a href="{{ url('admin/settings/program') }}"><i class="fa fa-gear"></i><span
+                                                    class="text"> Program Settings</span></a></li>
                                     </li>
-                                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-gear"></i><span class="text"> Document Settings</span></a></li>
+                                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-gear"></i><span
+                                                    class="text"> Document Settings</span></a></li>
                                     </li>
-                                    <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-gear"></i><span class="text"> Reset Password</span></a></li>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-folder"></i><span class="text"> TroubleShooting</span> <span
-                                            class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> Activate Account</span></a></li>
+                                    <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-gear"></i><span
+                                                    class="text"> Reset Password</span></a></li>
                                     </li>
                                 </ul>
                             </li>
@@ -292,7 +294,8 @@
                                 <a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub">
-                                    <li><a href="{{ url('manager/case/create') }}"><i class="fa fa-plus-circle"></i><span
+                                    <li><a href="{{ url('manager/case/create') }}"><i
+                                                    class="fa fa-plus-circle"></i><span
                                                     class="text"> Create Case</span></a>
                                     </li>
                                     <li><a href="{{ url('manager/case/view') }}"><i class="fa fa-list"></i><span

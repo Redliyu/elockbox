@@ -113,7 +113,7 @@
                                     @else
                                         <td><i class="fa fa-square-o"></i></td>
                                     @endif
-                                    <td>{{date("m-d-Y", strtotime($activity->ddl))}}</td>
+                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -122,7 +122,7 @@
                                         <td></td>
                                     @endif
                                     <td>{{$activity->related}}</td>
-                                    <td>{{date("m-d-Y i:m:s", strtotime($activity->updated_at))}}</td>
+                                    <td>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
                                         </a></td>
@@ -135,7 +135,7 @@
                                     @else
                                         <td><i class="fa fa-square-o"></i></td>
                                     @endif
-                                    <td>{{date("m-d-Y", strtotime($activity->ddl))}}</td>
+                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -144,7 +144,7 @@
                                         <td></td>
                                     @endif
                                     <td>{{$activity->related}}</td>
-                                    <td>{{date("m-d-Y i:m:s", strtotime($activity->updated_at))}}</td>
+                                    <td>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success"
                                            href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
@@ -227,11 +227,10 @@
 
                     <div class="panel-body message">
 
-                        {{--<form class="form-horizontal" role="form">--}}
                         {!! Form::open(['url' => '/admin/activity/create', 'class' => 'form-horizontal']) !!}
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="to" class="col-sm-1 control-label">To:</label>
+                            <label for="to" class="col-sm-1 control-label">To:*</label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
                                        placeholder="Recipient"
@@ -272,11 +271,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Subject:</label>
+                            <label for="subject" class="col-sm-1 control-label">Subject:*</label>
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
                                        placeholder="Subject" onfocus="this.placeholder=''"
-                                       onblur="this.placeholder='Subject'">
+                                       onblur="this.placeholder='Subject'" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -287,7 +286,6 @@
                                        onblur="this.placeholder='Deadline'">
                             </div>
                         </div>
-                        {{--</form>--}}
 
                         <div class="col-sm-11 col-sm-offset-1">
 
@@ -303,9 +301,8 @@
                             </div>
 
                             <div class="form-group pull-right">
-                                {{--<button type="submit" class="btn btn-success">Save</button>--}}
-                                {{--<button type="button" class="btn btn-danger">Cancel</button>--}}
                                 {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                                <a type="button" class="btn btn-danger" href="{{ url('admin') }}">Cancel</a>
                                 {{ Form::close() }}
                             </div>
 
