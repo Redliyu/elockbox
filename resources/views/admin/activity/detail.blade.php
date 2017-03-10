@@ -19,14 +19,6 @@
             document.getElementById("view_activity").style.display = "block";
             document.getElementById("view_activity").style.visibility = "visible";
         }
-        function change_task1() {
-            var check = document.getElementById("task1");
-            if(check.checked == true) {
-                document.getElementById("task1").value = 1;
-            } else {
-                document.getElementById("task1").value = 0;
-            }
-        }
         function change_focus(id) {
             focus_id = id;
         }
@@ -54,7 +46,8 @@
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
                 <li><i class="fa fa-folder-open"></i><a href="{{ url('admin') }}">Activities</a></li>
-                <li><i class="fa fa-file-text"></i><a href="{{ url('admin/'.$activity->id.'/view') }}">{{$activity->subject}}</a></li>
+                <li><i class="fa fa-file-text"></i><a
+                            href="{{ url('admin/'.$activity->id.'/view') }}">{{$activity->subject}}</a></li>
             </ol>
         </div>
     </div>
@@ -73,7 +66,8 @@
                                         <div>
                                             <span class="label label-success"></span><span>{{ date("m-d-Y", strtotime($act->ddl)) }}</span>
                                         </div>
-                                        <div style="font-size: 12px; padding-left: 12px">Subject: {{ $act->subject }}</div>
+                                        <div style="font-size: 12px; padding-left: 12px">
+                                            Subject: {{ $act->subject }}</div>
                                     </li>
                                 @endif
                             @endforeach
@@ -85,62 +79,66 @@
                 <div class="panel panel-default">
                     <div class="panel-body message">
                         <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="to" class="col-sm-1 control-label">To:</label>
-                            <div class="col-sm-11">
-                                <input list="recipient" name="recipient" class="form-control" id="to0"
-                                       placeholder="Recipient" value="{{ Sentinel::findById($activity->assigned)->email }}"
-                                       onclick="change_focus(this.id)" onfocus="this.placeholder=''"
-                                       onblur="this.placeholder='Recipient'" required autocomplete="off" readonly>
+                            <div class="form-group">
+                                <label for="to" class="col-sm-1 control-label">To:</label>
+                                <div class="col-sm-11">
+                                    <input list="recipient" name="recipient" class="form-control" id="to0"
+                                           placeholder="Recipient"
+                                           value="{{ Sentinel::findById($activity->assigned)->email }}"
+                                           onclick="change_focus(this.id)" onfocus="this.placeholder=''"
+                                           onblur="this.placeholder='Recipient'" required autocomplete="off" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="cc" class="col-sm-1 control-label">CC:</label>
-                            <div class="col-sm-11">
-                                <input list="mentioned" name="mentioned" class="form-control" id="cc0"
-                                       placeholder="Mentioned" value="{{ Sentinel::findById($activity->mentioned)->email }}"
-                                       onclick="change_focus(this.id)" onfocus="this.placeholder=''"
-                                       onblur="this.placeholder='Mentioned'" readonly>
+                            <div class="form-group">
+                                <label for="cc" class="col-sm-1 control-label">CC:</label>
+                                <div class="col-sm-11">
+                                    <input list="mentioned" name="mentioned" class="form-control" id="cc0"
+                                           placeholder="Mentioned" value="<?php if ($activity->mentioned) {
+                                        echo Sentinel::findById($activity->mentioned)->email;
+                                    } ?>"
+                                           onclick="change_focus(this.id)" onfocus="this.placeholder=''"
+                                           onblur="this.placeholder='Mentioned'" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Subject:</label>
-                            <div class="col-sm-11">
-                                <input name="subject" type="text" class="form-control" id="subject0"
-                                       placeholder="Subject" value="{{ $activity->subject }}"
-                                       onfocus="this.placeholder=''" onblur="this.placeholder='Subject'" readonly>
+                            <div class="form-group">
+                                <label for="subject" class="col-sm-1 control-label">Subject:</label>
+                                <div class="col-sm-11">
+                                    <input name="subject" type="text" class="form-control" id="subject0"
+                                           placeholder="Subject" value="{{ $activity->subject }}"
+                                           onfocus="this.placeholder=''" onblur="this.placeholder='Subject'" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Due:</label>
-                            <div class="col-sm-11">
-                                <input name="ddl" type="text" class="form-control" id="ddl0"
-                                       placeholder="Deadline" value="{{ date("m-d-Y", strtotime($activity->ddl)) }}"
-                                       onfocus="this.placeholder=''" onblur="this.placeholder='Deadline'" readonly>
+                            <div class="form-group">
+                                <label for="subject" class="col-sm-1 control-label">Due:</label>
+                                <div class="col-sm-11">
+                                    <input name="ddl" type="text" class="form-control" id="ddl0"
+                                           placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
+                                           onfocus="this.placeholder=''" onblur="this.placeholder='Deadline'" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="task" class="col-sm-1 control-label">Task:</label>
-                            <div class="col-sm-11" style="margin-top: 6px">
-                                <input name="task" type="checkbox" value="Done" id="task0" disabled <?php if($activity->task) echo 'checked'?>> Done
+                            <div class="form-group">
+                                <label for="task" class="col-sm-1 control-label">Task:</label>
+                                <div class="col-sm-11" style="margin-top: 6px">
+                                    <input name="task" type="checkbox" value="Done" id="task0"
+                                           disabled <?php if ($activity->task) echo 'checked'?>> Done
+                                </div>
                             </div>
-                        </div>
                         </form>
 
                         <div class="col-sm-11 col-sm-offset-1">
                             <br/>
                             <div class="form-group">
-                                <textarea name="message" maxlength="65535" class="form-control" id="message0" name="body"
-                                          rows="12" placeholder="Message" style="height: 200%" onfocus="this.placeholder=''"
-                                          onblur="this.placeholder='Message'" readonly>{{ $activity->message }}</textarea>
+                                <textarea name="message" maxlength="65535" class="form-control" id="message0"
+                                          name="body"
+                                          rows="12" placeholder="Message" style="height: 200%"
+                                          onfocus="this.placeholder=''"
+                                          onblur="this.placeholder='Message'"
+                                          readonly>{{ $activity->message }}</textarea>
                             </div>
                             <div class="form-group pull-right">
-                                @if($activity->task == 0)
-                                    {{ Form::button('Edit', ['class' => 'btn btn-success', 'onclick' => 'javaScript:edit()']) }}
-                                @else
-                                    {{ Form::button('Edit', ['class' => 'btn btn-disabled']) }}
-                                @endif
-                                    {{ Form::close() }}
+                                <a type="button" class="btn btn-danger" href="{{ url('admin') }}">Cancel</a>
+                                {{ Form::button('Edit', ['class' => 'btn btn-success', 'onclick' => 'javaScript:edit()']) }}
+                                {{ Form::close() }}
                             </div>
                         </div>
                     </div>
@@ -192,7 +190,8 @@
                             <label for="to" class="col-sm-1 control-label">To:</label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
-                                       placeholder="Recipient" value="{{ Sentinel::findById($activity->assigned)->email }}"
+                                       placeholder="Recipient"
+                                       value="{{ Sentinel::findById($activity->assigned)->email }}"
                                        onclick="change_focus(this.id)" onfocus="this.placeholder=''"
                                        onblur="this.placeholder='Recipient'" required autocomplete="off">
                                 <datalist id="recipient">
@@ -212,7 +211,9 @@
                             <label for="cc" class="col-sm-1 control-label">CC:</label>
                             <div class="col-sm-11">
                                 <input list="mentioned" name="mentioned" class="form-control" id="cc"
-                                       placeholder="Mentioned" value="{{ Sentinel::findById($activity->mentioned)->email }}"
+                                       placeholder="Mentioned" value="<?php if ($activity->mentioned) {
+                                    echo Sentinel::findById($activity->mentioned)->email;
+                                } ?>"
                                        onclick="change_focus(this.id)" onfocus="this.placeholder=''"
                                        onblur="this.placeholder='Mentioned'">
                                 <datalist id="mentioned">
@@ -233,32 +234,47 @@
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
                                        placeholder="Subject" value="{{ $activity->subject }}"
-                                       onfocus="this.placeholder=''" onblur="this.placeholder='Subject'">
+                                       onfocus="this.placeholder=''" onblur="this.placeholder='Subject'" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="subject" class="col-sm-1 control-label">Due:</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
-                                       placeholder="Deadline" value="{{ date("m-d-Y", strtotime($activity->ddl)) }}"
+                                       placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
                                        onfocus="this.placeholder=''" onblur="this.placeholder='Deadline'">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="task" class="col-sm-1 control-label">Task:</label>
-                            <div class="col-sm-11" style="margin-top: 6px">
-                                @if($activity->task)
-                                    <input name="task" type="checkbox" value="1" id="task" checked disabled> Done
+                            <label for="task" class="col-md-1 control-label">Task:</label>
+                            <div class="col-md-5" style="margin-top: 6px">
+                                {{--@if($activity->task)--}}
+                                {{--<input name="task" type="checkbox" value="1" id="task" checked disabled> Done--}}
+                                {{--@else--}}
+                                {{--<input name="task" type="checkbox" value="0" id="task1" onchange="change_task1()"> Done--}}
+                                {{--@endif--}}
+                                @if($activity->task == 0)
+                                    <input type="radio" name="task" value="0" checked> In Progress
+                                    <input type="radio" name="task" value="1"> Done
                                 @else
-                                    <input name="task" type="checkbox" value="0" id="task1" onchange="change_task1()"> Done
+                                    <input type="radio" name="task" value="0"> In Progress
+                                    <input type="radio" name="task" value="1" checked> Done
                                 @endif
                             </div>
+                            @if($activity->assigned == Sentinel::getUser()->id || $activity->mentioned == Sentinel::getUser()->id)
+                                <label for="unread" class="col-md-2 control-label">Mark as:</label>
+                                <div class="col-md-4" style="margin-top: 6px">
+                                    <input type="radio" name="unread" value="1" checked> Read
+                                    <input type="radio" name="unread" value="2"> Unread
+                                </div>
+                            @endif
                         </div>
                         <div class="col-sm-11 col-sm-offset-1">
                             <br/>
                             <div class="form-group">
                                 <textarea name="message" maxlength="65535" class="form-control" id="message" name="body"
-                                          rows="12" placeholder="Message" style="height: 200%" onfocus="this.placeholder=''"
+                                          rows="12" placeholder="Message" style="height: 200%"
+                                          onfocus="this.placeholder=''"
                                           onblur="this.placeholder='Message'">{{ $activity->message }}</textarea>
                             </div>
                             <div class="form-group pull-right">

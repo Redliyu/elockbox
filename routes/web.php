@@ -165,4 +165,6 @@ Route::get('/logout', ['uses' => 'LoginController@logout']);
 
 //Route::get('/uploadfile', 'FileuploadingController@index');
 //Route::post('/uploadfile', 'FileuploadingController@showfileupload');
-Route::get('/test', ['uses' => 'Admin\CaseManagement\CaseController@viewtest']);
+Route::get('/test/admin/case/1/view', function () {
+    return view('test');
+});

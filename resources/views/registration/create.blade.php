@@ -162,6 +162,7 @@
                 </div>
             </div>
             <div class="form-group pull-right">
+                <a type="button" class="btn btn-danger" href="{{ url('admin/user/view') }}">Cancel</a>
                 {!! Form::submit('Create and Activate Account', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
             </div>
             {!! Form::close() !!}

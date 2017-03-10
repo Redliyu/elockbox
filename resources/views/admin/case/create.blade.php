@@ -125,6 +125,7 @@
                 </div>
             </div>
             <div class="form-group pull-right">
+                <a type="button" class="btn btn-danger" href="{{ url('admin/case/view') }}">Cancel</a>
                 {!! Form::submit('Create Case', ['class' => 'btn btn-primary']) !!}
             </div>
             {!! Form::close() !!}
