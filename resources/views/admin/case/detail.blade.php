@@ -98,9 +98,9 @@
             <h3 class="page-header"><i class="fa fa-file-text"></i>Profile</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-folder-open"></i>Case Management</li>
+                <li><i class="fa fa-folder-open"></i><a href="{{ url('/admin/case/view') }}">Case Management</a></li>
                 <li><i class="fa fa-list"></i><a href="{{ url('/admin/case/view') }}">View Cases</a></li>
-                <li><i class="fa fa-file-text"></i>{{ $youth_name1 }}</li>
+                <li><i class="fa fa-file-text"></i><a href="{{ url('/admin/case/'.$data->id.'/view') }}">{{ $youth_name1 }}</a></li>
             </ol>
         </div>
     </div>

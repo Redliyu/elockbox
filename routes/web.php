@@ -96,6 +96,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('user/{id}/active', 'UserManagement\UserController@active');
     Route::get('user/{id}/inactive', 'UserManagement\UserController@inactive');
     Route::post('activity/create', 'ActivityManagement\ActivityController@create');
+    Route::get('{id}/view', 'ActivityManagement\ActivityController@viewdetail');
+    Route::post('{id}/edit', 'ActivityManagement\ActivityController@update');
 
 //    Route::get('settings/password', 'PasswordController@')
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
@@ -163,4 +165,6 @@ Route::get('/logout', ['uses' => 'LoginController@logout']);
 
 //Route::get('/uploadfile', 'FileuploadingController@index');
 //Route::post('/uploadfile', 'FileuploadingController@showfileupload');
-Route::get('/test', ['uses' => 'Admin\CaseManagement\CaseController@viewtest']);
+Route::get('/test/admin/case/1/view', function () {
+    return view('test');
+});
