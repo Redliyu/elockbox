@@ -76,7 +76,7 @@
     <!-- Address and Info -->
 
     <!--/.page-section-->
-    <footer style="position: absolute; right: 0; bottom: 0; left: 0; background-color: #E4E4E4">
+    <footer style="position: relative; right: 0; bottom: 0; left: 0; background-color: #E4E4E4">
         <section class="copyright">
             <div class="container">
                 <div class="row">
