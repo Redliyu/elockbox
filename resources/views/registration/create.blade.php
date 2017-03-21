@@ -89,7 +89,7 @@
                 <div class="col-md-10">
                     {!! Form::password('password_confirmation', ['id' => 'pwd2', 'placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
                 </div>
-                <div id="cpwd" style="display: none; color: red;" class="col-md-4 col-md-offset-2">
+                <div id="cpwd" style="display: none; color: red; margin-bottom: -10px;" class="col-md-4 col-md-offset-2">
                     Password not same.
                 </div>
             </div>
@@ -110,7 +110,7 @@
                 <div class="col-md-10">
                     {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
                 </div>
-                <div id="cphone" style="display: none; color: red;" class="col-md-12 col-md-offset-2">
+                <div id="cphone" style="display: none; color: red; margin-bottom: -20px" class="col-md-12 col-md-offset-2">
                     <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
                 </div>
             </div>
@@ -162,7 +162,7 @@
                 </div>
             </div>
             <div class="form-group pull-right">
-                <a type="button" class="btn btn-danger" href="{{ url('admin/user/view') }}">Cancel</a>
+                <a type="button" class="btn btn-default" href="{{ url('admin/user/view') }}">Cancel</a>
                 {!! Form::submit('Create and Activate Account', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
             </div>
             {!! Form::close() !!}

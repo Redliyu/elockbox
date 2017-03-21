@@ -283,7 +283,7 @@
                             {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff', 'Youths' => 'Youth'], $editrole, ['placeholder' => 'Choose user type...', 'class' => 'form-control']) !!}
                         </div>
                         <div class="form-group pull-right">
-                            <a type="button" class="btn btn-danger" href="{{ url('admin/user/'.$user->id.'/view') }}">Cancel</a>
+                            <a type="button" class="btn btn-default" href="{{ url('admin/user/'.$user->id.'/view') }}">Cancel</a>
                             {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
                             {{ Form::close() }}
                         </div>
