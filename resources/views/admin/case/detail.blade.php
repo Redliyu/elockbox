@@ -794,7 +794,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">
-                        {!! Form::button('Cancel', ['class' => 'btn btn-secondary', 'data-dismiss' => 'modal']) !!}
+                        {!! Form::button('Cancel', ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) !!}
                         {!! Form::submit('Create and Activate', ['class' => 'btn btn-primary']) !!}
                     </div>
                 </div>
@@ -1008,7 +1008,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/doc/'.$doc->id.'/delete') }}>Delete</a>
                     </div>
@@ -1249,7 +1249,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/workhistory/'.$workhistory->id.'/delete') }}>Delete</a>
                     </div>
@@ -1490,7 +1490,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/eduhistory/'.$eduhistory->id.'/delete') }}>Delete</a>
                     </div>
@@ -1732,7 +1732,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/addcontacts/'.$addcontact->id.'/delete') }}>Delete</a>
                     </div>
@@ -2434,7 +2434,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/contact/address/'.$address->id.'/delete') }}>Delete</a>
                     </div>
@@ -2469,7 +2469,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/contact/phone/'.$phone->id.'/delete') }}>Delete</a>
                     </div>
@@ -2503,7 +2503,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/contact/email/'.$email->id.'/delete') }}>Delete</a>
                     </div>

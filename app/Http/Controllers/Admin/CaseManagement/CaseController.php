@@ -8,12 +8,14 @@ use App\CasePhone;
 use App\DocType;
 use App\ProgramList;
 use App\UserRole;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Requests\CreateCaseFormRequest;
 use App\Http\Requests\UpdateCaseFormRequest;
 use App\Http\Controllers\Controller;
+use Mockery\CountValidator\Exception;
 use Sentinel;
 use DB;
 use App\VrfyCode;
@@ -45,23 +47,28 @@ class CaseController extends Controller
 
     public function store(CreateCaseFormRequest $request)
     {
-        $currentUser = User::where('email', $request->creator)->first();
-        $input = $request->only('email', 'first_name', 'last_name', 'birthday', 'gender', 'webpage', 'ssn', 'ilp', 'ethnicity', 'program');
-        $case = new CreateCase;
-        $case->email = $request->get('email');
-        $case->first_name = $request->get('first_name');
-        $case->last_name = $request->get('last_name');
-        $case->birthday = date("Y-m-d", strtotime($request->get('birthday')));
-        $case->gender = $request->get('gender');
-        $case->webpage = $request->get('webpage');
-        $case->ssn = $request->get('ssn');
-        $case->ilp = $request->get('ilp');
-        $case->ethnicity = $request->get('ethnicity');
-        $case->program = $request->get('program');
-        $case->cm_id = $currentUser->id;
-        $case->cm_name = $currentUser->first_name . ' ' . $currentUser->last_name;
-        $case->save();
-        return redirect('admin/case/create')->withFlashMessage('Case Successfully Created and Activated!');
+        try{
+            $currentUser = User::where('email', $request->creator)->first();
+            $input = $request->only('email', 'first_name', 'last_name', 'birthday', 'gender', 'webpage', 'ssn', 'ilp', 'ethnicity', 'program');
+            $case = new CreateCase;
+            $case->email = $request->get('email');
+            $case->first_name = $request->get('first_name');
+            $case->last_name = $request->get('last_name');
+            $case->birthday = date("Y-m-d", strtotime($request->get('birthday')));
+            $case->gender = $request->get('gender');
+            $case->webpage = $request->get('webpage');
+            $case->ssn = $request->get('ssn');
+            $case->ilp = $request->get('ilp');
+            $case->ethnicity = $request->get('ethnicity');
+            $case->program = $request->get('program');
+            $case->cm_id = $currentUser->id;
+            $case->cm_name = $currentUser->first_name . ' ' . $currentUser->last_name;
+            $case->save();
+            return redirect('admin/case/create')->withFlashMessage('Case Successfully Created and Activated!');
+        }catch (QueryException $e) {
+            return redirect()->back()->withErrors(array("message" => "Failue to create a case, please check your email."));
+        }
+
     }
 
     public function view()

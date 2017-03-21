@@ -198,7 +198,7 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group pull-right">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                             <a role="button" class="btn btn-danger"
                                href={{ url('/admin/settings/program/'.$program->id.'/delete') }}>Delete</a>
                         </div>

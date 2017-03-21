@@ -18,7 +18,21 @@
                 changeYear: true,
                 changeMonth: true,
             });
+            $('#ssn').blur(function () {
+                if(document.getElementById('ssn').value.length != 11) {
+                    $('#cssn').fadeIn();
+                } else {
+                    $('#cssn').fadeOut();
+                }
+            });
         });
+        function check_input(form) {
+            if((form.ssn.value.length != 0) && (form.ssn.value.length != 11)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
         function format_ssn(ssn) {
             var re = /^(\d{3})[-]?(\d{2})[-]?(\d{4})$/;
             var newstr = ssn.replace(re, '$1-$2-$3');
@@ -41,10 +55,14 @@
         </div>
     </div>
 
-    {!! Form::open(['route' => 'admin.case.store']) !!}
+    {!! Form::open(['route' => 'admin.case.store', 'onsubmit' => 'return check_input(this)']) !!}
     @if (session()->has('flash_message'))
         <div class="form-group alert-success">
             <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @elseif($errors->any())
+        <div class="alert alert-danger col-md-8 col-md-offset-2">
+            <p>{{ $errors->first() }}</p>
         </div>
     @endif
     <div class="col-md-8 col-md-offset-2" style="background-color: #FFFFFF">
@@ -94,6 +112,9 @@
                 <div class="col-md-10">
                     {!! Form::text('ssn', null, ['id' => 'ssn', 'Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control', 'onkeyup' => 'format_ssn(this.value)', 'autocomplete' => 'off']) !!}
                 </div>
+                <div id="cssn" style="display: none; color: red; margin-bottom: -20px;" class="col-md-12 col-md-offset-2">
+                    <p>SSN should have 9 digits, format is XXX-XX-XXXX.</p>
+                </div>
             </div>
             <div class="form-group row">
                 {!! Form::label('ilp', 'ILP', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
@@ -126,7 +147,7 @@
                 </div>
             </div>
             <div class="form-group pull-right">
-                <a type="button" class="btn btn-danger" href="{{ url('admin/case/view') }}">Cancel</a>
+                <a type="button" class="btn btn-default" href="{{ url('admin/case/view') }}">Cancel</a>
                 {!! Form::submit('Create Case', ['class' => 'btn btn-primary']) !!}
             </div>
             {!! Form::close() !!}
