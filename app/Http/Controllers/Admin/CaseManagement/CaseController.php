@@ -116,6 +116,9 @@ class CaseController extends Controller
                 $doc_type_name[$doc_name->id] = $doc_name->document_type;
                 $doc_type_abbr[$doc_name->id] = $doc_name->document_abbr;
             }
+            $admins = UserRole::where("role_id", 1)->get();
+            $managers = UserRole::where("role_id", 2)->get();
+            $staffs = UserRole::where("role_id", 3)->get();
             return view('admin.case.detail', [
                 'data' => $data,
                 'caseUser' => $caseUser,
@@ -130,6 +133,9 @@ class CaseController extends Controller
                 'program_name' => $program_name,
                 'doc_type_name' => $doc_type_name,
                 'doc_type_abbr' => $doc_type_abbr,
+                'admins' => $admins,
+                'managers' => $managers,
+                'staffs' => $staffs,
             ]);
         } else {
             return redirect('error');
