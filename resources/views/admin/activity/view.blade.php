@@ -126,6 +126,9 @@
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
                                         </a></td>
+                                    <td><button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteactivity{{ $activity->id }}">Delete
+                                        </button></td>
                                 </tr>
                             @else
                                 <tr>
@@ -147,8 +150,13 @@
                                     <td>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success"
                                            href="{{ url('admin/'. $activity->id .'/view') }}">
-                                            <i class="fa fa-search-plus "></i>
-                                        </a></td>
+                                            <i class="fa fa-search-plus" style="width: 10px"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteactivity{{ $activity->id }}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             @endif
 
@@ -301,8 +309,8 @@
                             </div>
 
                             <div class="form-group pull-right">
+                                <a type="button" class="btn btn-default" href="{{ url('admin') }}">Cancel</a>
                                 {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
-                                <a type="button" class="btn btn-danger" href="{{ url('admin') }}">Cancel</a>
                                 {{ Form::close() }}
                             </div>
 
@@ -316,4 +324,47 @@
         </div>
     </div>
 
+    <!-- delete activity -->
+    @foreach($activities as $activity)
+        <div class="modal fade" style="margin-top:10%" id="deleteactivity{{ $activity->id }}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="">Delete Activity</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding-left: 130px">
+                            <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                            <p><strong>Please confirm activity information:</strong></p>
+                            <p><strong>Subject: </strong>{{$activity->subject}}</p>
+                            <p><strong>Done: </strong>
+                                @if($activity->task == 1)
+                                    Yes
+                                @else
+                                    No
+                                @endif
+                            </p>
+                            <p><strong>Due Date: </strong>{{$activity->ddl}}</p>
+                            <p><strong>Last Modify
+                                    date: </strong>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</p>
+                            <p><strong>Created
+                                    date: </strong>{{date("m/d/Y H:i:s", strtotime($activity->created_at))}}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-danger"
+                               href={{ url('/admin/'.$activity->id.'/delete') }}>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end delete activity -->
 @stop

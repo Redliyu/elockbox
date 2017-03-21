@@ -114,5 +114,9 @@ class ActivityController extends Controller
         }
         return redirect('admin');
     }
-//    public function
+    public function delete($activity_id) {
+        $activity = Activity::where('id', $activity_id)->first();
+        $activity->delete();
+        return redirect('admin');
+    }
 }
