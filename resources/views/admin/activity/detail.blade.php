@@ -136,7 +136,7 @@
                                           readonly>{{ $activity->message }}</textarea>
                             </div>
                             <div class="form-group pull-right">
-                                <a type="button" class="btn btn-danger" href="{{ url('admin') }}">Cancel</a>
+                                <a type="button" class="btn btn-default" href="{{ url('admin') }}">Cancel</a>
                                 {{ Form::button('Edit', ['class' => 'btn btn-success', 'onclick' => 'javaScript:edit()']) }}
                                 {{ Form::close() }}
                             </div>
@@ -278,7 +278,7 @@
                                           onblur="this.placeholder='Message'">{{ $activity->message }}</textarea>
                             </div>
                             <div class="form-group pull-right">
-                                {{ Form::button('Cancel', ['class' => 'btn btn-danger', 'onclick' => 'javaScript:cancel()']) }}
+                                {{ Form::button('Cancel', ['class' => 'btn btn-default', 'onclick' => 'javaScript:cancel()']) }}
                                 {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
                                 {{ Form::close() }}
                             </div>
@@ -287,5 +287,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 @stop
