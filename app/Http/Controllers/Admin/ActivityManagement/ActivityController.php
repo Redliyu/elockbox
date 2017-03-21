@@ -107,6 +107,9 @@ class ActivityController extends Controller
                 $mentioned = User::where('email', $request->get('mentioned'))->first()->id;
                 $activity->mentioned = $mentioned;
             }
+            if($request->get('case_related')) {
+                $activity->related = $request->get('case_related');
+            }
             $activity->message = $request->get('message');
             $activity->save();
         } catch (InvalidArgumentException $e) {
