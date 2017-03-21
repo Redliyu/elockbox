@@ -12,17 +12,18 @@
     <script type="text/javascript">
         // When the document is ready
         $(document).ready(function () {
-
             $('#birthday_create').datepicker({
                 maxDate: new Date(),
                 dateFormat: "mm/dd/yy",
                 changeYear: true,
                 changeMonth: true,
             });
-
-
         });
-
+        function format_ssn(ssn) {
+            var re = /^(\d{3})[-]?(\d{2})[-]?(\d{4})$/;
+            var newstr = ssn.replace(re, '$1-$2-$3');
+            document.getElementById('ssn').value = newstr;
+        }
     </script>
 
 @stop
@@ -91,7 +92,7 @@
             <div class="form-group row">
                 {!! Form::label('ssn', 'SSN', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::text('ssn', null, ['Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control']) !!}
+                    {!! Form::text('ssn', null, ['id' => 'ssn', 'Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control', 'onkeyup' => 'format_ssn(this.value)', 'autocomplete' => 'off']) !!}
                 </div>
             </div>
             <div class="form-group row">
