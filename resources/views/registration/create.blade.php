@@ -63,109 +63,154 @@
     @endif
     {{--improve performance--}}
     {{--we should detect whether email and pwd are valid while inputing, rather than after submit--}}
-    <div class="col-md-8 col-md-offset-2" style="background-color: #FFFFFF">
-        <div class="col-md-12">
-            <br><br>
-            <div class="form-group row">
-                {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control']) !!}
-                    @if($errors->has('email'))
-                        {!! $errors->first('email') !!}
-                    @endif
-                </div>
+
+    {{--<div class="col-md-10 col-md-offset-1" style="background-color: #FFFFFF">--}}
+        {{--<div class="col-md-10">--}}
+            {{--<br><br>--}}
+    <div class="col-md-9 col-md-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2><i class="fa fa-plus-circle blue"></i><strong>Create User</strong></h2>
             </div>
-            <div class="form-group row">
-                {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::password('password', ['id' => 'pwd1', 'placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
-                    @if($errors->has('password'))
-                        {!! $errors->first('password') !!}
-                    @endif
+            <div class="panel-body">
+                <div class="form-group row">
+{{--                    {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                        <span><strong>Email </strong></span><span style="color: red"><strong>*</strong></span>
+                    </label>
+                    <div class="col-md-10">
+                        {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;']) !!}
+                        @if($errors->has('email'))
+                            {!! $errors->first('email') !!}
+                        @endif
+                    </div>
                 </div>
+                <div class="form-group row">
+{{--                    {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                        <span><strong>Password </strong></span><span style="color: red"><strong>*</strong></span>
+                    </label>
+                    <div class="col-md-10">
+                        {!! Form::password('password', ['id' => 'pwd1', 'placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
+                        @if($errors->has('password'))
+                            {!! $errors->first('password') !!}
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group row">
+{{--                    {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                        <span><strong>Password </strong></span><span style="color: red"><strong>*</strong></span>
+                    </label>
+                    <div class="col-md-10">
+                        {!! Form::password('password_confirmation', ['id' => 'pwd2', 'placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
+                    </div>
+                    <div id="cpwd" style="display: none; color: red; margin-bottom: -10px;" class="col-md-4 col-md-offset-2">
+                        Password not same.
+                    </div>
+                </div>
+                <div class="form-group row">
+{{--                    {!! Form::label('first_name','First Name*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                        <span><strong>First Name </strong></span><span style="color: red"><strong>*</strong></span>
+                    </label>
+                    <div class="col-md-4">
+                        {!! Form::text('first_name', null, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'col-md-4 form-control']) !!}
+                    </div>
+{{--                    {!! Form::label('last_name', 'Last Name*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                        <span><strong>Last Name </strong></span><span style="color: red"><strong>*</strong></span>
+                    </label>
+                    <div class="col-md-4">
+                        {!! Form::text('last_name', null, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {!! Form::label('phone_number', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                    <div class="col-md-10">
+                        {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
+                    </div>
+                    <div id="cphone" style="display: none; color: red; margin-bottom: -20px" class="col-md-12 col-md-offset-2">
+                        <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {!! Form::label('address1', 'Address1', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                    <div class="col-md-10">
+                        {!! Form::text('address1', null, ['placeholder' => '', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {!! Form::label('address2', 'Address2', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                    <div class="col-md-10">
+                        {!! Form::text('address2', null, ['placeholder' => '', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {!! Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                    <div class="col-md-3">
+                        {!! Form::text('city', null, ['placeholder' => '', 'class' => 'form-control']) !!}
+                    </div>
+
+                    {!! Form::label('state', 'State', ['class' => 'col-md-1 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                    <div class="col-md-2">
+                        {!! Form::select('state', ['N/A'=>'--',
+                        'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',
+                        'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',
+                        'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',
+                        'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',
+                        'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',
+                        'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',
+                        'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',
+                        'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
+                        'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
+                        'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
+                        'WY' => 'WY'], 'N/A', ['class' => 'form-control']) !!}
+                    </div>
+
+                    {!! Form::label('zip', 'ZIP', ['class' => 'col-md-1 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                    <div class="col-md-3">
+                        {!! Form::text('zip', null, ['placeholder' => '90000', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+                {{--<div class="form-group row">--}}
+                    {{--{!! Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    {{--<div class="col-md-10">--}}
+                        {{--{!! Form::select('state', ['N/A'=>'--',--}}
+                        {{--'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',--}}
+                        {{--'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',--}}
+                        {{--'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',--}}
+                        {{--'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',--}}
+                        {{--'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',--}}
+                        {{--'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',--}}
+                        {{--'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',--}}
+                        {{--'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',--}}
+                        {{--'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',--}}
+                        {{--'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',--}}
+                        {{--'WY' => 'WY'], 'N/A', ['class' => 'form-control']) !!}--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="form-group row">--}}
+                    {{--{!! Form::label('zip', 'ZIP', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    {{--<div class="col-md-10">--}}
+                        {{--{!! Form::text('zip', null, ['placeholder' => '90000', 'class' => 'form-control']) !!}--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                <div class="form-group row">
+{{--                    {!! Form::label('role', 'Level*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                        <span><strong>Level </strong></span><span style="color: red"><strong>*</strong></span>
+                    </label>
+                    <div class="col-md-10">
+                        {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff'], null, ['class' => 'form-control', 'required' => 'required']) !!}
+                    </div>
+                </div>
+                <div class="form-group pull-right">
+                    <a type="button" class="btn btn-default" href="{{ url('admin/user/view') }}">Cancel</a>
+                    {!! Form::submit('Create and Activate Account', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
+                </div>
+                {!! Form::close() !!}
             </div>
-            <div class="form-group row">
-                {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::password('password_confirmation', ['id' => 'pwd2', 'placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
-                </div>
-                <div id="cpwd" style="display: none; color: red; margin-bottom: -10px;" class="col-md-4 col-md-offset-2">
-                    Password not same.
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('first_name','First Name*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::text('first_name', null, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('last_name', 'Last Name*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::text('last_name', null, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('phone_number', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
-                </div>
-                <div id="cphone" style="display: none; color: red; margin-bottom: -20px" class="col-md-12 col-md-offset-2">
-                    <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('address1', 'Address1', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::text('address1', null, ['placeholder' => '', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('address2', 'Address2', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::text('address2', null, ['placeholder' => '', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::text('city', null, ['placeholder' => '', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::select('state', ['N/A'=>'--',
-                    'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',
-                    'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',
-                    'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',
-                    'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',
-                    'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',
-                    'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',
-                    'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',
-                    'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
-                    'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
-                    'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
-                    'WY' => 'WY'], 'N/A', ['class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('zip', 'ZIP', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::text('zip', null, ['placeholder' => '90000', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                {!! Form::label('role', 'Level*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                <div class="col-md-10">
-                    {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff'], null, ['class' => 'form-control', 'required' => 'required']) !!}
-                </div>
-            </div>
-            <div class="form-group pull-right">
-                <a type="button" class="btn btn-default" href="{{ url('admin/user/view') }}">Cancel</a>
-                {!! Form::submit('Create and Activate Account', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
-            </div>
-            {!! Form::close() !!}
         </div>
     </div>
 @endsection
