@@ -57,11 +57,11 @@
 
     {!! Form::open(['route' => 'admin.case.store', 'onsubmit' => 'return check_input(this)']) !!}
     @if (session()->has('flash_message'))
-        <div class="form-group alert-success">
+        <div class="alert-success col-md-9 col-md-offset-1">
             <p>{{ session()->get('flash_message') }}</p>
         </div>
     @elseif($errors->any())
-        <div class="alert alert-danger col-md-8 col-md-offset-2">
+        <div class="alert alert-danger col-md-9 col-md-offset-1">
             <p>{{ $errors->first() }}</p>
         </div>
     @endif

@@ -79,7 +79,7 @@
                         <span><strong>Email </strong></span><span style="color: red"><strong>*</strong></span>
                     </label>
                     <div class="col-md-10">
-                        {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;']) !!}
+                        {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;', 'autocomplete' =>'off']) !!}
                         @if($errors->has('email'))
                             {!! $errors->first('email') !!}
                         @endif

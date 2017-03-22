@@ -240,7 +240,9 @@
                         {!! Form::open(['url' => '/admin/activity/create', 'class' => 'form-horizontal']) !!}
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="to" class="col-sm-1 control-label">To:*</label>
+                            <label for="to" class="col-sm-1 control-label" style="text-align:right;">
+                                <span><strong>To:</strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
                                        placeholder="Recipient"
@@ -260,7 +262,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cc" class="col-sm-1 control-label">CC:</label>
+                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC:</label>
                             <div class="col-sm-11">
                                 <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                        placeholder="Mentioned"
@@ -281,7 +283,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Subject:*</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
+                                <span><strong>Subject:</strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
                                        placeholder="Subject" onfocus="this.placeholder=''"
@@ -289,7 +293,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Due:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due:</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
                                        placeholder="Deadline" onfocus="this.placeholder=''"

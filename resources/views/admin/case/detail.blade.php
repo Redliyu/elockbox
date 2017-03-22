@@ -783,7 +783,10 @@
                     {{--improve performance--}}
                     {{--we should detect whether email and pwd are valid while inputing, rather than after submit--}}
                     <div class="form-group row">
-                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+{{--                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right;">
+                            <span><strong>Email</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
                             {!! Form::text('email', $data->email, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'disabled']) !!}
                             @if($errors->has('email'))
@@ -792,7 +795,10 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+{{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Password</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
                             {!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
                             @if($errors->has('password'))
@@ -801,7 +807,10 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+{{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Password</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
                             {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
                         </div>
