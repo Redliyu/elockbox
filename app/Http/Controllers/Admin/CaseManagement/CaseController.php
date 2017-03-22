@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\CaseManagement;
 
+use App\Activity;
 use App\Avatar;
 use App\CaseAddress;
 use App\CaseEmail;
@@ -127,6 +128,7 @@ class CaseController extends Controller
             $managers = UserRole::where("role_id", 2)->get();
             $staffs = UserRole::where("role_id", 3)->get();
             $avatar = Avatar::where("case_id", $id)->first();
+            $activities = Activity::where("related", $email)->get();
             return view('admin.case.detail', [
                 'data' => $data,
                 'caseUser' => $caseUser,
@@ -145,6 +147,7 @@ class CaseController extends Controller
                 'managers' => $managers,
                 'staffs' => $staffs,
                 'avatar' => $avatar,
+                'activities' => $activities,
             ]);
         } else {
             return redirect('error');

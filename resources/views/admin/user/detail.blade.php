@@ -166,12 +166,6 @@
                         <h3 class="text-center"><strong>{{ $user->first_name.' '.$user->last_name }}</strong></h3>
                         <h5 class="text-center" style="color: #686868"><strong><em>{{ $role }}</em></strong></h5>
                         <hr>
-                        <div class="text-center">
-                            <li><a href="#" class="fa fa-facebook facebook-bg"></a></li>
-                            <li><a href="#" class="fa fa-twitter twitter-bg"></a></li>
-                            <li><a href="#" class="fa fa-linkedin linkedin-bg"></a></li>
-                        </div>
-                        <hr>
                         <h4><strong>General Information</strong></h4>
                         <ul class="profile-details">
                             <li>
@@ -222,39 +216,57 @@
                     {{-- Edit profile--}}
                     <div class="col-md-8" style="margin-top: 20px">
                         {!! Form::open(['url' => 'admin/user/'.$user->id.'/edit', 'onsubmit' => 'return check_input(this)']) !!}
-                        <div class="form-group">
-                            {!! Form::label('Email*') !!}
+                        <div class="form-group row">
+                            {{--{!! Form::label('Email*') !!}--}}
+                            <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right;">
+                                <span><strong>Email </strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
+                            <div class="col-md-10">
                             {!! Form::email('email', $user->email, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control', 'disabled']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('first_name','First Name', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('first_name', $user->first_name, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('last_name', 'Last Name', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('last_name', $user->last_name, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('phone_number', 'Phone', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('phone_number', $profile->phone_number, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
-                            <div id="cphone" style="display: none; color: red;" class="col-md-12">
-                                <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('address1', 'Address1', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('address1', $profile->address1, ['class' => 'form-control']) !!}
+                        <div class="form-group row">
+                            {!! Form::label('first_name','First Name', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+                            <div class="col-md-10">
+                            {!! Form::text('first_name', $user->first_name, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
+                            </div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('address2', 'Address2', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('address2', $profile->address2, ['class' => 'form-control']) !!}
+                        <div class="form-group row">
+                            {!! Form::label('last_name', 'Last Name', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+                            <div class="col-md-10">
+                            {!! Form::text('last_name', $user->last_name, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
+                            </div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('city', 'City', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::text('city', $profile->city, ['class' => 'form-control']) !!}
+                        <div class="form-group row">
+                            {!! Form::label('phone_number', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+                            <div class="col-md-10">
+                                {!! Form::text('phone_number', $profile->phone_number, ['id' => 'phone', 'placeholder' => '123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
+                                <div id="cphone" style="display: none; color: red;" class="col-md-12">
+                                    <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('state', 'State', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                        <div class="form-group row">
+                            {!! Form::label('address1', 'Address1', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+                            <div class="col-md-10">
+                            {!! Form::text('address1', $profile->address1, ['placeholder' => 'Address 1', 'class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {!! Form::label('address2', 'Address2', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+                            <div class="col-md-10">
+                            {!! Form::text('address2', $profile->address2, ['placeholder' => 'Address 2', 'class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {!! Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+                            <div class="col-md-10">
+                            {!! Form::text('city', $profile->city, ['placeholder' => 'City', 'class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {!! Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+                            <div class="col-md-10">
                             {!! Form::select('state', ['N/A'=>'--',
                             'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',
                             'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',
@@ -266,15 +278,23 @@
                             'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
                             'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
                             'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
-                            'WY' => 'WY'], $profile->state, ['placeholder' => 'Choose state code...','class' => 'form-control']) !!}
+                            'WY' => 'WY'], $profile->state, ['class' => 'form-control']) !!}
+                            </div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('zip', 'ZIP', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                        <div class="form-group row">
+                            {!! Form::label('zip', 'ZIP', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+                            <div class="col-md-10">
                             {!! Form::text('zip', $profile->zip, ['placeholder' => '90000', 'class' => 'form-control']) !!}
+                            </div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('role', 'Level*', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff', 'Youths' => 'Youth'], $editrole, ['placeholder' => 'Choose user type...', 'class' => 'form-control']) !!}
+                        <div class="form-group row">
+{{--                            {!! Form::label('role', 'Level*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                            <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right;">
+                                <span><strong>Level </strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
+                            <div class="col-md-10">
+                            {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff', 'Youths' => 'Youth'], $editrole, ['class' => 'form-control']) !!}
+                            </div>
                         </div>
                         <div class="form-group pull-right">
                             <a type="button" class="btn btn-default" href="{{ url('admin/user/'.$user->id.'/view') }}">Cancel</a>

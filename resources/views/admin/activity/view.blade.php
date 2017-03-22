@@ -113,7 +113,15 @@
                                     @else
                                         <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>
+                                        <?php $date = new DateTime($activity->ddl);
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
+                                    </td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -140,7 +148,15 @@
                                     @else
                                         <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>
+                                        <?php $date = new DateTime($activity->ddl);
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
+                                    </td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -241,7 +257,7 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="to" class="col-sm-1 control-label" style="text-align:right;">
-                                <span><strong>To:</strong></span><span style="color: red"><strong>*</strong></span>
+                                <span><strong>To</strong></span><span style="color: red"><strong>*</strong></span>
                             </label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
@@ -262,7 +278,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC:</label>
+                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC</label>
                             <div class="col-sm-11">
                                 <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                        placeholder="Mentioned"
@@ -284,7 +300,7 @@
 
                         <div class="form-group">
                             <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
-                                <span><strong>Subject:</strong></span><span style="color: red"><strong>*</strong></span>
+                                <span><strong>Subject</strong></span><span style="color: red"><strong>*</strong></span>
                             </label>
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
@@ -293,7 +309,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
                                        placeholder="Deadline" onfocus="this.placeholder=''"
@@ -347,14 +363,13 @@
                             <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
                             <p><strong>Please confirm activity information:</strong></p>
                             <p><strong>Subject: </strong>{{$activity->subject}}</p>
-                            <p><strong>Done: </strong>
+                            <p><strong>Task: </strong>
                                 @if($activity->task == 1)
-                                    Yes
+                                    Done
                                 @else
-                                    No
+                                    To Do
                                 @endif
                             </p>
-                            <p><strong>Due Date: </strong>{{$activity->ddl}}</p>
                             <p><strong>Last Modify
                                     date: </strong>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</p>
                             <p><strong>Created
