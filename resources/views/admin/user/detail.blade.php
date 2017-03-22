@@ -166,12 +166,6 @@
                         <h3 class="text-center"><strong>{{ $user->first_name.' '.$user->last_name }}</strong></h3>
                         <h5 class="text-center" style="color: #686868"><strong><em>{{ $role }}</em></strong></h5>
                         <hr>
-                        <div class="text-center">
-                            <li><a href="#" class="fa fa-facebook facebook-bg"></a></li>
-                            <li><a href="#" class="fa fa-twitter twitter-bg"></a></li>
-                            <li><a href="#" class="fa fa-linkedin linkedin-bg"></a></li>
-                        </div>
-                        <hr>
                         <h4><strong>General Information</strong></h4>
                         <ul class="profile-details">
                             <li>
@@ -274,7 +268,7 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('role', 'Level*', ['class' => 'col-form-label control-label', 'style' => 'padding-top:7px']) !!}
-                            {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff', 'Youths' => 'Youth'], $editrole, ['placeholder' => 'Choose user type...', 'class' => 'form-control']) !!}
+                            {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff', 'Youths' => 'Youth'], $editrole, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group pull-right">
                             <a type="button" class="btn btn-default" href="{{ url('admin/user/'.$user->id.'/view') }}">Cancel</a>

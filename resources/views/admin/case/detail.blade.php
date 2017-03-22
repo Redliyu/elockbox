@@ -2678,7 +2678,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('ddl', 'DDL', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{ Form::label('ddl', 'Due', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--<label for="ddl" class="col-sm-2 control-label">Due</label>--}}
                         <div class="col-sm-10">
                             <input name="ddl" type="text" class="form-control" id="ddl"
