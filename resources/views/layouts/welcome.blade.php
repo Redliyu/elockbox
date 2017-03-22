@@ -20,6 +20,7 @@
     <!--[if lte IE 8]>
     <script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
     <![endif]-->
+    <link rel="shortcut icon" href="{{ asset('cssnew/assets/ico/favicon.ico') }}" type="image/x-icon"/>
     <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url('css/isotope.css') }}" media="screen" />
     <link rel="stylesheet" href="{{url('js/fancybox/jquery.fancybox.css')}}" type="text/css" media="screen" />

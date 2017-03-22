@@ -14,7 +14,7 @@
                 }
             });
             $('#phone').blur(function () {
-                if(document.getElementById('phone').value.length != 12) {
+                if((document.getElementById('phone').value.length != 0) && (document.getElementById('phone').value.length != 12)) {
                     $('#cphone').fadeIn();
                 } else {
                     $('#cphone').fadeOut();
@@ -79,7 +79,11 @@
                         <span><strong>Email </strong></span><span style="color: red"><strong>*</strong></span>
                     </label>
                     <div class="col-md-10">
+<<<<<<< Updated upstream
                         {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;', 'autocomplete' =>'off']) !!}
+=======
+                        {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;', 'autocomplete' => 'off']) !!}
+>>>>>>> Stashed changes
                         @if($errors->has('email'))
                             {!! $errors->first('email') !!}
                         @endif

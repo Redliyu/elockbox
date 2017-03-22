@@ -19,7 +19,7 @@
                 changeMonth: true,
             });
             $('#ssn').blur(function () {
-                if(document.getElementById('ssn').value.length != 11) {
+                if((document.getElementById('ssn').value.length != 0) && (document.getElementById('ssn').value.length != 11)) {
                     $('#cssn').fadeIn();
                 } else {
                     $('#cssn').fadeOut();
@@ -121,7 +121,7 @@
                         {!! Form::text('ssn', null, ['id' => 'ssn', 'Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control', 'onkeyup' => 'format_ssn(this.value)', 'autocomplete' => 'off']) !!}
                     </div>
                     <div id="cssn" style="display: none; color: red; margin-bottom: -20px;" class="col-md-12 col-md-offset-2">
-                        <p>SSN should have 9 digits, format is XXX-XX-XXXX.</p>
+                        <p>SSN should have 9 digits, format is AAA-GG-SSSS.</p>
                     </div>
                 </div>
                 <div class="form-group row">
