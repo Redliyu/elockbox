@@ -104,7 +104,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
-                                    <span><strong>Subject:</strong></span><span style="color: red"><strong>*</strong></span>
+                                    <span><strong>Subject</strong></span><span style="color: red"><strong>*</strong></span>
                                 </label>
                                 <div class="col-sm-11">
                                     <input name="subject" type="text" class="form-control" id="subject0"
@@ -197,7 +197,7 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="to" class="col-sm-1 control-label" style="text-align:right;">
-                                <span><strong>To:</strong></span><span style="color: red"><strong>*</strong></span>
+                                <span><strong>To</strong></span><span style="color: red"><strong>*</strong></span>
                             </label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
@@ -219,7 +219,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC:</label>
+                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC</label>
                             <div class="col-sm-11">
                                 <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                        placeholder="Mentioned" value="<?php if ($activity->mentioned) {
@@ -242,7 +242,7 @@
                         </div>
                         <div class="form-group">
                             <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
-                                <span><strong>Subject:</strong></span><span style="color: red"><strong>*</strong></span>
+                                <span><strong>Subject</strong></span><span style="color: red"><strong>*</strong></span>
                             </label>
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
@@ -251,7 +251,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
                                        placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
@@ -259,7 +259,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="task" class="col-md-1 control-label" style="text-align:right;">Task:</label>
+                            <label for="task" class="col-md-1 control-label" style="text-align:right;">Task</label>
                             <div class="col-md-5" style="margin-top: 6px">
                                 {{--@if($activity->task)--}}
                                 {{--<input name="task" type="checkbox" value="1" id="task" checked disabled> Done--}}
@@ -275,7 +275,7 @@
                                 @endif
                             </div>
                             @if($activity->assigned == Sentinel::getUser()->id || $activity->mentioned == Sentinel::getUser()->id)
-                                <label for="unread" class="col-md-2 control-label">Mark as:</label>
+                                <label for="unread" class="col-md-2 control-label">Mark as</label>
                                 <div class="col-md-4" style="margin-top: 6px">
                                     <input type="radio" name="unread" value="1" checked> Read
                                     <input type="radio" name="unread" value="2"> Unread

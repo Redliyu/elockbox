@@ -241,7 +241,7 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="to" class="col-sm-1 control-label" style="text-align:right;">
-                                <span><strong>To:</strong></span><span style="color: red"><strong>*</strong></span>
+                                <span><strong>To</strong></span><span style="color: red"><strong>*</strong></span>
                             </label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
@@ -262,7 +262,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC:</label>
+                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC</label>
                             <div class="col-sm-11">
                                 <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                        placeholder="Mentioned"
@@ -284,7 +284,7 @@
 
                         <div class="form-group">
                             <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
-                                <span><strong>Subject:</strong></span><span style="color: red"><strong>*</strong></span>
+                                <span><strong>Subject</strong></span><span style="color: red"><strong>*</strong></span>
                             </label>
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
@@ -293,7 +293,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
                                        placeholder="Deadline" onfocus="this.placeholder=''"
