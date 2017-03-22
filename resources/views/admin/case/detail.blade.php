@@ -948,7 +948,7 @@
                     <div class="form-group row">
                         {{ Form::label('doc', 'Document', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-9">
-                            {{ Form::file('image') }}
+                            {{ Form::file('image', ['required']) }}
                         </div>
                     </div>
 
@@ -2732,7 +2732,7 @@
                     <div class="form-group row">
                         {{ Form::label('avatar', 'Avatar', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::file('avatar') }}
+                            {{ Form::file('avatar', ['required']) }}
                         </div>
                     </div>
 
