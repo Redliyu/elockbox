@@ -363,11 +363,11 @@
                             <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
                             <p><strong>Please confirm activity information:</strong></p>
                             <p><strong>Subject: </strong>{{$activity->subject}}</p>
-                            <p><strong>Done: </strong>
+                            <p><strong>Task: </strong>
                                 @if($activity->task == 1)
-                                    Yes
+                                    Done
                                 @else
-                                    No
+                                    To Do
                                 @endif
                             </p>
                             <p><strong>Last Modify
