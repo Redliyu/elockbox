@@ -25,6 +25,14 @@ class Profile extends Migration
             $table->string('zip')->nullable();
             $table->timestamps();
         });
+        Schema::create('avatar', function (Blueprint $table)
+        {
+            $table->increments('id');
+            $table->bigInteger('case_id')->unsigned();
+            $table->string('path', 255);
+            $table->string('filename');
+            $table->timestamps();
+        });
     }
 
     /**

@@ -125,10 +125,12 @@
                                     <td>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
-                                        </a></td>
-                                    <td><button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#deleteactivity{{ $activity->id }}">Delete
-                                        </button></td>
+                                        </a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteactivity{{ $activity->id }}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             @else
                                 <tr>
