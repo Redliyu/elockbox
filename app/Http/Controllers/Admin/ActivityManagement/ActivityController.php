@@ -107,6 +107,9 @@ class ActivityController extends Controller
                 $mentioned = User::where('email', $request->get('mentioned'))->first()->id;
                 $activity->mentioned = $mentioned;
             }
+            if($request->get('case_related')) {
+                $activity->related = $request->get('case_related');
+            }
             $activity->message = $request->get('message');
             $activity->save();
         } catch (InvalidArgumentException $e) {
@@ -114,5 +117,9 @@ class ActivityController extends Controller
         }
         return redirect('admin');
     }
-//    public function
+    public function delete($activity_id) {
+        $activity = Activity::where('id', $activity_id)->first();
+        $activity->delete();
+        return redirect('admin');
+    }
 }

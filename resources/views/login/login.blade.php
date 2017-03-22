@@ -66,14 +66,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::submit('Log in', ['class' => 'btn btn-block btn-primary']) !!}
-                        <span class="form-group" style="padding-left: 63%" data-toggle="collapse"
-                              data-target="#notes"><a>Forgot your password?</a></span>
-                    </div>
-                    <div id="notes" class="collapse">
-                        <p>
-                            If you are youth and you forget your password, please contact your case manager for help.<br>
-                            If you are admin and you forget your password, please <a href="{{ url("/reset") }}">click here</a>.<br>
-                        </p>
+                        <span class="form-group" style="padding-left: 63%"><a href="{{ url("/reset") }}">Forgot your password?</a></span>
                     </div>
                 </div>
             </div>
@@ -83,7 +76,7 @@
     <!-- Address and Info -->
 
     <!--/.page-section-->
-    <footer style="position: absolute; right: 0; bottom: 0; left: 0; background-color: #E4E4E4">
+    <footer style="position: relative; right: 0; bottom: 0; left: 0; background-color: #E4E4E4">
         <section class="copyright">
             <div class="container">
                 <div class="row">

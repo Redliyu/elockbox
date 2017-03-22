@@ -26,8 +26,8 @@ class PasswordController extends Controller
         if ($u) {
             $user_id = $u->id;
             $role_id = UserRole::where('user_id', $user_id)->first()->role_id;
-            if ($role_id == 1) {
-                $user = Sentinel::findById($user_id);
+//            if ($role_id == 1) {
+            $user = Sentinel::findById($user_id);
 
 //                dd(md5($user->email));
 //                $pwd = $request->password;
@@ -35,15 +35,15 @@ class PasswordController extends Controller
 //                Activation::remove($user);
 //                Activation::create($user);
 //                Activation::complete($user, '3w3xqSg2pcIoXk1bCBPOovQEAzvrGEzm');
-                $this->resetEmail($user);
-                return redirect()->back()->withFlashMessage('Please check your email to verify the changes.');
-            } elseif ($role_id == 2) {
-                return redirect()->back()->withFlashMessage('You are case manager, your malicious attempt has been reported to admin.');
-            } elseif ($role_id == 3) {
-                return redirect()->back()->withFlashMessage('You are staff, your malicious attempt has been reported to admin.');
-            } else {
-                return redirect()->back()->withFlashMessage('You are youth, please contact with your case manager to request password change.');
-            }
+            $this->resetEmail($user);
+            return redirect()->back()->withFlashMessage('Please check your email to verify the changes.');
+//            } elseif ($role_id == 2) {
+//                return redirect()->back()->withFlashMessage('You are case manager, your malicious attempt has been reported to admin.');
+//            } elseif ($role_id == 3) {
+//                return redirect()->back()->withFlashMessage('You are staff, your malicious attempt has been reported to admin.');
+//            } else {
+//                return redirect()->back()->withFlashMessage('You are youth, please contact with your case manager to request password change.');
+//            }
         } else {
             return redirect()->back()->withFlashMessage('Email not exist');
         }
@@ -82,10 +82,10 @@ class PasswordController extends Controller
     {
         $user = Sentinel::findById($user_id);
         $cur_time = time();
-        if($cur_time - $time > 1800) {
+        if ($cur_time - $time > 1800) {
             echo "Expired Link";
         } else {
-            if(md5($user->email) == $mdemail) {
+            if (md5($user->email) == $mdemail) {
                 Sentinel::update($user, array('password' => $request->password));
                 return redirect('/');
             } else {

@@ -17,8 +17,8 @@ Route::get('/', function () {
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/debug/create', 'RegistrationController@debugcreate');
     Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'RegistrationController@debugstore']);
-    Route::get('/create', 'RegistrationController@create');
-    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
+//    Route::get('/create', 'RegistrationController@create');
+//    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
     Route::get('/reset', 'Admin\PasswordController@initResetPwd');
     Route::post('/reset', 'Admin\PasswordController@sendEmailPwd');
 //    Route::get('/reset/{time}/{id}/{mdemail}/{mdrandom}', 'Admin\PasswordController@resetPwd');
@@ -50,6 +50,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
 {
     Route::get('', ['as' => 'admin_dashboard', 'uses' => 'ActivityManagement\ActivityController@view']);
     Route::get('user/view', 'UserManagement\UserController@view');
+    Route::get('user/create', 'RegistrationController@create');
+    Route::post('user/create', ['as' => 'admin.user.store', 'uses' => 'RegistrationController@store']);
     Route::get('case/create', 'CaseManagement\CaseController@create');
     Route::post('case/create', ['as' => 'admin.case.store', 'uses' => 'CaseManagement\CaseController@store']);
     Route::get('case/view', ['uses' => 'CaseManagement\CaseController@view']);
@@ -61,6 +63,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
     Route::post('case/{id}/account', ['as' => 'admin.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
     Route::post('case/upload', 'CaseManagement\FileuploadingController@showfileupload');
+    Route::post('case/upload/avatar', 'CaseManagement\FileuploadingController@uploadAvatar');
     Route::post('case/doc/{id}/edit', 'CaseManagement\CaseController@editfile');
     Route::get('case/doc/{id}/delete', 'CaseManagement\CaseController@deletefile');
     Route::post('case/workhistory', 'CaseManagement\CaseController@storeWorkHistory');
@@ -90,6 +93,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('settings/doctype/{id}/edit', 'SettingsManagement\SettingsController@editDocumentSettings');
     Route::get('settings/doctype/{id}/delete', 'SettingsManagement\SettingsController@deleteDocumentSettings');
     Route::get('settings/password', 'SettingsManagement\SettingsController@password');
+    Route::post('settings/password/reset', 'SettingsManagement\SettingsController@resetPassword');
     Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
     Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
     Route::post('user/{id}/edit', 'UserManagement\UserController@update');
@@ -98,7 +102,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('activity/create', 'ActivityManagement\ActivityController@create');
     Route::get('{id}/view', 'ActivityManagement\ActivityController@viewdetail');
     Route::post('{id}/edit', 'ActivityManagement\ActivityController@update');
-
+    Route::get('{id}/delete', 'ActivityManagement\ActivityController@delete');
+    Route::post('case/addactivity', 'ActivityManagement\ActivityController@create');
 //    Route::get('settings/password', 'PasswordController@')
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');

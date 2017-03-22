@@ -8,6 +8,12 @@
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+            $('#ddl').datepicker({
+                minDate: new Date(),
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
         });
         function test(obj) {
             if (obj.value.toLowerCase() == document.getElementById('youth_name1').innerHTML) {
@@ -15,6 +21,9 @@
             } else {
                 document.getElementById("delCase").disabled = true;
             }
+        }
+        function upload_avatar() {
+            document.getElementById("avatar_upload").click();
         }
     </script>
 
@@ -73,10 +82,41 @@
                 changeYear: true,
                 changeMonth: true,
             });
-
-
+            $('#ssn').blur(function () {
+                if ((document.getElementById('ssn').value.length != 0) && (document.getElementById('ssn').value.length != 11)) {
+                    $('#cssn').fadeIn();
+                } else {
+                    $('#cssn').fadeOut();
+                }
+            });
+            $('#pwd2').keyup(function () {
+                if (document.getElementById('pwd2').value != document.getElementById('pwd1').value) {
+                    $('#cpwd').fadeIn();
+                } else {
+                    $('#cpwd').fadeOut();
+                }
+            });
         });
-
+        function format_ssn(ssn) {
+            var re = /^(\d{3})[-]?(\d{2})[-]?(\d{4})$/;
+            var newstr = ssn.replace(re, '$1-$2-$3');
+            document.getElementById('ssn').value = newstr;
+        }
+        function check_input(form) {
+            if ((form.ssn.value.length != 0) && (form.ssn.value.length != 11)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function check_input_pwd(form) {
+            if ((form.pwd1.value != form.pwd2.value)) {
+                document.getElementById('pwd2').setAttribute('style', 'border: 1px solid red');
+                return false;
+            } else {
+                return true;
+            }
+        }
     </script>
 @stop
 
@@ -100,7 +140,8 @@
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
                 <li><i class="fa fa-folder-open"></i><a href="{{ url('/admin/case/view') }}">Case Management</a></li>
                 <li><i class="fa fa-list"></i><a href="{{ url('/admin/case/view') }}">View Cases</a></li>
-                <li><i class="fa fa-file-text"></i><a href="{{ url('/admin/case/'.$data->id.'/view') }}">{{ $youth_name1 }}</a></li>
+                <li><i class="fa fa-file-text"></i><a
+                            href="{{ url('/admin/case/'.$data->id.'/view') }}">{{ $youth_name1 }}</a></li>
             </ol>
         </div>
     </div>
@@ -112,9 +153,16 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     {{--Avatar--}}
-                    <div class="col-md-4" style="margin-top: 20px">
+                    <div class="col-md-4" style="margin-top: 40px">
                         <div class="text-center">
-                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}">
+                            {{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
+                            <?php
+                            if ($avatar) {
+                                echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/storage/app/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
+                            } else {
+                                echo "<img class='img-profile' src='" . asset('cssnew/assets/img/avatar.png') . "' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar' width='120px' height='120px'>";
+                            }
+                            ?>
                         </div>
                         <h3 class="text-center"><strong>{{ $data->first_name.' '.$data->last_name }}</strong></h3>
                         @if($caseUser == null)
@@ -123,15 +171,6 @@
                                 Create Account
                             </button>
                         @endif
-                        <h4 class="text-center">
-                            <small><i class="fa fa-map-marker"></i> California, USA</small>
-                        </h4>
-                        <hr>
-                        <div class="text-center">
-                            <li><a href="#" class="fa fa-facebook facebook-bg"></a></li>
-                            <li><a href="#" class="fa fa-twitter twitter-bg"></a></li>
-                            <li><a href="#" class="fa fa-linkedin linkedin-bg"></a></li>
-                        </div>
                     </div>
                     {{--General Information--}}
                     <div class="col-md-8" style="margin-top: 20px">
@@ -141,11 +180,11 @@
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
                                                                    style="color: #4C4F53"></i><strong>
-                                            Gender</strong>
+                                            Email</strong>
                                     </div>
                                     <div style="color: #6699CC">
-                                        @if($data->gender)
-                                            {{ $data->gender }}
+                                        @if($data->email)
+                                            {{ $data->email }}
                                         @else
                                             N/A
                                         @endif
@@ -157,41 +196,18 @@
                                             Birthday</strong>
                                     </div>
                                     <div style="color: #6699CC">
-                                        @if($data->birthday)
-                                            {{ date('m/d/Y', strtotime($data->birthday)) }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </div>
-                                </li>
-                                <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong>
-                                            Webpage</strong>
-                                    </div>
-                                    <div style="color: #6699CC">
-                                        @if($data->webpage)
-                                            {{ $data->webpage }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
-                            <ul class="profile-details">
-                                <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong> Social
-                                            Security
-                                            Number</strong></div>
-                                    <div style="color: #6699CC">
-                                        @if($data->ssn)
-                                            {{ $data->ssn }}
-                                        @else
-                                            N/A
-                                        @endif
+                                        {{--@if($data->birthday)--}}
+                                        {{--{{ date('m/d/Y', strtotime($data->birthday)) }}--}}
+                                        {{--@else--}}
+                                        {{--N/A--}}
+                                        {{--@endif--}}
+                                        <?php $date = new DateTime($data->birthday);
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
                                     </div>
                                 </li>
                                 <li>
@@ -204,6 +220,47 @@
                                     @else
                                         <div style="color: #6699CC">Inactive</div>
                                     @endif
+                                    {{--<div style="color: #4C4F53"><i class="fa fa-building-o"--}}
+                                    {{--style="color: #4C4F53"></i><strong>--}}
+                                    {{--Webpage</strong>--}}
+                                    {{--</div>--}}
+                                    {{--<div style="color: #6699CC">--}}
+                                    {{--@if($data->webpage)--}}
+                                    {{--{{ $data->webpage }}--}}
+                                    {{--@else--}}
+                                    {{--N/A--}}
+                                    {{--@endif--}}
+                                    {{--</div>--}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="profile-details">
+                                <li>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong>
+                                            Program</strong>
+                                    </div>
+                                    <div style="color: #6699CC">
+                                        @if($data->program)
+                                            {{ $program_name[$data->program] }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </div>
+                                </li>
+                                <li>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong>
+                                            Gender</strong>
+                                    </div>
+                                    <div style="color: #6699CC">
+                                        @if($data->gender)
+                                            {{ $data->gender }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </div>
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
@@ -222,6 +279,14 @@
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
                                                                    style="color: #4C4F53"></i><strong>
+                                            Manager</strong>
+                                    </div>
+                                    <div style="color: #6699CC">{{ $data->cm_name }}
+                                    </div>
+                                </li>
+                                <li>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong>
                                             Ethnicity</strong></div>
                                     <div style="color: #6699CC">
                                         @if($data->ethnicity)
@@ -233,23 +298,20 @@
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong>
-                                            Program</strong>
-                                    </div>
-                                    <div style="color: #6699CC">
-                                        @if($data->program)
-                                            {{ $program_name[$data->program] }}
+                                                                   style="color: #4C4F53"></i><strong> Social
+                                            Security
+                                            Number</strong></div>
+                                    <div style="color: #6699CC" onclick="show_ssn()" id="hidden_ssn">
+                                        @if($data->ssn)
+                                            <?php
+                                            //                                            $ssn_array = str_split($data->ssn);
+                                            //                                            echo "***-**-".$ssn_array[7].$ssn_array[8].$ssn_array[9].$ssn_array[10]
+                                            preg_match('/.*(\d{4})/', $data->ssn, $results);
+                                            echo "***-**-" . $results[1];
+                                            ?>
                                         @else
                                             N/A
                                         @endif
-                                    </div>
-                                </li>
-                                <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong>
-                                            Manager</strong>
-                                    </div>
-                                    <div style="color: #6699CC">{{ $data->cm_name }}
                                     </div>
                                 </li>
                             </ul>
@@ -461,33 +523,49 @@
                             </table>
                         </div>
                     </div>
-                    {{--Notes --}}
+                    {{--Activities --}}
                     <div class="col-md-12"
                          style="border-top: 1px #EEEEEE solid; margin-top: 15px; padding-top: 10px">
                         <div class="col-md-10">
-                            <h4><strong>Notes</strong></h4>
+                            <h4><strong>Case Related Activities</strong></h4>
                         </div>
                         <div class="col-md-2">
                             @if($data->status)
                                 <button type="button" class="btn btn-primary"
-                                        style="padding-left: 50px; padding-right: 50px"> Add
+                                        style="padding-left: 50px; padding-right: 50px" data-toggle="modal"
+                                        data-target="#addactivity"> Add
                                 </button>
                             @endif
                         </div>
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th style="width: 14%;">From whom</th>
-                                <th style="width: 14%;">To whom</th>
-                                <th style="width: 14%;">XXX</th>
-                                <th style="width: 14%;">XXX</th>
-                                <th style="width: 14%;">XXX</th>
-                                <th style="width: 14%;">XXX</th>
-                                <th style="width: 14%;">XXX</th>
+                                <th style="width: 16%;">Subject</th>
+                                <th style="width: 16%;">Task</th>
+                                <th style="width: 16%;">Due Date</th>
+                                <th style="width: 16%;">Assigned To</th>
+                                <th style="width: 16%;">Last Modified Date</th>
+                                <th style="width: 16%;">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr></tr>
+                            @foreach($activities as $activity)
+                                <tr>
+                                    <td>{{ $activity->subject }}</td>
+                                    @if($activity->task)
+                                        <td><span class="label label-success">Done</span></td>
+                                    @else
+                                        <td><span class="label label-warning">To Do</span></td>
+                                    @endif
+                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
+                                    <td>{{ date("m/d/Y", strtotime($activity->updated_at)) }}</td>
+                                    <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
+                                            <i class="fa fa-search-plus "></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -700,7 +778,7 @@
                                 <tr>
                                     <td>{{ $doc_type_abbr[$doc->type] }}</td>
                                     <td>
-                                        <a href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
+                                        <a href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
                                            target="_blank" data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
@@ -709,7 +787,7 @@
                                     @if($data->status)
                                         <td>
                                             <a class="btn btn-success"
-                                               href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
+                                               href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
                                                target="_blank">
                                                 <i class="fa fa-file-pdf-o" style="width: 10px"></i>
                                             </a>
@@ -749,7 +827,7 @@
                     <h4 class="modal-title" id="myModalLabel">Create Youth Account</h4>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['route' => ['admin.case.create.account', $data->id]]) !!}
+                    {!! Form::open(['route' => ['admin.case.create.account', $data->id], 'onsubmit' => 'return check_input_pwd(this)']) !!}
                     @if (session()->has('flash_message'))
                         <div class="form-group">
                             <p>{{ session()->get('flash_message') }}</p>
@@ -758,27 +836,34 @@
                     {{--improve performance--}}
                     {{--we should detect whether email and pwd are valid while inputing, rather than after submit--}}
                     <div class="form-group row">
-                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                        {{--                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right;">
+                            <span><strong>Email</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
                             {!! Form::text('email', $data->email, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'disabled']) !!}
-                            @if($errors->has('email'))
-                                {!! $errors->first('email') !!}
-                            @endif
                         </div>
                     </div>
                     <div class="form-group row">
-                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px']) !!}
+                        {{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Password</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
-                            {!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
-                            @if($errors->has('password'))
-                                {!! $errors->first('password') !!}
-                            @endif
+                            {!! Form::password('password', ['id' => 'pwd1', 'placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px']) !!}
+                        {{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Password</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
-                            {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
+                            {!! Form::password('password_confirmation', ['id' => 'pwd2', 'placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
+                        <div id="cpwd" style="display: none; color: red; margin-bottom: -10px;"
+                             class="col-md-4 col-md-offset-2">
+                            Password not same.
                         </div>
                     </div>
 
@@ -786,7 +871,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">
-                        {!! Form::button('Cancel', ['class' => 'btn btn-secondary', 'data-dismiss' => 'modal']) !!}
+                        {!! Form::button('Cancel', ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) !!}
                         {!! Form::submit('Create and Activate', ['class' => 'btn btn-primary']) !!}
                     </div>
                 </div>
@@ -816,7 +901,7 @@
                     case, case profile, history and documents.<br>
                     We <strong>STRONGLY SUGGEST</strong> you to <strong>inactivate</strong> instead.<br><br>
                     <strong>Please input Youth name of this case:</strong><br>
-                    Notice: Ethier uppercase or lowercase is accepted.
+                    Notice: Either uppercase or lowercase is accepted.
                     {!! Form::open(['url' => 'admin/case/'.$data->id.'/delete']) !!}
                     <div class="form-group row" style="margin-top: 10px; padding-left: 15px; padding-right: 15px;">
                         {{ Form::text('youth_name', null, ['placeholder' => 'Firstname Lastname', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)', 'autocomplete' => 'off']) }}
@@ -848,45 +933,45 @@
                         {!! Form::text('id', $data->id) !!}
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('title', 'Title', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('title', 'Title', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::text('title', null, ['placeholder' => 'Document title', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('type', 'Type', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::select('type', $doc_type_name, null, ['class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('description', 'Description', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
-                            {{ Form::textarea('description', null, ['placeholder' => 'Input document description', 'class' => 'form-control']) }}
+                        {{ Form::label('description', 'Description', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
+                            {{ Form::textarea('description', null, ['placeholder' => 'Document description', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('visible', 'Visible', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('visible', 'Visible', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::select('visible', ['visible' => 'visible', 'invisible' => 'invisible'], null, ['class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::text('xxx', $user->first_name.' '.$user->last_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control', 'disabled']) }}
                         </div>
                     </div>
                     <div class="form-group row" style="display: none; visibility: hidden">
-                        {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::text('uploader', $user->first_name.' '.$user->last_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('doc', 'Document', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
-                            {{ Form::file('image') }}
+                        {{ Form::label('doc', 'Document', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
+                            {{ Form::file('image', ['required']) }}
                         </div>
                     </div>
 
@@ -924,38 +1009,38 @@
                             {!! Form::text('doc_id', $doc->id) !!}
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('title', 'Title', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('title', 'Title', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::text('title', $doc->title, ['placeholder' => 'Document title', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('type', 'Type', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::select('type', $doc_type_name, $doc->type, ['class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('description', 'Description', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('description', 'Description', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::textarea('description', $doc->description, ['placeholder' => 'Input document description', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('visible', 'Visible', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('visible', 'Visible', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::select('visible', ['visible' => 'visible', 'invisible' => 'invisible'], $doc->visible, ['class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::text('xxx', $user->first_name.' '.$user->last_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row" style="display: none; visibility: hidden">
-                            {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::text('uploader', $user->first_name.' '.$user->last_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control']) }}
                             </div>
                         </div>
@@ -1000,7 +1085,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/doc/'.$doc->id.'/delete') }}>Delete</a>
                     </div>
@@ -1052,7 +1137,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{ Form::label('companyaddress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
                             {{ Form::text('companyaddress', null, ['placeholder' => 'Company address', 'class' => 'form-control']) }}
                         </div>
@@ -1121,7 +1206,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('companyaddress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('companyaddress', $workhistory->address, ['placeholder' => 'Company address', 'class' => 'form-control']) }}
                             </div>
@@ -1189,7 +1274,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('companyaddress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('companyaddress', $workhistory->address, ['class' => 'form-control', 'disabled']) }}
                             </div>
@@ -1241,7 +1326,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/workhistory/'.$workhistory->id.'/delete') }}>Delete</a>
                     </div>
@@ -1293,7 +1378,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{ Form::label('schooladdress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
                             {{ Form::text('schooladdress', null, ['placeholder' => 'School address', 'class' => 'form-control']) }}
                         </div>
@@ -1329,7 +1414,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Edit Educatioon History</h4>
+                        <h4 class="modal-title" id="myModalLabel">Edit Education History</h4>
                     </div>
                     <div class="modal-body">
                         {!! Form::open(['url' => '/admin/case/eduhistory/'.$eduhistory->id.'/edit']) !!}
@@ -1362,7 +1447,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('schooladdress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('schooladdress', $eduhistory->address, ['placeholder' => 'School address', 'class' => 'form-control']) }}
                             </div>
@@ -1430,7 +1515,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('schooladdress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('schooladdress', $eduhistory->address, ['class' => 'form-control', 'disabled']) }}
                             </div>
@@ -1482,7 +1567,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/eduhistory/'.$eduhistory->id.'/delete') }}>Delete</a>
                     </div>
@@ -1501,7 +1586,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="">Additional Contact</h4>
+                    <h4 class="modal-title" id="">Additional Contacts</h4>
                 </div>
                 <div class="modal-body">
                     {!! Form::open(['url' => '/admin/case/addcontacts']) !!}
@@ -1524,25 +1609,25 @@
                     <div class="form-group row">
                         {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('phone', null, ['placeholder' => '+1 213 XXXXXXX', 'class' => 'form-control']) }}
+                            {{ Form::text('phone', null, ['placeholder' => '123-456-7890', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('email', null, ['placeholder' => 'xxxx@gmail.com', 'class' => 'form-control']) }}
+                            {{ Form::email('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('address', null, ['placeholder' => 'Resident address', 'class' => 'form-control']) }}
+                            {{ Form::text('address', null, ['placeholder' => 'Address', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('status', null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
                         </div>
                     </div>
                 </div>
@@ -1724,7 +1809,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/addcontacts/'.$addcontact->id.'/delete') }}>Delete</a>
                     </div>
@@ -1734,7 +1819,7 @@
     @endforeach
     <!-- end delete additional contact-->
 
-    <!-- edit profile -->
+    <!-- edit general information -->
     <div class="modal fade" style="margin-top:10%" id="editProfile" tabindex="-1"
          role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
@@ -1744,61 +1829,103 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
+                    <h4 class="modal-title" id="myModalLabel">Edit General Information</h4>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['url' => 'admin/case/'.$data->id.'/edit']) !!}
+                    {!! Form::open(['url' => 'admin/case/'.$data->id.'/edit', 'onsubmit' => 'return check_input(this)']) !!}
                     <div class="form-group" style="display: none; visibility: hidden">
                         {!! Form::text('id', $data->id) !!}
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Email') !!}
-                        <input type="text" class="form-control" value="{{ $data->email }}" disabled>
-                        <a href="#" class="help-block">Want to change email ?</a>
+                    <div class="form-group row">
+                        {{ Form::label('email', 'Email', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Email') !!}--}}
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" value="{{ $data->email }}" disabled>
+                            {{--<span href="#" class="help-block">Want to change email ?</span>--}}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('First Name*') !!}
-                        {!! Form::text('first_name', $data->first_name, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
+                    <div class="form-group row">
+                        <div class="col-md-3 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>First Name </strong></span><span style="color: red"><strong>*</strong></span>
+                        </div>
+                        {{--{!! Form::label('First Name*') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::text('first_name', $data->first_name, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Last Name*') !!}
-                        {!! Form::text('last_name', $data->last_name, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
+                    <div class="form-group row">
+                        <div class="col-md-3 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Last Name </strong></span><span style="color: red"><strong>*</strong></span>
+                        </div>
+                        {{--{!! Form::label('Last Name*') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::text('last_name', $data->last_name, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Date of Birth') !!}
-                        {!! Form::text('birthday', date('m/d/Y', strtotime($data->birthday)), ['id' => 'birthday_edit', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                    <div class="form-group row">
+                        {{ Form::label('dateofbirth', 'Date of Birth', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Date of Birth') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::text('birthday', date('m/d/Y', strtotime($data->birthday)), ['id' => 'birthday_edit', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Gender') !!}
-                        {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], $data->gender, ['class' => 'form-control']) !!}
+                    <div class="form-group row">
+                        {{ Form::label('gender', 'Gender', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Gender') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], $data->gender, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Web Page') !!}
-                        {!! Form::text('webpage', $data->webpage, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}
+                    {{--<div class="form-group row">--}}
+                    {{--{{ Form::label('webpage', 'Web Page', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+                    {{--{!! Form::label('Web Page') !!}--}}
+                    {{--<div class="col-md-9">--}}
+                    {{--{!! Form::text('webpage', $data->webpage, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}--}}
+                    {{--</div>--}}
+                    {{--</div>--}}
+                    <div class="form-group row">
+                        {{ Form::label('ssn', 'SSN', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('SSN') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::text('ssn', $data->ssn, ['id' => 'ssn', 'Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control', 'onkeyup' => 'format_ssn(this.value)', 'autocomplete' => 'off']) !!}
+                        </div>
+                        <div id="cssn" style="display: none; color: red; margin-bottom: -20px;"
+                             class="col-md-9 col-md-offset-3">
+                            <p>SSN should have 9 digits, format is AAA-GG-SSSS.</p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('SSN') !!}
-                        {!! Form::text('ssn', $data->ssn, ['Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control']) !!}
+                    <div class="form-group row">
+                        {{ Form::label('ilp', 'ILP', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('ILP') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No'], null, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('ILP') !!}
-                        {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No'], null, ['class' => 'form-control']) !!}
+                    <div class="form-group row">
+                        {{ Form::label('ethnicity', 'Ethnicity', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Ethnicity') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], $data->ethnicity, ['placeholder' => 'Choose your ethnicity...', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Ethnicity') !!}
-                        {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], $data->ethnicity, ['placeholder' => 'Choose your ethnicity...', 'class' => 'form-control']) !!}
+                    <div class="form-group row">
+                        {{ Form::label('program', 'Program', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Program') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::select('program', $program_name, $data->program, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Program') !!}
-                        {!! Form::select('program', $program_name, $data->program, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('Case Manager') !!}
-                        {!! Form::select('cm_name', $all_list, $data->cm_id, ['class' => 'form-control']) !!}
+                    <div class="form-group row">
+                        {{ Form::label('manager', 'Manager', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Case Manager') !!}--}}
+                        <div class="col-md-9">
+                            {!! Form::select('cm_name', $all_list, $data->cm_id, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="form-group pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
                         {{ Form::close() }}
                     </div>
@@ -1806,9 +1933,9 @@
             </div>
         </div>
     </div>
-    <!-- end edit profile -->
+    <!-- end edit general information -->
 
-    <!-- new add contact information -->
+    <!-- add contact information -->
     <div class="modal fade" style="margin-top:10%" id="addcontactinfo" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -1817,7 +1944,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="">Edit Email</h4>
+                    <h4 class="modal-title" id="">Contact Information</h4>
                 </div>
                 <div class="modal-body">
                     <div class="panel panel-default">
@@ -1843,7 +1970,7 @@
                                     <div class="form-group row">
                                         {{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('city', null, ['placeholder' => 'Relationship', 'class' => 'form-control']) }}
+                                            {{ Form::text('city', null, ['placeholder' => 'City', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -1860,7 +1987,8 @@
                                 'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
                                 'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
                                 'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
-                                'WY' => 'WY'], null, ['placeholder' => 'Choose state code...','class' => 'form-control']) !!}
+                                'WY' => 'WY'], null, ['class' => 'form-control']) !!}
+                                            {{--'placeholder' => 'Choose state'--}}
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -1872,7 +2000,7 @@
                                     <div class="form-group row">
                                         {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group pull-right">
@@ -1887,9 +2015,9 @@
                                         {!! Form::text('id', $data->id) !!}
                                     </div>
                                     <div class="form-group row">
-                                        {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                        {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('number', null, ['placeholder' => 'Phone Number', 'class' => 'form-control']) }}
+                                            {{ Form::text('number', null, ['placeholder' => '123-456-7890', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -1901,7 +2029,7 @@
                                     <div class="form-group row">
                                         {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group pull-right">
@@ -1918,13 +2046,13 @@
                                     <div class="form-group row">
                                         {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) }}
+                                            {{ Form::email('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group pull-right">
@@ -1944,155 +2072,155 @@
     <!-- old add contact information -->
     {{--<!-- address -->--}}
     {{--<div class="modal fade" style="margin-top:10%" id="addaddress" tabindex="-1" role="dialog"--}}
-         {{--aria-labelledby="myModalLabel" aria-hidden="true">--}}
-        {{--<div class="modal-dialog" role="document">--}}
-            {{--<div class="modal-content">--}}
-                {{--<div class="modal-header">--}}
-                    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-                        {{--<span aria-hidden="true">&times;</span>--}}
-                    {{--</button>--}}
-                    {{--<h4 class="modal-title" id="">Add Address</h4>--}}
-                {{--</div>--}}
-                {{--<div class="modal-body">--}}
-                    {{--{!! Form::open(['url' => '/admin/case/addaddress']) !!}--}}
-                    {{--{{ csrf_field() }}--}}
-                    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
-                        {{--{!! Form::text('id', $data->id) !!}--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('address', null, ['placeholder' => 'Address', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('city', null, ['placeholder' => 'Relationship', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{!! Form::select('state', ['N/A'=>'--',--}}
-                {{--'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',--}}
-                {{--'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',--}}
-                {{--'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',--}}
-                {{--'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',--}}
-                {{--'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',--}}
-                {{--'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',--}}
-                {{--'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',--}}
-                {{--'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',--}}
-                {{--'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',--}}
-                {{--'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',--}}
-                {{--'WY' => 'WY'], null, ['placeholder' => 'Choose state code...','class' => 'form-control']) !!}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('zipcode', 'Zip', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('zipcode', null, ['placeholder' => '90000', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="modal-footer">--}}
-                    {{--<div class="form-group pull-right">--}}
-                        {{--{{ Form::submit('Add', ['class' => 'btn btn-primary']) }}--}}
-                        {{--{{ Form::close() }}--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+    {{--aria-labelledby="myModalLabel" aria-hidden="true">--}}
+    {{--<div class="modal-dialog" role="document">--}}
+    {{--<div class="modal-content">--}}
+    {{--<div class="modal-header">--}}
+    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+    {{--<span aria-hidden="true">&times;</span>--}}
+    {{--</button>--}}
+    {{--<h4 class="modal-title" id="">Add Address</h4>--}}
+    {{--</div>--}}
+    {{--<div class="modal-body">--}}
+    {{--{!! Form::open(['url' => '/admin/case/addaddress']) !!}--}}
+    {{--{{ csrf_field() }}--}}
+    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
+    {{--{!! Form::text('id', $data->id) !!}--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('address', null, ['placeholder' => 'Address', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('city', null, ['placeholder' => 'Relationship', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{!! Form::select('state', ['N/A'=>'--',--}}
+    {{--'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',--}}
+    {{--'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',--}}
+    {{--'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',--}}
+    {{--'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',--}}
+    {{--'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',--}}
+    {{--'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',--}}
+    {{--'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',--}}
+    {{--'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',--}}
+    {{--'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',--}}
+    {{--'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',--}}
+    {{--'WY' => 'WY'], null, ['placeholder' => 'Choose state code...','class' => 'form-control']) !!}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('zipcode', 'Zip', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('zipcode', null, ['placeholder' => '90000', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="modal-footer">--}}
+    {{--<div class="form-group pull-right">--}}
+    {{--{{ Form::submit('Add', ['class' => 'btn btn-primary']) }}--}}
+    {{--{{ Form::close() }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
     {{--</div>--}}
     {{--<!-- phone -->--}}
     {{--<div class="modal fade" style="margin-top:10%" id="addphone" tabindex="-1" role="dialog"--}}
-         {{--aria-labelledby="myModalLabel" aria-hidden="true">--}}
-        {{--<div class="modal-dialog" role="document">--}}
-            {{--<div class="modal-content">--}}
-                {{--<div class="modal-header">--}}
-                    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-                        {{--<span aria-hidden="true">&times;</span>--}}
-                    {{--</button>--}}
-                    {{--<h4 class="modal-title" id="">Add Phone</h4>--}}
-                {{--</div>--}}
-                {{--<div class="modal-body">--}}
-                    {{--{!! Form::open(['url' => '/admin/case/addphone']) !!}--}}
-                    {{--{{ csrf_field() }}--}}
-                    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
-                        {{--{!! Form::text('id', $data->id) !!}--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('number', null, ['placeholder' => 'Phone Number', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('type', null, ['placeholder' => 'Type', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="modal-footer">--}}
-                    {{--<div class="form-group pull-right">--}}
-                        {{--{{ Form::submit('Add', ['class' => 'btn btn-primary']) }}--}}
-                        {{--{{ Form::close() }}--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+    {{--aria-labelledby="myModalLabel" aria-hidden="true">--}}
+    {{--<div class="modal-dialog" role="document">--}}
+    {{--<div class="modal-content">--}}
+    {{--<div class="modal-header">--}}
+    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+    {{--<span aria-hidden="true">&times;</span>--}}
+    {{--</button>--}}
+    {{--<h4 class="modal-title" id="">Add Phone</h4>--}}
+    {{--</div>--}}
+    {{--<div class="modal-body">--}}
+    {{--{!! Form::open(['url' => '/admin/case/addphone']) !!}--}}
+    {{--{{ csrf_field() }}--}}
+    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
+    {{--{!! Form::text('id', $data->id) !!}--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('number', null, ['placeholder' => 'Phone Number', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('type', null, ['placeholder' => 'Type', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="modal-footer">--}}
+    {{--<div class="form-group pull-right">--}}
+    {{--{{ Form::submit('Add', ['class' => 'btn btn-primary']) }}--}}
+    {{--{{ Form::close() }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
     {{--</div>--}}
     {{--<!-- email -->--}}
     {{--<div class="modal fade" style="margin-top:10%" id="addemail" tabindex="-1" role="dialog"--}}
-         {{--aria-labelledby="myModalLabel" aria-hidden="true">--}}
-        {{--<div class="modal-dialog" role="document">--}}
-            {{--<div class="modal-content">--}}
-                {{--<div class="modal-header">--}}
-                    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-                        {{--<span aria-hidden="true">&times;</span>--}}
-                    {{--</button>--}}
-                    {{--<h4 class="modal-title" id="">Add Email</h4>--}}
-                {{--</div>--}}
-                {{--<div class="modal-body">--}}
-                    {{--{!! Form::open(['url' => '/admin/case/addemail']) !!}--}}
-                    {{--{{ csrf_field() }}--}}
-                    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
-                        {{--{!! Form::text('id', $data->id) !!}--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--{{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="modal-footer">--}}
-                    {{--<div class="form-group pull-right">--}}
-                        {{--{{ Form::submit('Add', ['class' => 'btn btn-primary']) }}--}}
-                        {{--{{ Form::close() }}--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+    {{--aria-labelledby="myModalLabel" aria-hidden="true">--}}
+    {{--<div class="modal-dialog" role="document">--}}
+    {{--<div class="modal-content">--}}
+    {{--<div class="modal-header">--}}
+    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+    {{--<span aria-hidden="true">&times;</span>--}}
+    {{--</button>--}}
+    {{--<h4 class="modal-title" id="">Add Email</h4>--}}
+    {{--</div>--}}
+    {{--<div class="modal-body">--}}
+    {{--{!! Form::open(['url' => '/admin/case/addemail']) !!}--}}
+    {{--{{ csrf_field() }}--}}
+    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
+    {{--{!! Form::text('id', $data->id) !!}--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="modal-footer">--}}
+    {{--<div class="form-group pull-right">--}}
+    {{--{{ Form::submit('Add', ['class' => 'btn btn-primary']) }}--}}
+    {{--{{ Form::close() }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
     {{--</div>--}}
     <!-- end old add contact information-->
 
@@ -2186,7 +2314,7 @@
                             {!! Form::text('id', $data->id) !!}
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('number', $phone->number, ['placeholder' => 'Phone Number', 'class' => 'form-control']) }}
                             </div>
@@ -2265,7 +2393,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Address Information</h4>
+                        <h4 class="modal-title" id="">Address</h4>
                     </div>
                     <div class="modal-body">
                         {!! Form::open(['url' => '/admin/case/contact/address/'.$address->id.'/edit']) !!}
@@ -2321,13 +2449,13 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Edit Phone</h4>
+                        <h4 class="modal-title" id="">Phone</h4>
                     </div>
                     <div class="modal-body">
                         {!! Form::open(['url' => '/admin/case/contact/phone/'.$phone->id.'/edit']) !!}
                         {{ csrf_field() }}
                         <div class="form-group row">
-                            {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('number', $phone->number, ['class' => 'form-control', 'disabled']) }}
                             </div>
@@ -2365,7 +2493,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Edit Email</h4>
+                        <h4 class="modal-title" id="">Email</h4>
                     </div>
                     <div class="modal-body">
                         {!! Form::open(['url' => '/admin/case/contact/email/'.$email->id.'/edit']) !!}
@@ -2425,7 +2553,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/contact/address/'.$address->id.'/delete') }}>Delete</a>
                     </div>
@@ -2451,7 +2579,7 @@
                             <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
                             <p><strong>Please confirm phone information:</strong></p>
                             <p><strong>Type: </strong>{{$phone->type}}</p>
-                            <p><strong>Number: </strong>{{$phone->number}}</p>
+                            <p><strong>Phone: </strong>{{$phone->number}}</p>
                             <p><strong>Status: </strong>{{$phone->status}}</p>
                             <p><strong>Last Modify
                                     date: </strong>{{date("m/d/Y H:i:s", strtotime($phone->updated_at))}}</p>
@@ -2460,7 +2588,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/contact/phone/'.$phone->id.'/delete') }}>Delete</a>
                     </div>
@@ -2479,7 +2607,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Delete Education History</h4>
+                        <h4 class="modal-title" id="myModalLabel">Delete Email</h4>
                     </div>
                     <div class="modal-body">
                         <div style="padding-left: 130px">
@@ -2494,7 +2622,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <a role="button" class="btn btn-danger"
                            href={{ url('/admin/case/contact/email/'.$email->id.'/delete') }}>Delete</a>
                     </div>
@@ -2503,5 +2631,145 @@
         </div>
     @endforeach
     <!-- end delete contact information -->
+
+    <!-- add case related activity -->
+    <div class="modal fade" style="margin-top:10%" id="addactivity" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="">Case Related Activity</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/addactivity']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group row">
+                        <div class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>To </strong></span><span style="color: red"><strong>*</strong></span>
+                        </div>
+                        {{--<label for="to" class="col-sm-1 control-label">To:*</label>--}}
+                        <div class="col-sm-10">
+                            <input list="recipient" name="recipient" class="form-control" id="to"
+                                   placeholder="Recipient"
+                                   onclick="change_focus(this.id)" onfocus="this.placeholder=''"
+                                   onblur="this.placeholder='Recipient'" required autocomplete="off">
+                            <datalist id="recipient">
+                                @foreach($admins as $admin)
+                                    <option value="{{ Sentinel::findById($admin->user_id)->email}}">{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</option>
+                                @endforeach
+                                @foreach($managers as $manager)
+                                    <option value="{{ Sentinel::findById($manager->user_id)->email}}">{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}</option>
+                                @endforeach
+                                @foreach($staffs as $staff)
+                                    <option value="{{ Sentinel::findById($staff->user_id)->email}}">{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}</option>
+                                @endforeach
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('cc', 'CC', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--<label for="cc" class="col-sm-2 control-label">CC</label>--}}
+                        <div class="col-sm-10">
+                            <input list="mentioned" name="mentioned" class="form-control" id="cc"
+                                   placeholder="Mentioned"
+                                   onclick="change_focus(this.id)" onfocus="this.placeholder=''"
+                                   onblur="this.placeholder='Mentioned'">
+                            <datalist id="mentioned">
+                                @foreach($admins as $admin)
+                                    <option value="{{ Sentinel::findById($admin->user_id)->email}}">{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</option>
+                                @endforeach
+                                @foreach($managers as $manager)
+                                    <option value="{{ Sentinel::findById($manager->user_id)->email}}">{{ Sentinel::findById($manager->user_id)->first_name." ".Sentinel::findById($manager->user_id)->last_name }}</option>
+                                @endforeach
+                                @foreach($staffs as $staff)
+                                    <option value="{{ Sentinel::findById($staff->user_id)->email}}">{{ Sentinel::findById($staff->user_id)->first_name." ".Sentinel::findById($staff->user_id)->last_name }}</option>
+                                @endforeach
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        {{--<label for="subject" class="col-sm-1 control-label">Subject*</label>--}}
+                        <div class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Subject </strong></span><span style="color: red"><strong>*</strong></span>
+                        </div>
+                        <div class="col-sm-10">
+                            <input name="subject" type="text" class="form-control" id="subject"
+                                   placeholder="Subject" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('ddl', 'Due', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--<label for="ddl" class="col-sm-2 control-label">Due</label>--}}
+                        <div class="col-sm-10">
+                            <input name="ddl" type="text" class="form-control" id="ddl"
+                                   placeholder="Deadline">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="visibility: hidden; display: none">
+                        <label for="case_related" class="col-sm-2 control-label">Case</label>
+                        <div class="col-sm-10">
+                            <input name="case_related" type="text" class="form-control" id="case_related"
+                                   value="{{$data->email}}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{--<div class="col-sm-10 col-sm-offset-1">--}}
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <textarea name="message" maxlength="65535" class="form-control" id="message" name="body"
+                                      rows="12"
+                                      placeholder="Message" style="height: 200%"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Add', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end add case related activity-->
+
+    <!-- upload avatar-->
+    <div class="modal fade" style="margin-top:10%" id="uploadAvatar" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Avatar</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/upload/avatar', 'files' => 'true']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('avatar', 'Avatar', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::file('avatar', ['required']) }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Upload File', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end upload avatar-->
 
 @endsection

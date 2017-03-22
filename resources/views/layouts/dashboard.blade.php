@@ -63,108 +63,108 @@
             <li class="visible-xs visible-sm"><a id="sidebar-menu"><i class="fa fa-navicon"></i></a></li>
         </ul>
 
-        <form class="navbar-form navbar-left">
-            <button type="submit" class="fa fa-search"></button>
-            <input type="text" class="form-control" placeholder="Search..."></a>
-        </form>
+        {{--<form class="navbar-form navbar-left">--}}
+            {{--<button type="submit" class="fa fa-search"></button>--}}
+            {{--<input type="text" class="form-control" placeholder="Search..."></a>--}}
+        {{--</form>--}}
 
-        <div class="copyrights">
-            Collect from
-            <a href="http://greenbay.usc.edu/csci577/fall2016/projects/team10">Team10</a>
-        </div>
+        {{--<div class="copyrights">--}}
+            {{--Collect from--}}
+            {{--<a href="http://greenbay.usc.edu/csci577/fall2016/projects/team10">Team10</a>--}}
+        {{--</div>--}}
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown visible-md visible-lg">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope-o"></i><span
-                            class="badge">5</span></a>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-menu-header">
-                        <strong>Messages</strong>
-                        <div class="progress thin">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="30"
-                                 aria-valuemin="0" aria-valuemax="100" style="width: 30%">
-                                <span class="sr-only">30% Complete (success)</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="avatar">
-                        <a href="page-inbox.html">
-                            <img class="avatar" src="{{ asset('cssnew/assets/img/avatar1.jpg') }}">
-                            <div>New message</div>
-                            <small>1 minute ago</small>
-                            <span class="label label-info">NEW</span>
-                        </a>
-                    </li>
-                    <li class="avatar">
-                        <a href="page-inbox.html">
-                            <img class="avatar" src="{{ asset('cssnew/assets/img/avatar2.jpg') }}">
-                            <div>New message</div>
-                            <small>3 minute ago</small>
-                            <span class="label label-info">NEW</span>
-                        </a>
-                    </li>
-                    <li class="avatar">
-                        <a href="page-inbox.html">
-                            <img class="avatar" src="{{ asset('cssnew/assets/img/avatar3.jpg') }}">
-                            <div>New message</div>
-                            <small>4 minute ago</small>
-                            <span class="label label-info">NEW</span>
-                        </a>
-                    </li>
-                    <li class="avatar">
-                        <a href="page-inbox.html">
-                            <img class="avatar" src="{{ asset('cssnew/assets/img/avatar4.jpg') }}">
-                            <div>New message</div>
-                            <small>30 minute ago</small>
-                        </a>
-                    </li>
-                    <li class="avatar">
-                        <a href="page-inbox.html">
-                            <img class="avatar" src="{{ asset('cssnew/assets/img/avatar5.jpg') }}">
-                            <div>New message</div>
-                            <small>1 hours ago</small>
-                        </a>
-                    </li>
-                    <li class="dropdown-menu-footer text-center">
-                        <a href="page-inbox.html">View all messages</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown visible-md visible-lg">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o"></i><span
-                            class="badge">3</span></a>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-menu-header">
-                        <strong>Notifications</strong>
-                        <div class="progress thin">
-                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="30"
-                                 aria-valuemin="0" aria-valuemax="100" style="width: 30%">
-                                <span class="sr-only">30% Complete (success)</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <i class="fa fa-comment"></i>
-                        <a href="page-activity.html" class="notification-user"> Sharon Rose </a>
-                        <span class="notification-action"> replied to your </span>
-                        <a href="page-activity.html" class="notification-link"> comment</a>
-                    </li>
-                    <li class="clearfix">
-                        <i class="fa fa-pencil"></i>
-                        <a href="page-activity.html" class="notification-user"> Nadine </a>
-                        <span class="notification-action"> just write a </span>
-                        <a href="page-activity.html" class="notification-link"> post</a>
-                    </li>
-                    <li class="clearfix">
-                        <i class="fa fa-trash-o"></i>
-                        <a href="page-activity.html" class="notification-user"> Lorenzo </a>
-                        <span class="notification-action"> just remove <a href="#"
-                                                                          class="notification-link"> 12 files</a></span>
-                    </li>
-                    <li class="dropdown-menu-footer text-center">
-                        <a href="page-activity.html">View all notification</a>
-                    </li>
-                </ul>
-            </li>
+            {{--<li class="dropdown visible-md visible-lg">--}}
+                {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope-o"></i><span--}}
+                            {{--class="badge">5</span></a>--}}
+                {{--<ul class="dropdown-menu">--}}
+                    {{--<li class="dropdown-menu-header">--}}
+                        {{--<strong>Messages</strong>--}}
+                        {{--<div class="progress thin">--}}
+                            {{--<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="30"--}}
+                                 {{--aria-valuemin="0" aria-valuemax="100" style="width: 30%">--}}
+                                {{--<span class="sr-only">30% Complete (success)</span>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</li>--}}
+                    {{--<li class="avatar">--}}
+                        {{--<a href="page-inbox.html">--}}
+                            {{--<img class="avatar" src="{{ asset('cssnew/assets/img/avatar1.jpg') }}">--}}
+                            {{--<div>New message</div>--}}
+                            {{--<small>1 minute ago</small>--}}
+                            {{--<span class="label label-info">NEW</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="avatar">--}}
+                        {{--<a href="page-inbox.html">--}}
+                            {{--<img class="avatar" src="{{ asset('cssnew/assets/img/avatar2.jpg') }}">--}}
+                            {{--<div>New message</div>--}}
+                            {{--<small>3 minute ago</small>--}}
+                            {{--<span class="label label-info">NEW</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="avatar">--}}
+                        {{--<a href="page-inbox.html">--}}
+                            {{--<img class="avatar" src="{{ asset('cssnew/assets/img/avatar3.jpg') }}">--}}
+                            {{--<div>New message</div>--}}
+                            {{--<small>4 minute ago</small>--}}
+                            {{--<span class="label label-info">NEW</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="avatar">--}}
+                        {{--<a href="page-inbox.html">--}}
+                            {{--<img class="avatar" src="{{ asset('cssnew/assets/img/avatar4.jpg') }}">--}}
+                            {{--<div>New message</div>--}}
+                            {{--<small>30 minute ago</small>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="avatar">--}}
+                        {{--<a href="page-inbox.html">--}}
+                            {{--<img class="avatar" src="{{ asset('cssnew/assets/img/avatar5.jpg') }}">--}}
+                            {{--<div>New message</div>--}}
+                            {{--<small>1 hours ago</small>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="dropdown-menu-footer text-center">--}}
+                        {{--<a href="page-inbox.html">View all messages</a>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
+            {{--<li class="dropdown visible-md visible-lg">--}}
+                {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o"></i><span--}}
+                            {{--class="badge">3</span></a>--}}
+                {{--<ul class="dropdown-menu">--}}
+                    {{--<li class="dropdown-menu-header">--}}
+                        {{--<strong>Notifications</strong>--}}
+                        {{--<div class="progress thin">--}}
+                            {{--<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="30"--}}
+                                 {{--aria-valuemin="0" aria-valuemax="100" style="width: 30%">--}}
+                                {{--<span class="sr-only">30% Complete (success)</span>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</li>--}}
+                    {{--<li class="clearfix">--}}
+                        {{--<i class="fa fa-comment"></i>--}}
+                        {{--<a href="page-activity.html" class="notification-user"> Sharon Rose </a>--}}
+                        {{--<span class="notification-action"> replied to your </span>--}}
+                        {{--<a href="page-activity.html" class="notification-link"> comment</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="clearfix">--}}
+                        {{--<i class="fa fa-pencil"></i>--}}
+                        {{--<a href="page-activity.html" class="notification-user"> Nadine </a>--}}
+                        {{--<span class="notification-action"> just write a </span>--}}
+                        {{--<a href="page-activity.html" class="notification-link"> post</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="clearfix">--}}
+                        {{--<i class="fa fa-trash-o"></i>--}}
+                        {{--<a href="page-activity.html" class="notification-user"> Lorenzo </a>--}}
+                        {{--<span class="notification-action"> just remove <a href="#"--}}
+                                                                          {{--class="notification-link"> 12 files</a></span>--}}
+                    {{--</li>--}}
+                    {{--<li class="dropdown-menu-footer text-center">--}}
+                        {{--<a href="page-activity.html">View all notification</a>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
             <li class="dropdown visible-md visible-lg">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gears"></i></a>
                 <ul class="dropdown-menu update-menu" role="menu">
@@ -181,7 +181,7 @@
             </li>
             <li class="dropdown visible-md visible-lg">
                 <a id="cur_email" href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="user-avatar"
-                                                                                               src="{{ asset('cssnew/assets/img/avatar.jpg') }}"
+                                                                                               src="{{ asset('cssnew/assets/img/avatar.png') }}"
                                                                                                alt="user-mail">{{Sentinel::getUser()->email}}
                 </a>
                 <ul class="dropdown-menu">
@@ -234,7 +234,7 @@
                                 <a><i class="fa fa-user"></i><span class="text"> User Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub" style="display: block;">
-                                    <li><a href="{{ url('create') }}"><i class="fa fa-plus-circle"></i><span
+                                    <li><a href="{{ url('admin/user/create') }}"><i class="fa fa-plus-circle"></i><span
                                                     class="text"> Create User</span></a></li>
                                     <li><a href="{{ url('admin/user/view') }}"><i class="fa fa-list"></i><span
                                                     class="text"> View Users</span></a></li>

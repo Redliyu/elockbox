@@ -62,13 +62,17 @@
                         <ul id="ddls_list">
                             @foreach($activities as $act)
                                 @if(($act->assigned == Sentinel::getUser()->id) || ($act->mentioned == Sentinel::getUser()->id))
-                                    <li style="height: 50px">
-                                        <div>
-                                            <span class="label label-success"></span><span>{{ date("m-d-Y", strtotime($act->ddl)) }}</span>
-                                        </div>
-                                        <div style="font-size: 12px; padding-left: 12px">
-                                            Subject: {{ $act->subject }}</div>
-                                    </li>
+                                    @if(date("m/d/Y", strtotime($act->ddl)) != "12/31/1969")
+                                        <li style="height: 50px">
+                                            <div>
+                                                <span class="label label-success"></span><span>{{ date("m/d/Y", strtotime($act->ddl)) }}</span>
+                                            </div>
+                                            <div style="font-size: 12px; padding-left: 12px">
+                                                Subject: {{ $act->subject }}</div>
+                                        </li>
+                                    @endif
+
+
                                 @endif
                             @endforeach
                         </ul>
@@ -80,7 +84,9 @@
                     <div class="panel-body message">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label for="to" class="col-sm-1 control-label">To:</label>
+                                <label for="to" class="col-sm-1 control-label" style="text-align:right;">
+                                    <span><strong>To</strong></span><span style="color: red"><strong>*</strong></span>
+                                </label>
                                 <div class="col-sm-11">
                                     <input list="recipient" name="recipient" class="form-control" id="to0"
                                            placeholder="Recipient"
@@ -90,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="cc" class="col-sm-1 control-label">CC:</label>
+                                <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC</label>
                                 <div class="col-sm-11">
                                     <input list="mentioned" name="mentioned" class="form-control" id="cc0"
                                            placeholder="Mentioned" value="<?php if ($activity->mentioned) {
@@ -101,7 +107,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="subject" class="col-sm-1 control-label">Subject:</label>
+                                <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
+                                    <span><strong>Subject</strong></span><span
+                                            style="color: red"><strong>*</strong></span>
+                                </label>
                                 <div class="col-sm-11">
                                     <input name="subject" type="text" class="form-control" id="subject0"
                                            placeholder="Subject" value="{{ $activity->subject }}"
@@ -109,18 +118,30 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="subject" class="col-sm-1 control-label">Due:</label>
+                                <label for="subject" class="col-sm-1 control-label"
+                                       style="text-align:right;">Due</label>
                                 <div class="col-sm-11">
                                     <input name="ddl" type="text" class="form-control" id="ddl0"
-                                           placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
+                                           placeholder="Deadline" value="<?php $date = new DateTime($activity->ddl);
+                                    if ($date->format('m/d/Y') != "12/31/1969") {
+                                        echo $date->format('m/d/Y');
+                                    } else {
+                                        echo "N/A";
+                                    }
+                                    ?>"
                                            onfocus="this.placeholder=''" onblur="this.placeholder='Deadline'" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="task" class="col-sm-1 control-label">Task:</label>
+                                <label for="task" class="col-sm-1 control-label" style="text-align:right;">Task</label>
                                 <div class="col-sm-11" style="margin-top: 6px">
-                                    <input name="task" type="checkbox" value="Done" id="task0"
-                                           disabled <?php if ($activity->task) echo 'checked'?>> Done
+                                    <?php
+                                    if ($activity->task) {
+                                        echo "<span class='label label-success'>Done</span>";
+                                    } else {
+                                        echo "<span class='label label-warning'>To Do</span>";
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </form>
@@ -136,7 +157,7 @@
                                           readonly>{{ $activity->message }}</textarea>
                             </div>
                             <div class="form-group pull-right">
-                                <a type="button" class="btn btn-danger" href="{{ url('admin') }}">Cancel</a>
+                                <a type="button" class="btn btn-default" href="{{ url('admin') }}">Cancel</a>
                                 {{ Form::button('Edit', ['class' => 'btn btn-success', 'onclick' => 'javaScript:edit()']) }}
                                 {{ Form::close() }}
                             </div>
@@ -187,7 +208,9 @@
                         {!! Form::open(['url' => '/admin/'.$activity->id.'/edit', 'class' => 'form-horizontal']) !!}
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="to" class="col-sm-1 control-label">To:</label>
+                            <label for="to" class="col-sm-1 control-label" style="text-align:right;">
+                                <span><strong>To</strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
                                        placeholder="Recipient"
@@ -208,7 +231,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cc" class="col-sm-1 control-label">CC:</label>
+                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC</label>
                             <div class="col-sm-11">
                                 <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                        placeholder="Mentioned" value="<?php if ($activity->mentioned) {
@@ -230,7 +253,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Subject:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
+                                <span><strong>Subject</strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
                                        placeholder="Subject" value="{{ $activity->subject }}"
@@ -238,15 +263,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Due:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
-                                       placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
+                                       placeholder="Deadline" value="<?php $date = new DateTime($activity->ddl);
+                                if ($date->format('m/d/Y') == "12/31/1969") {
+                                    echo "";
+                                } else {
+                                    echo $date->format('m/d/Y');
+                                }
+                                ?>"
                                        onfocus="this.placeholder=''" onblur="this.placeholder='Deadline'">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="task" class="col-md-1 control-label">Task:</label>
+                            <label for="task" class="col-md-1 control-label" style="text-align:right;">Task</label>
                             <div class="col-md-5" style="margin-top: 6px">
                                 {{--@if($activity->task)--}}
                                 {{--<input name="task" type="checkbox" value="1" id="task" checked disabled> Done--}}
@@ -254,15 +285,15 @@
                                 {{--<input name="task" type="checkbox" value="0" id="task1" onchange="change_task1()"> Done--}}
                                 {{--@endif--}}
                                 @if($activity->task == 0)
-                                    <input type="radio" name="task" value="0" checked> In Progress
+                                    <input type="radio" name="task" value="0" checked>To Do
                                     <input type="radio" name="task" value="1"> Done
                                 @else
-                                    <input type="radio" name="task" value="0"> In Progress
+                                    <input type="radio" name="task" value="0"> To Do
                                     <input type="radio" name="task" value="1" checked> Done
                                 @endif
                             </div>
                             @if($activity->assigned == Sentinel::getUser()->id || $activity->mentioned == Sentinel::getUser()->id)
-                                <label for="unread" class="col-md-2 control-label">Mark as:</label>
+                                <label for="unread" class="col-md-2 control-label">Mark as</label>
                                 <div class="col-md-4" style="margin-top: 6px">
                                     <input type="radio" name="unread" value="1" checked> Read
                                     <input type="radio" name="unread" value="2"> Unread
@@ -278,7 +309,7 @@
                                           onblur="this.placeholder='Message'">{{ $activity->message }}</textarea>
                             </div>
                             <div class="form-group pull-right">
-                                {{ Form::button('Cancel', ['class' => 'btn btn-danger', 'onclick' => 'javaScript:cancel()']) }}
+                                {{ Form::button('Cancel', ['class' => 'btn btn-default', 'onclick' => 'javaScript:cancel()']) }}
                                 {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
                                 {{ Form::close() }}
                             </div>
@@ -287,5 +318,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 @stop

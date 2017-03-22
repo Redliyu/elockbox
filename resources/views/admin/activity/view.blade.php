@@ -85,8 +85,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2><i class="fa fa-table red"></i><span class="break"></span><strong>Activities</strong></h2>
-                    <span class="label label-success" style="margin-left: 10px; cursor: pointer" onclick="create();">Create</span>
-                    <span class="label label-warning" style="margin-left: 10px; cursor: pointer">Report</span>
+                    {{--<span class="label label-primary" style="margin-left: 10px; cursor: pointer" onclick="create();">Create</span>--}}
+                    <span class="btn btn-primary" style="margin-left: 2%; padding: 2px 5px 2px 5px" onclick="create()">Create</span>
                 </div>
                 <div class="panel-body">
                     <table class="table table-striped table-bordered bootstrap-datatable datatable">
@@ -109,11 +109,19 @@
                                 <tr style="font-weight: 800">
                                     <td>{{$activity->subject}}</td>
                                     @if($activity->task)
-                                        <td><i class="fa fa-check-square"></i></td>
+                                        <td><span class="label label-success">Done</span></td>
                                     @else
-                                        <td><i class="fa fa-square-o"></i></td>
+                                        <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>
+                                        <?php $date = new DateTime($activity->ddl);
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
+                                    </td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -125,17 +133,30 @@
                                     <td>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
-                                        </a></td>
+                                        </a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteactivity{{ $activity->id }}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             @else
                                 <tr>
                                     <td>{{$activity->subject}}</td>
                                     @if($activity->task)
-                                        <td><i class="fa fa-check-square"></i></td>
+                                        <td><span class="label label-success">Done</span></td>
                                     @else
-                                        <td><i class="fa fa-square-o"></i></td>
+                                        <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>
+                                        <?php $date = new DateTime($activity->ddl);
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
+                                    </td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -147,8 +168,13 @@
                                     <td>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success"
                                            href="{{ url('admin/'. $activity->id .'/view') }}">
-                                            <i class="fa fa-search-plus "></i>
-                                        </a></td>
+                                            <i class="fa fa-search-plus" style="width: 10px"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteactivity{{ $activity->id }}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             @endif
 
@@ -230,7 +256,9 @@
                         {!! Form::open(['url' => '/admin/activity/create', 'class' => 'form-horizontal']) !!}
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="to" class="col-sm-1 control-label">To:*</label>
+                            <label for="to" class="col-sm-1 control-label" style="text-align:right;">
+                                <span><strong>To</strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
                                        placeholder="Recipient"
@@ -250,7 +278,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cc" class="col-sm-1 control-label">CC:</label>
+                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC</label>
                             <div class="col-sm-11">
                                 <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                        placeholder="Mentioned"
@@ -271,7 +299,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Subject:*</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
+                                <span><strong>Subject</strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
                                        placeholder="Subject" onfocus="this.placeholder=''"
@@ -279,7 +309,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Due:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
                                        placeholder="Deadline" onfocus="this.placeholder=''"
@@ -301,8 +331,8 @@
                             </div>
 
                             <div class="form-group pull-right">
+                                <a type="button" class="btn btn-default" href="{{ url('admin') }}">Cancel</a>
                                 {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
-                                <a type="button" class="btn btn-danger" href="{{ url('admin') }}">Cancel</a>
                                 {{ Form::close() }}
                             </div>
 
@@ -316,4 +346,46 @@
         </div>
     </div>
 
+    <!-- delete activity -->
+    @foreach($activities as $activity)
+        <div class="modal fade" style="margin-top:10%" id="deleteactivity{{ $activity->id }}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="">Delete Activity</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding-left: 130px">
+                            <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                            <p><strong>Please confirm activity information:</strong></p>
+                            <p><strong>Subject: </strong>{{$activity->subject}}</p>
+                            <p><strong>Task: </strong>
+                                @if($activity->task == 1)
+                                    Done
+                                @else
+                                    To Do
+                                @endif
+                            </p>
+                            <p><strong>Last Modify
+                                    date: </strong>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</p>
+                            <p><strong>Created
+                                    date: </strong>{{date("m/d/Y H:i:s", strtotime($activity->created_at))}}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-danger"
+                               href={{ url('/admin/'.$activity->id.'/delete') }}>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end delete activity -->
 @stop
