@@ -766,7 +766,7 @@
                     {{--improve performance--}}
                     {{--we should detect whether email and pwd are valid while inputing, rather than after submit--}}
                     <div class="form-group row">
-                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
+                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
                         <div class="col-md-10">
                             {!! Form::text('email', $data->email, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'disabled']) !!}
                             @if($errors->has('email'))
@@ -775,7 +775,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px']) !!}
+                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}
                         <div class="col-md-10">
                             {!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
                             @if($errors->has('password'))
@@ -784,7 +784,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px']) !!}
+                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}
                         <div class="col-md-10">
                             {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
                         </div>
@@ -824,7 +824,7 @@
                     case, case profile, history and documents.<br>
                     We <strong>STRONGLY SUGGEST</strong> you to <strong>inactivate</strong> instead.<br><br>
                     <strong>Please input Youth name of this case:</strong><br>
-                    Notice: Ethier uppercase or lowercase is accepted.
+                    Notice: Either uppercase or lowercase is accepted.
                     {!! Form::open(['url' => 'admin/case/'.$data->id.'/delete']) !!}
                     <div class="form-group row" style="margin-top: 10px; padding-left: 15px; padding-right: 15px;">
                         {{ Form::text('youth_name', null, ['placeholder' => 'Firstname Lastname', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)', 'autocomplete' => 'off']) }}
@@ -1509,7 +1509,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="">Additional Contact</h4>
+                    <h4 class="modal-title" id="">Additional Contacts</h4>
                 </div>
                 <div class="modal-body">
                     {!! Form::open(['url' => '/admin/case/addcontacts']) !!}
@@ -1532,25 +1532,25 @@
                     <div class="form-group row">
                         {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('phone', null, ['placeholder' => '+1 213 XXXXXXX', 'class' => 'form-control']) }}
+                            {{ Form::text('phone', null, ['placeholder' => '123-456-7890', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('email', null, ['placeholder' => 'xxxx@gmail.com', 'class' => 'form-control']) }}
+                            {{ Form::text('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('address', null, ['placeholder' => 'Resident address', 'class' => 'form-control']) }}
+                            {{ Form::text('address', null, ['placeholder' => 'Address', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('stauts', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('status', null, ['placeholder' => 'Choose status', 'class' => 'form-control']) }}
+                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
                         </div>
                     </div>
                 </div>
@@ -1742,7 +1742,7 @@
     @endforeach
     <!-- end delete additional contact-->
 
-    <!-- edit profile -->
+    <!-- edit general information -->
     <div class="modal fade" style="margin-top:10%" id="editProfile" tabindex="-1"
          role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
@@ -1752,57 +1752,94 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
+                    <h4 class="modal-title" id="myModalLabel">Edit General Information</h4>
                 </div>
                 <div class="modal-body">
                     {!! Form::open(['url' => 'admin/case/'.$data->id.'/edit']) !!}
                     <div class="form-group" style="display: none; visibility: hidden">
                         {!! Form::text('id', $data->id) !!}
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Email') !!}
-                        <input type="text" class="form-control" value="{{ $data->email }}" disabled>
-                        <a href="#" class="help-block">Want to change email ?</a>
+                    <div class="form-group row">
+                        {{ Form::label('email', 'Email', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Email') !!}--}}
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" value="{{ $data->email }}" disabled>
+                            {{--<span href="#" class="help-block">Want to change email ?</span>--}}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('First Name*') !!}
+                    <div class="form-group row">
+                        <div class="col-md-3 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>First Name </strong></span><span style="color: red"><strong>*</strong></span>
+                        </div>
+                        {{--{!! Form::label('First Name*') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::text('first_name', $data->first_name, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Last Name*') !!}
+                    <div class="form-group row">
+                        <div class="col-md-3 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Last Name </strong></span><span style="color: red"><strong>*</strong></span>
+                        </div>
+                        {{--{!! Form::label('Last Name*') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::text('last_name', $data->last_name, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Date of Birth') !!}
+                    <div class="form-group row">
+                        {{ Form::label('dateofbirth', 'Date of Birth', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Date of Birth') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::text('birthday', date('m/d/Y', strtotime($data->birthday)), ['id' => 'birthday_edit', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Gender') !!}
+                    <div class="form-group row">
+                        {{ Form::label('gender', 'Gender', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Gender') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], $data->gender, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Web Page') !!}
+                    <div class="form-group row">
+                        {{ Form::label('webpage', 'Web Page', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Web Page') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::text('webpage', $data->webpage, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('SSN') !!}
+                    <div class="form-group row">
+                        {{ Form::label('ssn', 'SSN', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('SSN') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::text('ssn', $data->ssn, ['Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('ILP') !!}
+                    <div class="form-group row">
+                        {{ Form::label('ilp', 'ILP', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('ILP') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No'], null, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Ethnicity') !!}
+                    <div class="form-group row">
+                        {{ Form::label('ethnicity', 'Ethnicity', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Ethnicity') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], $data->ethnicity, ['placeholder' => 'Choose your ethnicity...', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Program') !!}
+                    <div class="form-group row">
+                        {{ Form::label('program', 'Program', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Program') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::select('program', $program_name, $data->program, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('Case Manager') !!}
+                    <div class="form-group row">
+                        {{ Form::label('manager', 'Manager', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--{!! Form::label('Case Manager') !!}--}}
+                        <div class="col-md-9">
                         {!! Form::select('cm_name', $all_list, $data->cm_id, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1815,9 +1852,9 @@
             </div>
         </div>
     </div>
-    <!-- end edit profile -->
+    <!-- end edit general information -->
 
-    <!-- new add contact information -->
+    <!-- add contact information -->
     <div class="modal fade" style="margin-top:10%" id="addcontactinfo" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -1826,7 +1863,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="">Add Contact Information</h4>
+                    <h4 class="modal-title" id="">Contact Information</h4>
                 </div>
                 <div class="modal-body">
                     <div class="panel panel-default">
@@ -1852,7 +1889,7 @@
                                     <div class="form-group row">
                                         {{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('city', null, ['placeholder' => 'Relationship', 'class' => 'form-control']) }}
+                                            {{ Form::text('city', null, ['placeholder' => 'City', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -1869,7 +1906,8 @@
                                 'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
                                 'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
                                 'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
-                                'WY' => 'WY'], null, ['placeholder' => 'Choose state code...','class' => 'form-control']) !!}
+                                'WY' => 'WY'], null, ['class' => 'form-control']) !!}
+                                            {{--'placeholder' => 'Choose state'--}}
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -1881,7 +1919,7 @@
                                     <div class="form-group row">
                                         {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group pull-right">
@@ -1896,9 +1934,9 @@
                                         {!! Form::text('id', $data->id) !!}
                                     </div>
                                     <div class="form-group row">
-                                        {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                                        {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('number', null, ['placeholder' => 'Phone Number', 'class' => 'form-control']) }}
+                                            {{ Form::text('number', null, ['placeholder' => '123-456-7890', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -1910,7 +1948,7 @@
                                     <div class="form-group row">
                                         {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group pull-right">
@@ -1927,13 +1965,13 @@
                                     <div class="form-group row">
                                         {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) }}
+                                            {{ Form::text('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Input status', 'class' => 'form-control']) }}
+                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group pull-right">
@@ -2274,7 +2312,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Address Information</h4>
+                        <h4 class="modal-title" id="">Address</h4>
                     </div>
                     <div class="modal-body">
                         {!! Form::open(['url' => '/admin/case/contact/address/'.$address->id.'/edit']) !!}
@@ -2330,7 +2368,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Edit Phone</h4>
+                        <h4 class="modal-title" id="">Phone</h4>
                     </div>
                     <div class="modal-body">
                         {!! Form::open(['url' => '/admin/case/contact/phone/'.$phone->id.'/edit']) !!}
@@ -2374,7 +2412,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Edit Email</h4>
+                        <h4 class="modal-title" id="">Email</h4>
                     </div>
                     <div class="modal-body">
                         {!! Form::open(['url' => '/admin/case/contact/email/'.$email->id.'/edit']) !!}
@@ -2488,7 +2526,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Delete Education History</h4>
+                        <h4 class="modal-title" id="myModalLabel">Delete Email</h4>
                     </div>
                     <div class="modal-body">
                         <div style="padding-left: 130px">
@@ -2527,9 +2565,12 @@
                 <div class="modal-body">
                     {!! Form::open(['url' => '/admin/case/addactivity']) !!}
                     {{ csrf_field() }}
-                    <div class="form-group">
-                        <label for="to" class="col-sm-1 control-label">To:*</label>
-                        <div class="col-sm-11">
+                    <div class="form-group row">
+                        <div class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>To </strong></span><span style="color: red"><strong>*</strong></span>
+                        </div>
+                        {{--<label for="to" class="col-sm-1 control-label">To:*</label>--}}
+                        <div class="col-sm-10">
                             <input list="recipient" name="recipient" class="form-control" id="to"
                                    placeholder="Recipient"
                                    onclick="change_focus(this.id)" onfocus="this.placeholder=''"
@@ -2547,9 +2588,10 @@
                             </datalist>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="cc" class="col-sm-1 control-label">CC:</label>
-                        <div class="col-sm-11">
+                    <div class="form-group row">
+                        {{ Form::label('cc', 'CC', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--<label for="cc" class="col-sm-2 control-label">CC</label>--}}
+                        <div class="col-sm-10">
                             <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                    placeholder="Mentioned"
                                    onclick="change_focus(this.id)" onfocus="this.placeholder=''"
@@ -2568,29 +2610,34 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="subject" class="col-sm-1 control-label">Subject:*</label>
-                        <div class="col-sm-11">
+                    <div class="form-group row">
+                        {{--<label for="subject" class="col-sm-1 control-label">Subject*</label>--}}
+                        <div class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Subject </strong></span><span style="color: red"><strong>*</strong></span>
+                        </div>
+                        <div class="col-sm-10">
                             <input name="subject" type="text" class="form-control" id="subject"
                                    placeholder="Subject" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="ddl" class="col-sm-1 control-label">Due:</label>
-                        <div class="col-sm-11">
+                    <div class="form-group row">
+                        {{ Form::label('ddl', 'DDL', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{--<label for="ddl" class="col-sm-2 control-label">Due</label>--}}
+                        <div class="col-sm-10">
                             <input name="ddl" type="text" class="form-control" id="ddl"
                                    placeholder="Deadline">
                         </div>
                     </div>
-                    <div class="form-group" style="visibility: hidden; display: none">
-                        <label for="case_related" class="col-sm-1 control-label">Case:</label>
-                        <div class="col-sm-11">
+                    <div class="form-group row" style="visibility: hidden; display: none">
+                        <label for="case_related" class="col-sm-2 control-label">Case</label>
+                        <div class="col-sm-10">
                             <input name="case_related" type="text" class="form-control" id="case_related"
                                    value="{{$data->email}}" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-11 col-sm-offset-1">
+                    <div class="form-group row">
+                        {{--<div class="col-sm-10 col-sm-offset-1">--}}
+                        <div class="col-sm-10 col-sm-offset-2">
                             <textarea name="message" maxlength="65535" class="form-control" id="message" name="body"
                                       rows="12"
                                       placeholder="Message" style="height: 200%"></textarea>
