@@ -109,9 +109,9 @@
                                 <tr style="font-weight: 800">
                                     <td>{{$activity->subject}}</td>
                                     @if($activity->task)
-                                        <td align="center"><span class="label label-success">Done</span></td>
+                                        <td><span class="label label-success">Done</span></td>
                                     @else
-                                        <td align="center"><span class="label label-warning">To Do</span></td>
+                                        <td><span class="label label-warning">To Do</span></td>
                                     @endif
                                     <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
@@ -136,9 +136,9 @@
                                 <tr>
                                     <td>{{$activity->subject}}</td>
                                     @if($activity->task)
-                                        <td align="center"><span class="label label-success">Done</span></td>
+                                        <td><span class="label label-success">Done</span></td>
                                     @else
-                                        <td align="center"><span class="label label-warning">To Do</span></td>
+                                        <td><span class="label label-warning">To Do</span></td>
                                     @endif
                                     <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
