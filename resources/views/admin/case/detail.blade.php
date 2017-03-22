@@ -856,44 +856,44 @@
                         {!! Form::text('id', $data->id) !!}
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('title', 'Title', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('title', 'Title', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::text('title', null, ['placeholder' => 'Document title', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('type', 'Type', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::select('type', $doc_type_name, null, ['class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('description', 'Description', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
-                            {{ Form::textarea('description', null, ['placeholder' => 'Input document description', 'class' => 'form-control']) }}
+                        {{ Form::label('description', 'Description', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
+                            {{ Form::textarea('description', null, ['placeholder' => 'Document description', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('visible', 'Visible', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('visible', 'Visible', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::select('visible', ['visible' => 'visible', 'invisible' => 'invisible'], null, ['class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::text('xxx', $user->first_name.' '.$user->last_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control', 'disabled']) }}
                         </div>
                     </div>
                     <div class="form-group row" style="display: none; visibility: hidden">
-                        {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::text('uploader', $user->first_name.' '.$user->last_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('doc', 'Document', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                        <div class="col-md-10">
+                        {{ Form::label('doc', 'Document', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-9">
                             {{ Form::file('image') }}
                         </div>
                     </div>
@@ -932,38 +932,38 @@
                             {!! Form::text('doc_id', $doc->id) !!}
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('title', 'Title', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('title', 'Title', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::text('title', $doc->title, ['placeholder' => 'Document title', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('type', 'Type', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::select('type', $doc_type_name, $doc->type, ['class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('description', 'Description', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('description', 'Description', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::textarea('description', $doc->description, ['placeholder' => 'Input document description', 'class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('visible', 'Visible', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('visible', 'Visible', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::select('visible', ['visible' => 'visible', 'invisible' => 'invisible'], $doc->visible, ['class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('xxx', 'Uploaded By', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::text('xxx', $user->first_name.' '.$user->last_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row" style="display: none; visibility: hidden">
-                            {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                            <div class="col-md-10">
+                            {{ Form::label('uploader', 'Uploaded By', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-9">
                                 {{ Form::text('uploader', $user->first_name.' '.$user->last_name, ['placeholder' => 'Uploaded By...', 'class' => 'form-control']) }}
                             </div>
                         </div>
@@ -1060,7 +1060,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{ Form::label('companyaddress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
                             {{ Form::text('companyaddress', null, ['placeholder' => 'Company address', 'class' => 'form-control']) }}
                         </div>
@@ -1129,7 +1129,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('companyaddress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('companyaddress', $workhistory->address, ['placeholder' => 'Company address', 'class' => 'form-control']) }}
                             </div>
@@ -1197,7 +1197,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('companyaddress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('companyaddress', $workhistory->address, ['class' => 'form-control', 'disabled']) }}
                             </div>
@@ -1301,7 +1301,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        {{ Form::label('schooladdress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
                             {{ Form::text('schooladdress', null, ['placeholder' => 'School address', 'class' => 'form-control']) }}
                         </div>
@@ -1337,7 +1337,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Edit Educatioon History</h4>
+                        <h4 class="modal-title" id="myModalLabel">Edit Education History</h4>
                     </div>
                     <div class="modal-body">
                         {!! Form::open(['url' => '/admin/case/eduhistory/'.$eduhistory->id.'/edit']) !!}
@@ -1370,7 +1370,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('schooladdress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('schooladdress', $eduhistory->address, ['placeholder' => 'School address', 'class' => 'form-control']) }}
                             </div>
@@ -1438,7 +1438,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('schooladdress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('schooladdress', $eduhistory->address, ['class' => 'form-control', 'disabled']) }}
                             </div>
@@ -2233,7 +2233,7 @@
                             {!! Form::text('id', $data->id) !!}
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('number', $phone->number, ['placeholder' => 'Phone Number', 'class' => 'form-control']) }}
                             </div>
@@ -2374,7 +2374,7 @@
                         {!! Form::open(['url' => '/admin/case/contact/phone/'.$phone->id.'/edit']) !!}
                         {{ csrf_field() }}
                         <div class="form-group row">
-                            {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
                                 {{ Form::text('number', $phone->number, ['class' => 'form-control', 'disabled']) }}
                             </div>
@@ -2498,7 +2498,7 @@
                             <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
                             <p><strong>Please confirm phone information:</strong></p>
                             <p><strong>Type: </strong>{{$phone->type}}</p>
-                            <p><strong>Number: </strong>{{$phone->number}}</p>
+                            <p><strong>Phone: </strong>{{$phone->number}}</p>
                             <p><strong>Status: </strong>{{$phone->status}}</p>
                             <p><strong>Last Modify
                                     date: </strong>{{date("m/d/Y H:i:s", strtotime($phone->updated_at))}}</p>
