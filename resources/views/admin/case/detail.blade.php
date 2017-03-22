@@ -8,6 +8,12 @@
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+            $('#ddl').datepicker({
+                minDate: new Date(),
+                dateFormat: "mm/dd/yy",
+                changeYear: true,
+                changeMonth: true,
+            });
         });
         function test(obj) {
             if (obj.value.toLowerCase() == document.getElementById('youth_name1').innerHTML) {
@@ -77,14 +83,14 @@
                 changeMonth: true,
             });
             $('#ssn').blur(function () {
-                if((document.getElementById('ssn').value.length != 0) && (document.getElementById('ssn').value.length != 11)) {
+                if ((document.getElementById('ssn').value.length != 0) && (document.getElementById('ssn').value.length != 11)) {
                     $('#cssn').fadeIn();
                 } else {
                     $('#cssn').fadeOut();
                 }
             });
             $('#pwd2').keyup(function () {
-                if(document.getElementById('pwd2').value != document.getElementById('pwd1').value) {
+                if (document.getElementById('pwd2').value != document.getElementById('pwd1').value) {
                     $('#cpwd').fadeIn();
                 } else {
                     $('#cpwd').fadeOut();
@@ -97,7 +103,7 @@
             document.getElementById('ssn').value = newstr;
         }
         function check_input(form) {
-            if((form.ssn.value.length != 0) && (form.ssn.value.length != 11)) {
+            if ((form.ssn.value.length != 0) && (form.ssn.value.length != 11)) {
                 return false;
             } else {
                 return true;
@@ -107,7 +113,7 @@
             if ((form.pwd1.value != form.pwd2.value)) {
                 document.getElementById('pwd2').setAttribute('style', 'border: 1px solid red');
                 return false;
-            }else {
+            } else {
                 return true;
             }
         }
@@ -149,13 +155,13 @@
                     {{--Avatar--}}
                     <div class="col-md-4" style="margin-top: 40px">
                         <div class="text-center">
-{{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
+                            {{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
                             <?php
-                                if($avatar) {
-                                    echo "<img class='img-profile' src='http://".$_SERVER['SERVER_NAME']."/elockboxdev/storage/app/".$avatar->path."/".$avatar->filename."' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
-                                }else {
-                                    echo "<img class='img-profile' src='".asset('cssnew/assets/img/avatar.png')."' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar' width='120px' height='120px'>";
-                                }
+                            if ($avatar) {
+                                echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/storage/app/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
+                            } else {
+                                echo "<img class='img-profile' src='" . asset('cssnew/assets/img/avatar.png') . "' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar' width='120px' height='120px'>";
+                            }
                             ?>
                         </div>
                         <h3 class="text-center"><strong>{{ $data->first_name.' '.$data->last_name }}</strong></h3>
@@ -191,12 +197,12 @@
                                     </div>
                                     <div style="color: #6699CC">
                                         {{--@if($data->birthday)--}}
-                                            {{--{{ date('m/d/Y', strtotime($data->birthday)) }}--}}
+                                        {{--{{ date('m/d/Y', strtotime($data->birthday)) }}--}}
                                         {{--@else--}}
-                                            {{--N/A--}}
+                                        {{--N/A--}}
                                         {{--@endif--}}
                                         <?php $date = new DateTime($data->birthday);
-                                        if($date->format('m/d/Y') == "12/31/1969") {
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
                                             echo "N/A";
                                         } else {
                                             echo $date->format('m/d/Y');
@@ -543,7 +549,23 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr></tr>
+                            @foreach($activities as $activity)
+                                <tr>
+                                    <td>{{ $activity->subject }}</td>
+                                    @if($activity->task)
+                                        <td><span class="label label-success">Done</span></td>
+                                    @else
+                                        <td><span class="label label-warning">To Do</span></td>
+                                    @endif
+                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
+                                    <td>{{ date("m/d/Y", strtotime($activity->updated_at)) }}</td>
+                                    <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
+                                            <i class="fa fa-search-plus "></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -814,7 +836,7 @@
                     {{--improve performance--}}
                     {{--we should detect whether email and pwd are valid while inputing, rather than after submit--}}
                     <div class="form-group row">
-{{--                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        {{--                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
                         <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right;">
                             <span><strong>Email</strong></span><span style="color: red"><strong>*</strong></span>
                         </label>
@@ -823,7 +845,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-{{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        {{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
                         <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
                             <span><strong>Password</strong></span><span style="color: red"><strong>*</strong></span>
                         </label>
@@ -832,14 +854,15 @@
                         </div>
                     </div>
                     <div class="form-group row">
-{{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        {{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
                         <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
                             <span><strong>Password</strong></span><span style="color: red"><strong>*</strong></span>
                         </label>
                         <div class="col-md-10">
                             {!! Form::password('password_confirmation', ['id' => 'pwd2', 'placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
                         </div>
-                        <div id="cpwd" style="display: none; color: red; margin-bottom: -10px;" class="col-md-4 col-md-offset-2">
+                        <div id="cpwd" style="display: none; color: red; margin-bottom: -10px;"
+                             class="col-md-4 col-md-offset-2">
                             Password not same.
                         </div>
                     </div>
@@ -1592,7 +1615,7 @@
                     <div class="form-group row">
                         {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::text('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
+                            {{ Form::email('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -1827,7 +1850,7 @@
                         </div>
                         {{--{!! Form::label('First Name*') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::text('first_name', $data->first_name, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
+                            {!! Form::text('first_name', $data->first_name, ['placeholder' => 'First name', 'required' => 'required', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -1836,37 +1859,38 @@
                         </div>
                         {{--{!! Form::label('Last Name*') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::text('last_name', $data->last_name, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
+                            {!! Form::text('last_name', $data->last_name, ['placeholder' => 'Last name', 'required' => 'required', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('dateofbirth', 'Date of Birth', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--{!! Form::label('Date of Birth') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::text('birthday', date('m/d/Y', strtotime($data->birthday)), ['id' => 'birthday_edit', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                            {!! Form::text('birthday', date('m/d/Y', strtotime($data->birthday)), ['id' => 'birthday_edit', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('gender', 'Gender', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--{!! Form::label('Gender') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], $data->gender, ['class' => 'form-control']) !!}
+                            {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], $data->gender, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     {{--<div class="form-group row">--}}
-                        {{--{{ Form::label('webpage', 'Web Page', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
-                        {{--{!! Form::label('Web Page') !!}--}}
-                        {{--<div class="col-md-9">--}}
-                        {{--{!! Form::text('webpage', $data->webpage, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}--}}
-                        {{--</div>--}}
+                    {{--{{ Form::label('webpage', 'Web Page', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+                    {{--{!! Form::label('Web Page') !!}--}}
+                    {{--<div class="col-md-9">--}}
+                    {{--{!! Form::text('webpage', $data->webpage, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}--}}
+                    {{--</div>--}}
                     {{--</div>--}}
                     <div class="form-group row">
                         {{ Form::label('ssn', 'SSN', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--{!! Form::label('SSN') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::text('ssn', $data->ssn, ['id' => 'ssn', 'Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control', 'onkeyup' => 'format_ssn(this.value)', 'autocomplete' => 'off']) !!}
+                            {!! Form::text('ssn', $data->ssn, ['id' => 'ssn', 'Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control', 'onkeyup' => 'format_ssn(this.value)', 'autocomplete' => 'off']) !!}
                         </div>
-                        <div id="cssn" style="display: none; color: red; margin-bottom: -20px;" class="col-md-9 col-md-offset-3">
+                        <div id="cssn" style="display: none; color: red; margin-bottom: -20px;"
+                             class="col-md-9 col-md-offset-3">
                             <p>SSN should have 9 digits, format is AAA-GG-SSSS.</p>
                         </div>
                     </div>
@@ -1874,28 +1898,28 @@
                         {{ Form::label('ilp', 'ILP', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--{!! Form::label('ILP') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No'], null, ['class' => 'form-control']) !!}
+                            {!! Form::select('ilp', ['1' => 'Yes', '0' => 'No'], null, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('ethnicity', 'Ethnicity', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--{!! Form::label('Ethnicity') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], $data->ethnicity, ['placeholder' => 'Choose your ethnicity...', 'class' => 'form-control']) !!}
+                            {!! Form::select('ethnicity', ['Asian' => 'Asian', 'African American' => 'African American', 'Caucasian' => 'Caucasian', 'Latino' => 'Latino', 'Multiracial' => 'Multiracial', 'Native American' => 'Native American'], $data->ethnicity, ['placeholder' => 'Choose your ethnicity...', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('program', 'Program', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--{!! Form::label('Program') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::select('program', $program_name, $data->program, ['class' => 'form-control']) !!}
+                            {!! Form::select('program', $program_name, $data->program, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
                         {{ Form::label('manager', 'Manager', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--{!! Form::label('Case Manager') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::select('cm_name', $all_list, $data->cm_id, ['class' => 'form-control']) !!}
+                            {!! Form::select('cm_name', $all_list, $data->cm_id, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                 </div>
@@ -2022,7 +2046,7 @@
                                     <div class="form-group row">
                                         {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                                         <div class="col-md-10">
-                                            {{ Form::text('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
+                                            {{ Form::email('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
