@@ -62,13 +62,17 @@
                         <ul id="ddls_list">
                             @foreach($activities as $act)
                                 @if(($act->assigned == Sentinel::getUser()->id) || ($act->mentioned == Sentinel::getUser()->id))
-                                    <li style="height: 50px">
-                                        <div>
-                                            <span class="label label-success"></span><span>{{ date("m-d-Y", strtotime($act->ddl)) }}</span>
-                                        </div>
-                                        <div style="font-size: 12px; padding-left: 12px">
-                                            Subject: {{ $act->subject }}</div>
-                                    </li>
+                                    @if(date("m/d/Y", strtotime($act->ddl)) != "12/31/1969")
+                                        <li style="height: 50px">
+                                            <div>
+                                                <span class="label label-success"></span><span>{{ date("m/d/Y", strtotime($act->ddl)) }}</span>
+                                            </div>
+                                            <div style="font-size: 12px; padding-left: 12px">
+                                                Subject: {{ $act->subject }}</div>
+                                        </li>
+                                    @endif
+
+
                                 @endif
                             @endforeach
                         </ul>
@@ -104,7 +108,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
-                                    <span><strong>Subject</strong></span><span style="color: red"><strong>*</strong></span>
+                                    <span><strong>Subject</strong></span><span
+                                            style="color: red"><strong>*</strong></span>
                                 </label>
                                 <div class="col-sm-11">
                                     <input name="subject" type="text" class="form-control" id="subject0"
@@ -113,10 +118,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due</label>
+                                <label for="subject" class="col-sm-1 control-label"
+                                       style="text-align:right;">Due</label>
                                 <div class="col-sm-11">
                                     <input name="ddl" type="text" class="form-control" id="ddl0"
-                                           placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
+                                           placeholder="Deadline" value="<?php $date = new DateTime($activity->ddl);
+                                    if ($date->format('m/d/Y') != "12/31/1969") {
+                                        echo $date->format('m/d/Y');
+                                    } else {
+                                        echo "N/A";
+                                    }
+                                    ?>"
                                            onfocus="this.placeholder=''" onblur="this.placeholder='Deadline'" readonly>
                                 </div>
                             </div>
@@ -124,7 +136,7 @@
                                 <label for="task" class="col-sm-1 control-label" style="text-align:right;">Task</label>
                                 <div class="col-sm-11" style="margin-top: 6px">
                                     <?php
-                                    if($activity->task) {
+                                    if ($activity->task) {
                                         echo "<span class='label label-success'>Done</span>";
                                     } else {
                                         echo "<span class='label label-warning'>To Do</span>";
@@ -254,7 +266,13 @@
                             <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
-                                       placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
+                                       placeholder="Deadline" value="<?php $date = new DateTime($activity->ddl);
+                                if ($date->format('m/d/Y') == "12/31/1969") {
+                                    echo "";
+                                } else {
+                                    echo $date->format('m/d/Y');
+                                }
+                                ?>"
                                        onfocus="this.placeholder=''" onblur="this.placeholder='Deadline'">
                             </div>
                         </div>

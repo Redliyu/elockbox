@@ -113,7 +113,15 @@
                                     @else
                                         <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>
+                                        <?php $date = new DateTime($activity->ddl);
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
+                                    </td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -140,7 +148,15 @@
                                     @else
                                         <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>
+                                        <?php $date = new DateTime($activity->ddl);
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
+                                    </td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
@@ -354,7 +370,6 @@
                                     No
                                 @endif
                             </p>
-                            <p><strong>Due Date: </strong>{{$activity->ddl}}</p>
                             <p><strong>Last Modify
                                     date: </strong>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</p>
                             <p><strong>Created
