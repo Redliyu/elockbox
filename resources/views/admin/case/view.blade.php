@@ -37,8 +37,26 @@
                             <tr>
                                 <td>{{ $data->id }}</td>
                                 <td>{{ $data->first_name.' '.$data->last_name }}</td>
-                                <td><?php $date = new DateTime($data->birthday); echo $date->format('m/d/Y') ?></td>
-                                <td><?php $now = new DateTime(); echo $date->diff($now)->y ?></td>
+                                <td>
+                                    <?php $date = new DateTime($data->birthday);
+                                    if($date->format('m/d/Y') == "12/31/1969") {
+                                        echo "N/A";
+                                    } else {
+                                        echo $date->format('m/d/Y');
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    $now = new DateTime();
+                                    $date = new DateTime($data->birthday);
+                                    if($date->format('m/d/Y') == "12/31/1969") {
+                                        echo "N/A";
+                                    }else {
+                                        echo $date->diff($now)->y;
+                                    }
+                                    ?>
+                                </td>
                                 <td>{{ $data->cm_name }}</td>
                                 <td>{{ $program_name[$data->program] }}</td>
                                 <td>

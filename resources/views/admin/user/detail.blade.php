@@ -55,16 +55,10 @@
                     {{--Avatar--}}
                     <div class="col-md-4" style="margin-top: 20px">
                         <div class="text-center">
-                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}">
+                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.png') }}">
                         </div>
                         <h3 class="text-center"><strong>{{ $user->first_name.' '.$user->last_name }}</strong></h3>
                         <h5 class="text-center" style="color: #686868"><strong><em>{{ $role }}</em></strong></h5>
-                        <hr>
-                        <div class="text-center">
-                            <li><a href="#" class="fa fa-facebook facebook-bg"></a></li>
-                            <li><a href="#" class="fa fa-twitter twitter-bg"></a></li>
-                            <li><a href="#" class="fa fa-linkedin linkedin-bg"></a></li>
-                        </div>
                     </div>
                     {{--General Information--}}
                     <div class="col-md-8" style="margin-top: 20px">
@@ -167,7 +161,7 @@
                     {{--Avatar--}}
                     <div class="col-md-4" style="margin-top: 20px">
                         <div class="text-center">
-                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}">
+                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.png') }}">
                         </div>
                         <h3 class="text-center"><strong>{{ $user->first_name.' '.$user->last_name }}</strong></h3>
                         <h5 class="text-center" style="color: #686868"><strong><em>{{ $role }}</em></strong></h5>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\CaseManagement;
 
+use App\Avatar;
 use App\CaseAddress;
 use App\CaseEmail;
 use App\CasePhone;
@@ -126,6 +127,7 @@ class CaseController extends Controller
             $admins = UserRole::where("role_id", 1)->get();
             $managers = UserRole::where("role_id", 2)->get();
             $staffs = UserRole::where("role_id", 3)->get();
+            $avatar = Avatar::where("case_id", $id)->first();
             return view('admin.case.detail', [
                 'data' => $data,
                 'caseUser' => $caseUser,
@@ -143,6 +145,7 @@ class CaseController extends Controller
                 'admins' => $admins,
                 'managers' => $managers,
                 'staffs' => $staffs,
+                'avatar' => $avatar,
             ]);
         } else {
             return redirect('error');
@@ -195,7 +198,7 @@ class CaseController extends Controller
     {
         //$id is case id
         $case = CreateCase::find($id);
-        $name = $case->last_name . ', ' . $case->first_name;
+        $name = $case->first_name . ' ' . $case->last_name;
         if ($request->youth_name == $name) {
             CreateCase::find($id)->delete();
             WorkHistory::where('case_id', $id)->delete();

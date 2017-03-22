@@ -119,8 +119,13 @@
                             <div class="form-group">
                                 <label for="task" class="col-sm-1 control-label">Task:</label>
                                 <div class="col-sm-11" style="margin-top: 6px">
-                                    <input name="task" type="checkbox" value="Done" id="task0"
-                                           disabled <?php if ($activity->task) echo 'checked'?>> Done
+                                    <?php
+                                    if($activity->task) {
+                                        echo "<span class='label label-success'>Done</span>";
+                                    } else {
+                                        echo "<span class='label label-warning'>To Do</span>";
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </form>
@@ -254,10 +259,10 @@
                                 {{--<input name="task" type="checkbox" value="0" id="task1" onchange="change_task1()"> Done--}}
                                 {{--@endif--}}
                                 @if($activity->task == 0)
-                                    <input type="radio" name="task" value="0" checked> In Progress
+                                    <input type="radio" name="task" value="0" checked>To Do
                                     <input type="radio" name="task" value="1"> Done
                                 @else
-                                    <input type="radio" name="task" value="0"> In Progress
+                                    <input type="radio" name="task" value="0"> To Do
                                     <input type="radio" name="task" value="1" checked> Done
                                 @endif
                             </div>

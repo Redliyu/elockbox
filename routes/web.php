@@ -61,6 +61,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
     Route::post('case/{id}/account', ['as' => 'admin.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
     Route::post('case/upload', 'CaseManagement\FileuploadingController@showfileupload');
+    Route::post('case/upload/avatar', 'CaseManagement\FileuploadingController@uploadAvatar');
     Route::post('case/doc/{id}/edit', 'CaseManagement\CaseController@editfile');
     Route::get('case/doc/{id}/delete', 'CaseManagement\CaseController@deletefile');
     Route::post('case/workhistory', 'CaseManagement\CaseController@storeWorkHistory');

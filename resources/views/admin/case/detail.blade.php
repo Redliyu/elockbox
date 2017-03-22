@@ -16,6 +16,9 @@
                 document.getElementById("delCase").disabled = true;
             }
         }
+        function upload_avatar() {
+            document.getElementById("avatar_upload").click();
+        }
     </script>
 
     <script type="text/javascript">
@@ -113,9 +116,16 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     {{--Avatar--}}
-                    <div class="col-md-4" style="margin-top: 20px">
+                    <div class="col-md-4" style="margin-top: 40px">
                         <div class="text-center">
-                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}">
+{{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
+                            <?php
+                                if($avatar) {
+                                    echo "<img class='img-profile' src='http://".$_SERVER['SERVER_NAME']."/elockboxdev/storage/app/".$avatar->path."/".$avatar->filename."' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
+                                }else {
+                                    echo "<img class='img-profile' src='".asset('cssnew/assets/img/avatar.png')."' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar' width='120px' height='120px'>";
+                                }
+                            ?>
                         </div>
                         <h3 class="text-center"><strong>{{ $data->first_name.' '.$data->last_name }}</strong></h3>
                         @if($caseUser == null)
@@ -149,11 +159,18 @@
                                             Birthday</strong>
                                     </div>
                                     <div style="color: #6699CC">
-                                        @if($data->birthday)
-                                            {{ date('m/d/Y', strtotime($data->birthday)) }}
-                                        @else
-                                            N/A
-                                        @endif
+                                        {{--@if($data->birthday)--}}
+                                            {{--{{ date('m/d/Y', strtotime($data->birthday)) }}--}}
+                                        {{--@else--}}
+                                            {{--N/A--}}
+                                        {{--@endif--}}
+                                        <?php $date = new DateTime($data->birthday);
+                                        if($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
                                     </div>
                                 </li>
                                 <li>
@@ -2607,5 +2624,41 @@
         </div>
     </div>
     <!-- end add case related activity-->
+
+    <!-- upload avatar-->
+    <div class="modal fade" style="margin-top:10%" id="uploadAvatar" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Avatar</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '/admin/case/upload/avatar', 'files' => 'true']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('avatar', 'Avatar', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::file('avatar') }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Upload File', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end upload avatar-->
 
 @endsection

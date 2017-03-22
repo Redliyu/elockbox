@@ -109,9 +109,9 @@
                                 <tr style="font-weight: 800">
                                     <td>{{$activity->subject}}</td>
                                     @if($activity->task)
-                                        <td><span class="label label-success">Done</span></td>
+                                        <td align="center"><span class="label label-success">Done</span></td>
                                     @else
-                                        <td><span class="label label-warning">To Do</span></td>
+                                        <td align="center"><span class="label label-warning">To Do</span></td>
                                     @endif
                                     <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
@@ -125,18 +125,20 @@
                                     <td>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
-                                        </a></td>
-                                    <td><button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#deleteactivity{{ $activity->id }}">Delete
-                                        </button></td>
+                                        </a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteactivity{{ $activity->id }}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             @else
                                 <tr>
                                     <td>{{$activity->subject}}</td>
                                     @if($activity->task)
-                                        <td><span class="label label-success">Done</span></td>
+                                        <td align="center"><span class="label label-success">Done</span></td>
                                     @else
-                                        <td><span class="label label-warning">To Do</span></td>
+                                        <td align="center"><span class="label label-warning">To Do</span></td>
                                     @endif
                                     <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>

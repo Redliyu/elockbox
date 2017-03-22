@@ -71,7 +71,7 @@
             <div class="form-group row">
                 {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control']) !!}
+                    {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'autocomplete' => 'off']) !!}
                     @if($errors->has('email'))
                         {!! $errors->first('email') !!}
                     @endif
@@ -92,7 +92,8 @@
             <div class="form-group row">
                 {!! Form::label('birthday', 'DOB', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px']) !!}
                 <div class="col-md-10">
-                    {!! Form::text('birthday', date("m/d/Y", time()), ['id' => 'birthday_create', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                    {!! Form::text('birthday', null, ['id' => 'birthday_create', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}
+                    {{--{!! Form::text('birthday', date("m/d/Y", time()), ['id' => 'birthday_create', 'placeholder' => 'mm/dd/yyyy', 'class' => 'form-control']) !!}--}}
                 </div>
             </div>
             <div class="form-group row">
