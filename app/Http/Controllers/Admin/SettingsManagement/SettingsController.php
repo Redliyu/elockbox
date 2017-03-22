@@ -6,10 +6,16 @@ use App\CreateCase;
 use App\Docs;
 use App\DocType;
 use App\ProgramList;
+use App\User;
+use App\UserRole;
+use App\UserStatus;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use League\Flysystem\Exception;
 
 class SettingsController extends Controller
 {
@@ -85,7 +91,27 @@ class SettingsController extends Controller
         return redirect()->back();
     }
     public function password() {
-        return view('admin.settings.password');
+        $admins = UserRole::where("role_id", 1)->get();
+        $managers = UserRole::where("role_id", 2)->get();
+        $staffs = UserRole::where("role_id", 3)->get();
+        $youths = UserRole::where("role_id", 4)->get();
+        return view('admin.settings.password', [
+            'admins' => $admins,
+            'managers' => $managers,
+            'staffs' => $staffs,
+            'youths' => $youths,
+        ]);
     }
+    public function resetPassword(Request $request) {
+        try{
+            $user_find = User::where('email', $request->user)->first();
+            $user_id = $user_find->id;
+            $user = Sentinel::findById($user_id);
+            Sentinel::update($user, array('password' => $request->password1));
+            return redirect()->back();
+        }catch (Exception $e) {
 
+        }
+
+    }
 }

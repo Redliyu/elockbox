@@ -23,7 +23,6 @@ class CreateCase extends Migration
             $table->string('last_name');
             $table->date('birthday')->nullable();
             $table->string('gender')->nullable();
-            $table->string('webpage')->nullable();
             $table->string('ssn')->nullable();
             $table->integer('ILP')->nullable();
             $table->string('ethnicity')->nullable();

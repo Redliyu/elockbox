@@ -76,10 +76,41 @@
                 changeYear: true,
                 changeMonth: true,
             });
-
-
+            $('#ssn').blur(function () {
+                if((document.getElementById('ssn').value.length != 0) && (document.getElementById('ssn').value.length != 11)) {
+                    $('#cssn').fadeIn();
+                } else {
+                    $('#cssn').fadeOut();
+                }
+            });
+            $('#pwd2').keyup(function () {
+                if(document.getElementById('pwd2').value != document.getElementById('pwd1').value) {
+                    $('#cpwd').fadeIn();
+                } else {
+                    $('#cpwd').fadeOut();
+                }
+            });
         });
-
+        function format_ssn(ssn) {
+            var re = /^(\d{3})[-]?(\d{2})[-]?(\d{4})$/;
+            var newstr = ssn.replace(re, '$1-$2-$3');
+            document.getElementById('ssn').value = newstr;
+        }
+        function check_input(form) {
+            if((form.ssn.value.length != 0) && (form.ssn.value.length != 11)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function check_input_pwd(form) {
+            if ((form.pwd1.value != form.pwd2.value)) {
+                document.getElementById('pwd2').setAttribute('style', 'border: 1px solid red');
+                return false;
+            }else {
+                return true;
+            }
+        }
     </script>
 @stop
 
@@ -774,7 +805,7 @@
                     <h4 class="modal-title" id="myModalLabel">Create Youth Account</h4>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['route' => ['admin.case.create.account', $data->id]]) !!}
+                    {!! Form::open(['route' => ['admin.case.create.account', $data->id], 'onsubmit' => 'return check_input_pwd(this)']) !!}
                     @if (session()->has('flash_message'))
                         <div class="form-group">
                             <p>{{ session()->get('flash_message') }}</p>
@@ -783,27 +814,33 @@
                     {{--improve performance--}}
                     {{--we should detect whether email and pwd are valid while inputing, rather than after submit--}}
                     <div class="form-group row">
-                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+{{--                        {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right;">
+                            <span><strong>Email</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
                             {!! Form::text('email', $data->email, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'disabled']) !!}
-                            @if($errors->has('email'))
-                                {!! $errors->first('email') !!}
-                            @endif
                         </div>
                     </div>
                     <div class="form-group row">
-                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+{{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Password</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
-                            {!! Form::password('password', ['placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
-                            @if($errors->has('password'))
-                                {!! $errors->first('password') !!}
-                            @endif
+                            {!! Form::password('password', ['id' => 'pwd1', 'placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
-                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}
+{{--                        {!! Form::label('password', 'Password*', ['class' => 'col-md-2 col-form-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
+                        <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
+                            <span><strong>Password</strong></span><span style="color: red"><strong>*</strong></span>
+                        </label>
                         <div class="col-md-10">
-                            {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
+                            {!! Form::password('password_confirmation', ['id' => 'pwd2', 'placeholder' => 'Confirm password', 'required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
+                        <div id="cpwd" style="display: none; color: red; margin-bottom: -10px;" class="col-md-4 col-md-offset-2">
+                            Password not same.
                         </div>
                     </div>
 
@@ -911,7 +948,7 @@
                     <div class="form-group row">
                         {{ Form::label('doc', 'Document', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-9">
-                            {{ Form::file('image') }}
+                            {{ Form::file('image', ['required']) }}
                         </div>
                     </div>
 
@@ -1772,7 +1809,7 @@
                     <h4 class="modal-title" id="myModalLabel">Edit General Information</h4>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['url' => 'admin/case/'.$data->id.'/edit']) !!}
+                    {!! Form::open(['url' => 'admin/case/'.$data->id.'/edit', 'onsubmit' => 'return check_input(this)']) !!}
                     <div class="form-group" style="display: none; visibility: hidden">
                         {!! Form::text('id', $data->id) !!}
                     </div>
@@ -1816,18 +1853,21 @@
                         {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], $data->gender, ['class' => 'form-control']) !!}
                         </div>
                     </div>
-                    <div class="form-group row">
-                        {{ Form::label('webpage', 'Web Page', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                    {{--<div class="form-group row">--}}
+                        {{--{{ Form::label('webpage', 'Web Page', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
                         {{--{!! Form::label('Web Page') !!}--}}
-                        <div class="col-md-9">
-                        {!! Form::text('webpage', $data->webpage, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}
-                        </div>
-                    </div>
+                        {{--<div class="col-md-9">--}}
+                        {{--{!! Form::text('webpage', $data->webpage, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="form-group row">
                         {{ Form::label('ssn', 'SSN', ['class' => 'col-md-3 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         {{--{!! Form::label('SSN') !!}--}}
                         <div class="col-md-9">
-                        {!! Form::text('ssn', $data->ssn, ['Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control']) !!}
+                        {!! Form::text('ssn', $data->ssn, ['id' => 'ssn', 'Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control', 'onkeyup' => 'format_ssn(this.value)', 'autocomplete' => 'off']) !!}
+                        </div>
+                        <div id="cssn" style="display: none; color: red; margin-bottom: -20px;" class="col-md-9 col-md-offset-3">
+                            <p>SSN should have 9 digits, format is AAA-GG-SSSS.</p>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -2692,7 +2732,7 @@
                     <div class="form-group row">
                         {{ Form::label('avatar', 'Avatar', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                         <div class="col-md-10">
-                            {{ Form::file('avatar') }}
+                            {{ Form::file('avatar', ['required']) }}
                         </div>
                     </div>
 

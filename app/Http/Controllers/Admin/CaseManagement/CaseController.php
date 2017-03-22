@@ -57,7 +57,6 @@ class CaseController extends Controller
             $case->last_name = $request->get('last_name');
             $case->birthday = date("Y-m-d", strtotime($request->get('birthday')));
             $case->gender = $request->get('gender');
-            $case->webpage = $request->get('webpage');
             $case->ssn = $request->get('ssn');
             $case->ilp = $request->get('ilp');
             $case->ethnicity = $request->get('ethnicity');
@@ -67,7 +66,7 @@ class CaseController extends Controller
             $case->save();
             return redirect('admin/case/create')->withFlashMessage('Case Successfully Created and Activated!');
         }catch (QueryException $e) {
-            return redirect()->back()->withErrors(array("message" => "Failue to create a case, please check your email."));
+            return redirect()->back()->withErrors(array("message" => "Fail to create a case, please check your email."));
         }
 
     }
