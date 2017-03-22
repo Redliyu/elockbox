@@ -57,7 +57,6 @@ class CaseController extends Controller
             $case->last_name = $request->get('last_name');
             $case->birthday = date("Y-m-d", strtotime($request->get('birthday')));
             $case->gender = $request->get('gender');
-            $case->webpage = $request->get('webpage');
             $case->ssn = $request->get('ssn');
             $case->ilp = $request->get('ilp');
             $case->ethnicity = $request->get('ethnicity');

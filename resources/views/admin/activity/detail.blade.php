@@ -80,7 +80,9 @@
                     <div class="panel-body message">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label for="to" class="col-sm-1 control-label">To:</label>
+                                <label for="to" class="col-sm-1 control-label" style="text-align:right;">
+                                    <span><strong>To:</strong></span><span style="color: red"><strong>*</strong></span>
+                                </label>
                                 <div class="col-sm-11">
                                     <input list="recipient" name="recipient" class="form-control" id="to0"
                                            placeholder="Recipient"
@@ -90,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="cc" class="col-sm-1 control-label">CC:</label>
+                                <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC:</label>
                                 <div class="col-sm-11">
                                     <input list="mentioned" name="mentioned" class="form-control" id="cc0"
                                            placeholder="Mentioned" value="<?php if ($activity->mentioned) {
@@ -101,7 +103,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="subject" class="col-sm-1 control-label">Subject:</label>
+                                <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
+                                    <span><strong>Subject:</strong></span><span style="color: red"><strong>*</strong></span>
+                                </label>
                                 <div class="col-sm-11">
                                     <input name="subject" type="text" class="form-control" id="subject0"
                                            placeholder="Subject" value="{{ $activity->subject }}"
@@ -109,7 +113,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="subject" class="col-sm-1 control-label">Due:</label>
+                                <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due:</label>
                                 <div class="col-sm-11">
                                     <input name="ddl" type="text" class="form-control" id="ddl0"
                                            placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
@@ -117,7 +121,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="task" class="col-sm-1 control-label">Task:</label>
+                                <label for="task" class="col-sm-1 control-label" style="text-align:right;">Task:</label>
                                 <div class="col-sm-11" style="margin-top: 6px">
                                     <?php
                                     if($activity->task) {
@@ -192,7 +196,9 @@
                         {!! Form::open(['url' => '/admin/'.$activity->id.'/edit', 'class' => 'form-horizontal']) !!}
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="to" class="col-sm-1 control-label">To:</label>
+                            <label for="to" class="col-sm-1 control-label" style="text-align:right;">
+                                <span><strong>To:</strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
                             <div class="col-sm-11">
                                 <input list="recipient" name="recipient" class="form-control" id="to"
                                        placeholder="Recipient"
@@ -213,7 +219,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cc" class="col-sm-1 control-label">CC:</label>
+                            <label for="cc" class="col-sm-1 control-label" style="text-align:right;">CC:</label>
                             <div class="col-sm-11">
                                 <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                        placeholder="Mentioned" value="<?php if ($activity->mentioned) {
@@ -235,7 +241,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Subject:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">
+                                <span><strong>Subject:</strong></span><span style="color: red"><strong>*</strong></span>
+                            </label>
                             <div class="col-sm-11">
                                 <input name="subject" type="text" class="form-control" id="subject"
                                        placeholder="Subject" value="{{ $activity->subject }}"
@@ -243,7 +251,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="col-sm-1 control-label">Due:</label>
+                            <label for="subject" class="col-sm-1 control-label" style="text-align:right;">Due:</label>
                             <div class="col-sm-11">
                                 <input name="ddl" type="text" class="form-control" id="ddl"
                                        placeholder="Deadline" value="{{ date("m/d/Y", strtotime($activity->ddl)) }}"
@@ -251,7 +259,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="task" class="col-md-1 control-label">Task:</label>
+                            <label for="task" class="col-md-1 control-label" style="text-align:right;">Task:</label>
                             <div class="col-md-5" style="margin-top: 6px">
                                 {{--@if($activity->task)--}}
                                 {{--<input name="task" type="checkbox" value="1" id="task" checked disabled> Done--}}

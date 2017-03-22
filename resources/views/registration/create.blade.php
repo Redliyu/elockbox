@@ -10,21 +10,25 @@
                 if(document.getElementById('pwd2').value != document.getElementById('pwd1').value) {
                     $('#cpwd').fadeIn();
                 } else {
+                    document.getElementById('pwd2').setAttribute("style", "border: 1px solid #D4D4D4");
                     $('#cpwd').fadeOut();
                 }
             });
             $('#phone').blur(function () {
-                if(document.getElementById('phone').value.length != 12) {
+                if((document.getElementById('phone').value.length != 0) && (document.getElementById('phone').value.length != 12)) {
                     $('#cphone').fadeIn();
                 } else {
+                    document.getElementById('phone').setAttribute("style", "border: 1px solid #D4D4D4");
                     $('#cphone').fadeOut();
                 }
             });
         });
         function check_input(form) {
             if ((form.pwd1.value != form.pwd2.value)) {
+                document.getElementById('pwd2').setAttribute("style", "border: 1px solid red");
                 return false;
             } else if((form.phone.value.length != 0) && (form.phone.value.length != 12)) {
+                document.getElementById('phone').setAttribute("style", "border: 1px solid red");
                 return false;
             } else {
                 return true;
@@ -79,9 +83,11 @@
                         <span><strong>Email </strong></span><span style="color: red"><strong>*</strong></span>
                     </label>
                     <div class="col-md-10">
-                        {!! Form::email('email', null, ['placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;']) !!}
+                        {!! Form::email('email', null, ['id'=>'email', 'placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;', 'autocomplete' => 'off']) !!}
                         @if($errors->has('email'))
-                            {!! $errors->first('email') !!}
+                            <script>
+                                document.getElementById('email').setAttribute("style", "border: 1px solid red");
+                            </script>
                         @endif
                     </div>
                 </div>
@@ -92,9 +98,6 @@
                     </label>
                     <div class="col-md-10">
                         {!! Form::password('password', ['id' => 'pwd1', 'placeholder' => 'Password', 'required' => 'required', 'class' => 'form-control']) !!}
-                        @if($errors->has('password'))
-                            {!! $errors->first('password') !!}
-                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
@@ -130,7 +133,7 @@
                     <div class="col-md-10">
                         {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
                     </div>
-                    <div id="cphone" style="display: none; color: red; margin-bottom: -20px" class="col-md-12 col-md-offset-2">
+                    <div id="cphone" style="display: none; color: red; margin-bottom: -20px" class="col-md-10 col-md-offset-2">
                         <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
                     </div>
                 </div>
