@@ -9,6 +9,7 @@ use App\ProgramList;
 use App\User;
 use App\UserRole;
 use App\UserStatus;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
