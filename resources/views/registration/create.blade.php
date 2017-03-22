@@ -76,14 +76,14 @@
             <div class="panel-heading">
                 <h2><i class="fa fa-plus-circle blue"></i><strong>Create User</strong></h2>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="padding-right: 30px;">
                 <div class="form-group row">
 {{--                    {!! Form::label('email', 'Email*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
                     <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right">
                         <span><strong>Email </strong></span><span style="color: red"><strong>*</strong></span>
                     </label>
                     <div class="col-md-10">
-                        {!! Form::email('email', null, ['id'=>'email', 'placeholder' => 'Email', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;', 'autocomplete' => 'off']) !!}
+                        {!! Form::email('email', null, ['id'=>'email', 'placeholder' => 'email@email.com', 'required' => 'required', 'class' => 'form-control', 'style' => 'padding-right:-7px;', 'autocomplete' => 'off']) !!}
                         @if($errors->has('email'))
                             <script>
                                 document.getElementById('email').setAttribute("style", "border: 1px solid red");
@@ -131,7 +131,7 @@
                 <div class="form-group row">
                     {!! Form::label('phone_number', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
                     <div class="col-md-10">
-                        {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => 'e.g. 123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
+                        {!! Form::text('phone_number', null, ['id' => 'phone', 'placeholder' => '123-456-7890', 'class' => 'form-control', 'onkeyup' => 'format_phone(this.value)', 'autocomplete' => 'off']) !!}
                     </div>
                     <div id="cphone" style="display: none; color: red; margin-bottom: -20px" class="col-md-10 col-md-offset-2">
                         <p>Phone should have 10 digits, format is XXX-XXX-XXXX.</p>
@@ -140,19 +140,19 @@
                 <div class="form-group row">
                     {!! Form::label('address1', 'Address1', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
                     <div class="col-md-10">
-                        {!! Form::text('address1', null, ['placeholder' => '', 'class' => 'form-control']) !!}
+                        {!! Form::text('address1', null, ['placeholder' => 'Address 1', 'class' => 'form-control']) !!}
                     </div>
                 </div>
                 <div class="form-group row">
                     {!! Form::label('address2', 'Address2', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
                     <div class="col-md-10">
-                        {!! Form::text('address2', null, ['placeholder' => '', 'class' => 'form-control']) !!}
+                        {!! Form::text('address2', null, ['placeholder' => 'Address 2', 'class' => 'form-control']) !!}
                     </div>
                 </div>
                 <div class="form-group row">
                     {!! Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
                     <div class="col-md-3">
-                        {!! Form::text('city', null, ['placeholder' => '', 'class' => 'form-control']) !!}
+                        {!! Form::text('city', null, ['placeholder' => 'City', 'class' => 'form-control']) !!}
                     </div>
 
                     {!! Form::label('state', 'State', ['class' => 'col-md-1 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
