@@ -145,6 +145,7 @@ class UserController extends Controller
         }
         $user->save();
         $profile->save();
+//        dd($role);
         $role->save();
         return redirect()->back();
     }

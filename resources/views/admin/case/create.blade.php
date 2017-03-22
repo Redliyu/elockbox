@@ -22,12 +22,14 @@
                 if((document.getElementById('ssn').value.length != 0) && (document.getElementById('ssn').value.length != 11)) {
                     $('#cssn').fadeIn();
                 } else {
+                    document.getElementById('ssn').setAttribute("style", "border: 1px solid #D4D4D4");
                     $('#cssn').fadeOut();
                 }
             });
         });
         function check_input(form) {
             if((form.ssn.value.length != 0) && (form.ssn.value.length != 11)) {
+                document.getElementById('ssn').setAttribute("style", "border: 1px solid red");
                 return false;
             } else {
                 return true;
@@ -57,7 +59,7 @@
 
     {!! Form::open(['route' => 'admin.case.store', 'onsubmit' => 'return check_input(this)']) !!}
     @if (session()->has('flash_message'))
-        <div class="alert-success col-md-9 col-md-offset-1">
+        <div class="alert alert-success col-md-9 col-md-offset-1">
             <p>{{ session()->get('flash_message') }}</p>
         </div>
     @elseif($errors->any())
@@ -109,18 +111,18 @@
                         {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female', 'N/A' => 'Decline to State'], null, ['placeholder' => 'Choose your gender...', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="form-group row">
-                    {!! Form::label('webpage', 'Web Page', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
-                    <div class="col-md-10">
-                        {!! Form::text('webpage', null, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}
-                    </div>
-                </div>
+                {{--<div class="form-group row">--}}
+                    {{--{!! Form::label('webpage', 'Web Page', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}--}}
+                    {{--<div class="col-md-10">--}}
+                        {{--{!! Form::text('webpage', null, ['Placeholder' => 'Web Page', 'class' => 'form-control']) !!}--}}
+                    {{--</div>--}}
+                {{--</div>--}}
                 <div class="form-group row">
                     {!! Form::label('ssn', 'SSN', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
                     <div class="col-md-10">
                         {!! Form::text('ssn', null, ['id' => 'ssn', 'Placeholder' => 'AAA-GG-SSSS', 'class' => 'form-control', 'onkeyup' => 'format_ssn(this.value)', 'autocomplete' => 'off']) !!}
                     </div>
-                    <div id="cssn" style="display: none; color: red; margin-bottom: -20px;" class="col-md-12 col-md-offset-2">
+                    <div id="cssn" style="display: none; color: red; margin-bottom: -20px;" class="col-md-10 col-md-offset-2">
                         <p>SSN should have 9 digits, format is AAA-GG-SSSS.</p>
                     </div>
                 </div>
