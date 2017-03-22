@@ -72,7 +72,7 @@
             <div class="panel-heading">
                 <h2><i class="fa fa-plus-circle blue"></i><strong>Create Case</strong></h2>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="padding-right: 30px">
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right;">
                         <span><strong>Email </strong></span><span style="color: red"><strong>*</strong></span>
