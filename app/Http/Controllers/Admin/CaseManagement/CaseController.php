@@ -66,7 +66,7 @@ class CaseController extends Controller
             $case->save();
             return redirect('admin/case/create')->withFlashMessage('Case Successfully Created and Activated!');
         }catch (QueryException $e) {
-            return redirect()->back()->withErrors(array("message" => "Failue to create a case, please check your email."));
+            return redirect()->back()->withErrors(array("message" => "Fail to create a case, please check your email."));
         }
 
     }
