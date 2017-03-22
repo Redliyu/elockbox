@@ -234,7 +234,7 @@
                                 <a><i class="fa fa-user"></i><span class="text"> User Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
                                 <ul class="nav sub" style="display: block;">
-                                    <li><a href="{{ url('create') }}"><i class="fa fa-plus-circle"></i><span
+                                    <li><a href="{{ url('admin/user/create') }}"><i class="fa fa-plus-circle"></i><span
                                                     class="text"> Create User</span></a></li>
                                     <li><a href="{{ url('admin/user/view') }}"><i class="fa fa-list"></i><span
                                                     class="text"> View Users</span></a></li>

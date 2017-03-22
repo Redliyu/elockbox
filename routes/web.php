@@ -17,8 +17,8 @@ Route::get('/', function () {
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/debug/create', 'RegistrationController@debugcreate');
     Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'RegistrationController@debugstore']);
-    Route::get('/create', 'RegistrationController@create');
-    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
+//    Route::get('/create', 'RegistrationController@create');
+//    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
     Route::get('/reset', 'Admin\PasswordController@initResetPwd');
     Route::post('/reset', 'Admin\PasswordController@sendEmailPwd');
 //    Route::get('/reset/{time}/{id}/{mdemail}/{mdrandom}', 'Admin\PasswordController@resetPwd');
@@ -50,6 +50,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
 {
     Route::get('', ['as' => 'admin_dashboard', 'uses' => 'ActivityManagement\ActivityController@view']);
     Route::get('user/view', 'UserManagement\UserController@view');
+    Route::get('user/create', 'RegistrationController@create');
+    Route::post('user/create', ['as' => 'admin.user.store', 'uses' => 'RegistrationController@store']);
     Route::get('case/create', 'CaseManagement\CaseController@create');
     Route::post('case/create', ['as' => 'admin.case.store', 'uses' => 'CaseManagement\CaseController@store']);
     Route::get('case/view', ['uses' => 'CaseManagement\CaseController@view']);

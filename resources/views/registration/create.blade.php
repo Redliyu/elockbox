@@ -55,7 +55,7 @@
             </ol>
         </div>
     </div>
-    {!! Form::open(['route' => 'store', 'onsubmit' => 'return check_input(this)']) !!}
+    {!! Form::open(['route' => 'admin.user.store', 'onsubmit' => 'return check_input(this)']) !!}
     @if (session()->has('flash_message'))
         <div class="alert alert-success col-md-9 col-md-offset-1">
             <p>{{ session()->get('flash_message') }}</p>
