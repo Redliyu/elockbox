@@ -139,11 +139,11 @@
                                     @if($status == "Active")
                                         <a href="{{ url('admin/user/'.$user->id.'/inactive') }}"
                                            class="btn btn-block btn-warning"
-                                           role="button" id="case_inactive">Inactive</a>
+                                           role="button" id="case_inactive">Inactivate</a>
                                     @elseif($status == "Inactive")
                                         <a href="{{ url('admin/user/'.$user->id.'/active') }}"
                                            class="btn btn-block btn-success"
-                                           role="button" id="case_inactive">Active</a>
+                                           role="button" id="case_inactive">Activate</a>
                                     @endif
                                 </div>
                             </div>
