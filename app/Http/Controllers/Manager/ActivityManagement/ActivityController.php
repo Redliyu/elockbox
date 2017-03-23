@@ -35,22 +35,22 @@ class ActivityController extends Controller
         $activity = Activity::where("id", $activity_id)->first();
 
         if($activity->assigned == Sentinel::getUser()->id || $activity->mentioned == Sentinel::getUser()->id || $activity->creator == Sentinel::getUser()->id) {
-            if($activity->assigned == Sentinel::getUser()->id) {
-                $activity->reci_status = 1;
-            }
-            if($activity->mentioned == Sentinel::getUser()->id) {
-                $activity->ment_status = 1;
-            }
-            $activity->save();
-            $activities = Activity::all();
+        if($activity->assigned == Sentinel::getUser()->id) {
+            $activity->reci_status = 1;
+        }
+        if($activity->mentioned == Sentinel::getUser()->id) {
+            $activity->ment_status = 1;
+        }
+        $activity->save();
+        $activities = Activity::all();
 
-            return view('manager/activity/detail', [
-                'activities' => $activities,
-                'activity' => $activity,
-                'admins' => $admins,
-                'managers' => $managers,
-                'staffs' => $staffs,
-            ]);
+        return view('manager/activity/detail', [
+            'activities' => $activities,
+            'activity' => $activity,
+            'admins' => $admins,
+            'managers' => $managers,
+            'staffs' => $staffs,
+        ]);
         } else {
             return redirect('fail');
         }
@@ -119,6 +119,10 @@ class ActivityController extends Controller
         } catch (InvalidArgumentException $e) {
             print $e;
         }
-        return redirect('manager');
+        if($request->get('case_related')) {
+            return redirect()->back();
+        } else {
+            return redirect('manager');
+        }
     }
 }

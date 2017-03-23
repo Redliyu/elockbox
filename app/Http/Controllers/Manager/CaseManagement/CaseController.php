@@ -77,6 +77,10 @@ class CaseController extends Controller
 //        $data = CreateCase::all()->sortByDesc('id')->paginate(10);
         //orderBy('id','desc')
         $data = CreateCase::orderBy('id', 'desc')->paginate(10);
+        foreach($data as $item) {
+            $cm = User::where('id', $item->cm_id)->first();
+            $item->cm_name = $cm->first_name . " " . $cm->last_name;
+        }
         $program_list = ProgramList::all();
         $program_name = null;
         foreach ($program_list as $program) {
@@ -91,6 +95,8 @@ class CaseController extends Controller
     public function viewdetail($id)
     {
         $data = CreateCase::find($id);
+        $cm = User::where('id', $data->cm_id)->first();
+        $data->cm_name = $cm->first_name . " " . $cm->last_name;
         if($data->cm_id == Sentinel::getUser()->id) {
             if ($data) {
                 $email = $data->email;
@@ -161,22 +167,20 @@ class CaseController extends Controller
 
     public function update($id, UpdateCaseFormRequest $request)
     {
-        $cm_id = $request->get('cm_name');
+        $case_id = $request->get('id');
+        $case = CreateCase::find($case_id);
+        $cm_id = $case->cm_id;
         if($cm_id == Sentinel::getUser()->id) {
             $cm = User::where('id', $cm_id)->first();
             $cm_name = $cm->first_name . ' ' . $cm->last_name;
-            $case = CreateCase::find($id);
             $case->first_name = $request->get('first_name');
             $case->last_name = $request->get('last_name');
             $case->birthday = date("Y-m-d", strtotime($request->get('birthday')));
             $case->gender = $request->get('gender');
-            $case->webpage = $request->get('webpage');
             $case->ssn = $request->get('ssn');
             $case->ilp = $request->get('ilp');
             $case->ethnicity = $request->get('ethnicity');
             $case->program = $request->get('program');
-            $case->cm_id = $cm_id;
-            $case->cm_name = $cm_name;
             $case->save();
             return redirect('manager/case/' . $id . '/view');
         } else {
