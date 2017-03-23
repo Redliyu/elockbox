@@ -25,27 +25,12 @@ class FileuploadingController extends Controller
 //        echo 'File Name : '.$file->getClientOriginalName();
 //        echo '<br>';
         $newName = str_replace('.'.$file->getClientOriginalExtension(), '_'.$time.'.'.$file->getClientOriginalExtension(), $file->getClientOriginalName());
-        // show file extensions
-//        echo 'File Extensions : '.$file->getClientOriginalExtension();
-//        echo '<br>';
-
-        // show file path
-//        echo 'File Path : '.$file->getRealPath();
-//        echo '<br>';
-
-        // show file size
-//        echo 'File Size : '.$file->getSize();
-//        echo '<br>';
-
-        // show file mime type
-//        echo 'File Mime Type : '.$file->getMimeType();
-//        echo '<br>';
 
         // move uploaded File
-        $destinationPath = 'public/case/'.$id;
+        $destinationPath = 'uploads/case/'.$id;
         $filenewname = 'public/case/'.$id.'/'.$newName;
-//        $file->move($destinationPath, $newName);
-        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
+        $file->move($destinationPath, $newName);
+//        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
         //save information in database docs
         $doc = new Docs;
         $doc->case_id = $id;
