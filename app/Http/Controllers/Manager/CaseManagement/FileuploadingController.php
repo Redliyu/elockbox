@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Manager\CaseManagement;
 
+use App\Avatar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -56,6 +57,31 @@ class FileuploadingController extends Controller
         $doc->visible = $request->get('visible');
         $doc->filename = $newName;
         $doc->save();
+        return redirect('manager/case/'.$id.'/view');
+    }
+    public function uploadAvatar(Request $request) {
+        $file = $request->file('avatar');
+        $id = $request->id;
+        $time = time();
+        $newName = str_replace('.'.$file->getClientOriginalExtension(), '_'.$time.'.'.$file->getClientOriginalExtension(), $file->getClientOriginalName());
+        $destinationPath = 'uploads/'.$id;
+        $filenewname = 'uploads/'.$id.'/'.$newName;
+        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
+        $old_ava = Avatar::where('case_id', $id)->first();
+        if($old_ava) {
+            $deletepath = "uploads/" . $id . "/". $old_ava->filename;
+            Storage::delete($deletepath);
+            $old_ava->case_id = $id;
+            $old_ava->path = $destinationPath;
+            $old_ava->filename = $newName;
+            $old_ava->save();
+        } else {
+            $ava = new Avatar;
+            $ava->case_id = $id;
+            $ava->path = $destinationPath;
+            $ava->filename = $newName;
+            $ava->save();
+        }
         return redirect('manager/case/'.$id.'/view');
     }
 }
