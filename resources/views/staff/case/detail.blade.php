@@ -5,132 +5,49 @@
     <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
     <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
     <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
-    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
-    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
-    {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-        function test(obj) {
-
-            if ((obj.value == document.getElementById('youth_name1').innerHTML) || (obj.value == document.getElementById('youth_name2').innerHTML)) {
-                document.getElementById("delCase").disabled = false;
-            } else {
-                document.getElementById("delCase").disabled = true;
-            }
-        }
-    </script>
-
-    <script type="text/javascript">
-        // When the document is ready
-        $(document).ready(function () {
-
-            $('#example1').datepicker({
-                dateFormat: "mm/dd/yy",
-                maxDate: new Date(),
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#start_date1').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#end_date1').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#start_date2').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#end_date2').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#start_date_edu1').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#end_date_edu1').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#start_date_edu2').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#end_date_edu2').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#birthday_edit').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-
-
-        });
-
-    </script>
 @stop
 
 @section('content')
-    <?php $youth_name1 = $data->last_name . ', ' . $data->first_name; $youth_name2 = $data->first_name . ' ' . $data->last_name ?>
-    <div id="youth_name1" style="display: none; visibility: hidden;">{{$youth_name1}}</div>
-    <div id="youth_name2" style="display: none; visibility: hidden;">{{$youth_name2}}</div>
+    <!-- preloaded info -->
+    <?php $youth_name1 = $data->first_name . ' ' . $data->last_name ?>
+    <?php if ($user = Sentinel::check()) {
+        $admin = Sentinel::findRoleByName('Admins');
+        $manager = Sentinel::findRoleByName('Managers');
+        $staff = Sentinel::findRoleByName('Staff');
+        $youth = Sentinel::findRoleByName('Youths');
+    } ?>
+    <div id="youth_name1" style="display: none; visibility: hidden;">{{strtolower($youth_name1)}}</div>
+    <!-- end preloaded info -->
+
+    <!-- nav bar -->
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-file-text"></i>Profile</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
-                <li><i class="fa fa-folder-open"></i>Case Management</li>
-                <?php if ($user = Sentinel::check()) {
-                    $staff = Sentinel::findRoleByName('staffs');
-                    $manager = Sentinel::findRoleByName('Managers');
-                    $staff = Sentinel::findRoleByName('Staff');
-                    $youth = Sentinel::findRoleByName('Youths');
-                } ?>
-                @if($user->inRole($staff))
-                    <li><i class="fa fa-list"></i><a href="{{ url('/staff/case/view') }}">View Cases</a></li>
-                @elseif($user->inRole($manager))
-                    <li><i class="fa fa-list"></i><a href="#">View Cases</a></li>
-                @elseif($user->inRole($staff))
-                    <li><i class="fa fa-list"></i><a href="#">View Cases</a></li>
-                @endif
-                <li><i class="fa fa-file-text"></i>Profile</li>
+                <li><i class="fa fa-folder-open"></i><a href="{{ url('/staff/case/view') }}">Case Management</a></li>
+                <li><i class="fa fa-list"></i><a href="{{ url('/staff/case/view') }}">View Cases</a></li>
+                <li><i class="fa fa-file-text"></i><a
+                            href="{{ url('/staff/case/'.$data->id.'/view') }}">{{ $youth_name1 }}</a></li>
             </ol>
         </div>
     </div>
+    <!-- end nav bar -->
 
+    <!-- all shown information -->
     <div class="row profile">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
                     {{--Avatar--}}
-                    <div class="col-md-4" style="margin-top: 20px">
+                    <div class="col-md-4" style="margin-top: 40px">
                         <div class="text-center">
-                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.png') }}">
+                            {{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
+                            <?php
+                                echo "<img class='img-profile' src='" . asset('cssnew/assets/img/avatar.png') . "' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar' width='120px' height='120px'>";
+                            ?>
                         </div>
                         <h3 class="text-center"><strong>{{ $data->first_name.' '.$data->last_name }}</strong></h3>
-                        <h4 class="text-center">
-                            <small><i class="fa fa-map-marker"></i> California, USA</small>
-                        </h4>
-                        <hr>
-                        <div class="text-center">
-                            <li><a href="#" class="fa fa-facebook facebook-bg"></a></li>
-                            <li><a href="#" class="fa fa-twitter twitter-bg"></a></li>
-                            <li><a href="#" class="fa fa-linkedin linkedin-bg"></a></li>
-                        </div>
                     </div>
                     {{--General Information--}}
                     <div class="col-md-8" style="margin-top: 20px">
@@ -140,11 +57,11 @@
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
                                                                    style="color: #4C4F53"></i><strong>
-                                            Gender</strong>
+                                            Email</strong>
                                     </div>
                                     <div style="color: #6699CC">
-                                        @if($data->gender)
-                                            {{ $data->gender }}
+                                        @if($data->email)
+                                            {{ $data->email }}
                                         @else
                                             N/A
                                         @endif
@@ -156,41 +73,18 @@
                                             Birthday</strong>
                                     </div>
                                     <div style="color: #6699CC">
-                                        @if($data->birthday)
-                                            {{ date('m/d/Y', strtotime($data->birthday)) }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </div>
-                                </li>
-                                <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong>
-                                            Webpage</strong>
-                                    </div>
-                                    <div style="color: #6699CC">
-                                        @if($data->webpage)
-                                            {{ $data->webpage }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
-                            <ul class="profile-details">
-                                <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong> Social
-                                            Security
-                                            Number</strong></div>
-                                    <div style="color: #6699CC">
-                                        @if($data->ssn)
-                                            {{ $data->ssn }}
-                                        @else
-                                            N/A
-                                        @endif
+                                        {{--@if($data->birthday)--}}
+                                        {{--{{ date('m/d/Y', strtotime($data->birthday)) }}--}}
+                                        {{--@else--}}
+                                        {{--N/A--}}
+                                        {{--@endif--}}
+                                        <?php $date = new DateTime($data->birthday);
+                                        if ($date->format('m/d/Y') == "12/31/1969") {
+                                            echo "N/A";
+                                        } else {
+                                            echo $date->format('m/d/Y');
+                                        }
+                                        ?>
                                     </div>
                                 </li>
                                 <li>
@@ -203,6 +97,47 @@
                                     @else
                                         <div style="color: #6699CC">Inactive</div>
                                     @endif
+                                    {{--<div style="color: #4C4F53"><i class="fa fa-building-o"--}}
+                                    {{--style="color: #4C4F53"></i><strong>--}}
+                                    {{--Webpage</strong>--}}
+                                    {{--</div>--}}
+                                    {{--<div style="color: #6699CC">--}}
+                                    {{--@if($data->webpage)--}}
+                                    {{--{{ $data->webpage }}--}}
+                                    {{--@else--}}
+                                    {{--N/A--}}
+                                    {{--@endif--}}
+                                    {{--</div>--}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="profile-details">
+                                <li>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong>
+                                            Program</strong>
+                                    </div>
+                                    <div style="color: #6699CC">
+                                        @if($data->program)
+                                            {{ $program_name[$data->program] }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </div>
+                                </li>
+                                <li>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong>
+                                            Gender</strong>
+                                    </div>
+                                    <div style="color: #6699CC">
+                                        @if($data->gender)
+                                            {{ $data->gender }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </div>
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
@@ -221,6 +156,14 @@
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
                                                                    style="color: #4C4F53"></i><strong>
+                                            Manager</strong>
+                                    </div>
+                                    <div style="color: #6699CC">{{ $data->cm_name }}
+                                    </div>
+                                </li>
+                                <li>
+                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
+                                                                   style="color: #4C4F53"></i><strong>
                                             Ethnicity</strong></div>
                                     <div style="color: #6699CC">
                                         @if($data->ethnicity)
@@ -232,23 +175,20 @@
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong>
-                                            Program</strong>
-                                    </div>
-                                    <div style="color: #6699CC">
-                                        @if($data->program)
-                                            {{ $program_name[$data->program] }}
+                                                                   style="color: #4C4F53"></i><strong> Social
+                                            Security
+                                            Number</strong></div>
+                                    <div style="color: #6699CC" onclick="show_ssn()" id="hidden_ssn">
+                                        @if($data->ssn)
+                                            <?php
+                                            //                                            $ssn_array = str_split($data->ssn);
+                                            //                                            echo "***-**-".$ssn_array[7].$ssn_array[8].$ssn_array[9].$ssn_array[10]
+                                            preg_match('/.*(\d{4})/', $data->ssn, $results);
+                                            echo "***-**-" . $results[1];
+                                            ?>
                                         @else
                                             N/A
                                         @endif
-                                    </div>
-                                </li>
-                                <li>
-                                    <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong>
-                                            Manager</strong>
-                                    </div>
-                                    <div style="color: #6699CC">{{ $data->cm_name }}
                                     </div>
                                 </li>
                             </ul>
@@ -257,11 +197,22 @@
                     {{--Contact Information--}}
                     <div class="col-md-12"
                          style="border-top: 1px #EEEEEE solid; margin-top: 15px; padding-top: 10px">
-                        <h4><strong>Contact Information</strong></h4>
+                        <div class="col-md-10">
+                            <h4><strong>Contact Information</strong></h4>
+                        </div>
+                        <!-- address -->
                         <div class="col-md-12" style="">
-                            <div class="col-md-10">
-                                <h5><strong>Address</strong></h5>
-                            </div>
+                            {{--<div class="col-md-10">--}}
+                            <h5><strong>Address</strong></h5>
+                            {{--</div>--}}
+                            {{--<div class="col-md-2">--}}
+                            {{--@if($data->status)--}}
+                            {{--<button type="button" class="btn btn-primary"--}}
+                            {{--style="padding-left: 50px; padding-right: 50px" data-toggle="modal"--}}
+                            {{--data-target="#addaddress"> Add--}}
+                            {{--</button>--}}
+                            {{--@endif--}}
+                            {{--</div>--}}
                             <table class="table table-striped" style="margin-left: 15px">
                                 <thead>
                                 <tr>
@@ -296,10 +247,19 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!-- phone -->
                         <div class="col-md-12" style="">
-                            <div class="col-md-10">
-                                <h5><strong>Phone</strong></h5>
-                            </div>
+                            {{--<div class="col-md-10">--}}
+                            <h5><strong>Phone</strong></h5>
+                            {{--</div>--}}
+                            {{--<div class="col-md-2">--}}
+                            {{--@if($data->status)--}}
+                            {{--<button type="button" class="btn btn-primary"--}}
+                            {{--style="padding-left: 50px; padding-right: 50px" data-toggle="modal"--}}
+                            {{--data-target="#addphone"> Add--}}
+                            {{--</button>--}}
+                            {{--@endif--}}
+                            {{--</div>--}}
                             <table class="table table-striped" style="margin-left: 15px">
                                 <thead>
                                 <tr>
@@ -330,10 +290,19 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!-- email -->
                         <div class="col-md-12" style="">
-                            <div class="col-md-10">
-                                <h5><strong>Email</strong></h5>
-                            </div>
+                            {{--<div class="col-md-10">--}}
+                            <h5><strong>Email</strong></h5>
+                            {{--</div>--}}
+                            {{--<div class="col-md-2">--}}
+                            {{--@if($data->status)--}}
+                            {{--<button type="button" class="btn btn-primary"--}}
+                            {{--style="padding-left: 50px; padding-right: 50px" data-toggle="modal"--}}
+                            {{--data-target="#addemail"> Add--}}
+                            {{--</button>--}}
+                            {{--@endif--}}
+                            {{--</div>--}}
                             <table class="table table-striped" style="margin-left: 15px">
                                 <thead>
                                 <tr>
@@ -360,52 +329,42 @@
                                 </tbody>
                             </table>
                         </div>
-
-
-                        {{--<ul class="profile-details col-md-4">--}}
-                        {{--<li>--}}
-                        {{--<div style="color: #4C4F53"><i class="fa fa-tablet" style="color: #4C4F53"></i> Mobile--}}
-                        {{--</div>--}}
-                        {{----}}
-
-                        {{--</li>--}}
-
-                        {{--</ul>--}}
-                        {{--<ul class="profile-details col-md-4">--}}
-                        {{--<li>--}}
-                        {{--<div style="color: #4C4F53"><i class="fa fa-envelope" style="color: #4C4F53"></i> E-mail--}}
-                        {{--</div>--}}
-
-                        {{--</li>--}}
-                        {{--</ul>--}}
-                        {{--<ul class="profile-details col-md-4">--}}
-                        {{--<li>--}}
-                        {{--<div style="color: #4C4F53"><i class="fa fa-map-marker" style="color: #4C4F53"></i>--}}
-                        {{--Address--}}
-                        {{--</div>--}}
-                        {{--</li>--}}
-                        {{--</ul>--}}
                     </div>
-                    {{--Notes --}}
+                    {{--Activities --}}
                     <div class="col-md-12"
                          style="border-top: 1px #EEEEEE solid; margin-top: 15px; padding-top: 10px">
                         <div class="col-md-10">
-                            <h4><strong>Notes</strong></h4>
+                            <h4><strong>Case Related Activities</strong></h4>
                         </div>
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th style="width: 14%;">From whom</th>
-                                <th style="width: 14%;">To whom</th>
-                                <th style="width: 14%;">XXX</th>
-                                <th style="width: 14%;">XXX</th>
-                                <th style="width: 14%;">XXX</th>
-                                <th style="width: 14%;">XXX</th>
-                                <th style="width: 14%;">XXX</th>
+                                <th style="width: 16%;">Subject</th>
+                                <th style="width: 16%;">Task</th>
+                                <th style="width: 16%;">Due Date</th>
+                                <th style="width: 16%;">Assigned To</th>
+                                <th style="width: 16%;">Last Modified Date</th>
+                                <th style="width: 16%;">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr></tr>
+                            @foreach($activities as $activity)
+                                <tr>
+                                    <td>{{ $activity->subject }}</td>
+                                    @if($activity->task)
+                                        <td><span class="label label-success">Done</span></td>
+                                    @else
+                                        <td><span class="label label-warning">To Do</span></td>
+                                    @endif
+                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
+                                    <td>{{ date("m/d/Y", strtotime($activity->updated_at)) }}</td>
+                                    <td><a class="btn btn-success" href="{{ url('staff/'. $activity->id .'/view') }}">
+                                            <i class="fa fa-search-plus "></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -549,6 +508,9 @@
                                 <th style="width: 14%;">Uploaded By</th>
                                 <th style="width: 21%;">Upload Date</th>
                                 <th style="width: 21%;">Last Modified Date</th>
+                                @if($data->status)
+                                    <th style="width: 14%;">Action</th>
+                                @endif
                             </tr>
 
                             </thead>
@@ -557,11 +519,21 @@
                                 <tr>
                                     <td>{{ $doc_type_abbr[$doc->type] }}</td>
                                     <td>
-                                        <a data-toggle="tooltip" data-placement="top"
+                                        <a href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
+                                           target="_blank" data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
+                                    @if($data->status)
+                                        <td>
+                                            <a class="btn btn-success"
+                                               href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
+                                               target="_blank">
+                                                <i class="fa fa-file-pdf-o" style="width: 10px"></i>
+                                            </a>
+                                        </td>
+                                    @endif
                                 </tr>
 
                             @endforeach
@@ -573,7 +545,8 @@
             </div>
 
         </div><!--/.col-->
-    </div><!--/.row profile-->
+    </div>
+    <!-- end all shown information -->
 
     <!-- view work history-->
     @foreach($workhistorys as $workhistory)
@@ -589,7 +562,7 @@
                         <h4 class="modal-title" id="myModalLabel">Work History</h4>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['url' => '/staff/case/workhistory/'.$workhistory->id.'/edit']) !!}
+                        {!! Form::open(['url' => '/staff/case/workhistory/'.$workhistory->id.'/view']) !!}
                         {{ csrf_field() }}
                         <div class="form-group" style="display: none; visibility: hidden">
                             {!! Form::text('id', $data->id) !!}
@@ -597,37 +570,37 @@
                         <div class="form-group row">
                             {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('start_date', $workhistory->start_date, ['id' => 'start_date2', 'placeholder' => 'Start time', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('start_date', $workhistory->start_date, ['id' => 'start_date2', 'class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('end_date', $workhistory->end_date, ['id' => 'end_date2', 'placeholder' => 'End time', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('end_date', $workhistory->end_date, ['id' => 'end_date2', 'class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('industry', 'Industry', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('industry', $workhistory->industry, ['placeholder' => 'Industry name', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('industry', $workhistory->industry, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('company', 'Company', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('company', $workhistory->company, ['placeholder' => 'Company name', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('company', $workhistory->company, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('companyaddress', 'Company Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('companyaddress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('companyaddress', $workhistory->address, ['placeholder' => 'Company name', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('companyaddress', $workhistory->address, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('status', $workhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('status', $workhistory->status, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                     </div>
@@ -657,7 +630,7 @@
                         <h4 class="modal-title" id="myModalLabel">Education History</h4>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['url' => '/staff/case/eduhistory/'.$eduhistory->id.'/edit']) !!}
+                        {!! Form::open(['url' => '/staff/case/eduhistory/'.$eduhistory->id.'/view']) !!}
                         {{ csrf_field() }}
                         <div class="form-group" style="display: none; visibility: hidden">
                             {!! Form::text('id', $data->id) !!}
@@ -665,37 +638,37 @@
                         <div class="form-group row">
                             {{ Form::label('start_date', 'Start Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('start_date', $eduhistory->start_date, ['id' => 'start_date_edu2', 'placeholder' => 'Start date', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('start_date', $eduhistory->start_date, ['id' => 'start_date_edu2', 'class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('end_date', 'End Date', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('end_date', $eduhistory->end_date, ['id' => 'end_date_edu2', 'placeholder' => 'End date', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('end_date', $eduhistory->end_date, ['id' => 'end_date_edu2', 'class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('school', 'School', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('school', $eduhistory->school, ['placeholder' => 'School name', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('school', $eduhistory->school, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('level', 'Level', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('level', $eduhistory->level, ['placeholder' => 'Level', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('level', $eduhistory->level, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {{ Form::label('schooladdress', 'School Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('schooladdress', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('schooladdress', $eduhistory->address, ['placeholder' => 'School address', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('schooladdress', $eduhistory->address, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('status', $eduhistory->status, ['placeholder' => 'Choose status', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('status', $eduhistory->status, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                     </div>
@@ -791,39 +764,39 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Address Information</h4>
+                        <h4 class="modal-title" id="">Address</h4>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['url' => '/staff/case/contact/address/'.$address->id.'/edit']) !!}
+                        {!! Form::open(['url' => '/staff/case/contact/address/'.$address->id.'/view']) !!}
                         {{ csrf_field() }}
                         <div class="form-group row">
                             {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('address', $address->address, ['placeholder' => 'Address', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('address', $address->address, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('city', $address->city, ['placeholder' => 'Relationship', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('city', $address->city, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {!! Form::text('state', $address->state, ['placeholder' => 'Choose state code...','class' => 'form-control', 'disabled']) !!}
+                                {!! Form::text('state', $address->state, ['class' => 'form-control', 'disabled']) !!}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('zipcode', 'Zip', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('zipcode', $address->zipcode, ['placeholder' => '90000', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('zipcode', $address->zipcode, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('status', $address->status, ['placeholder' => 'Input status', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('status', $address->status, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                     </div>
@@ -847,27 +820,27 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Edit Phone</h4>
+                        <h4 class="modal-title" id="">Phone</h4>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['url' => '/staff/case/contact/phone/'.$phone->id.'/edit']) !!}
+                        {!! Form::open(['url' => '/staff/case/contact/phone/'.$phone->id.'/view']) !!}
                         {{ csrf_field() }}
                         <div class="form-group row">
-                            {{ Form::label('number', 'Number', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('number', $phone->number, ['placeholder' => 'Phone Number', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('number', $phone->number, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('type', $phone->type, ['placeholder' => 'Type', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('type', $phone->type, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('status', $phone->status, ['placeholder' => 'Input status', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('status', $phone->status, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                     </div>
@@ -891,21 +864,21 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="">Edit Email</h4>
+                        <h4 class="modal-title" id="">Email</h4>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['url' => '/staff/case/contact/email/'.$email->id.'/edit']) !!}
+                        {!! Form::open(['url' => '/staff/case/contact/email/'.$email->id.'/view']) !!}
                         {{ csrf_field() }}
                         <div class="form-group row">
                             {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('email', $email->email, ['placeholder' => 'Email', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('email', $email->email, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
                             <div class="col-md-10">
-                                {{ Form::text('status', $email->status, ['placeholder' => 'Input status', 'class' => 'form-control', 'disabled']) }}
+                                {{ Form::text('status', $email->status, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
                     </div>

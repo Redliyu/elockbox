@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Staff\UserManagement;
 
+use Cartalyst\Sentinel\Laravel\Facades\Activation;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -92,20 +94,32 @@ class UserController extends Controller
         $user = User::where('id', $user_id)->first();
         $profile = UserProfile::where('user_id', $user_id)->first();
         $role_id = UserRole::where('user_id', $user_id)->first()->role_id;
+        $status_boolean = UserStatus::where('user_id', $user_id)->first();
+        $status = "Inactive";
         $role = 'N/A';
+        $editrole = null;
         if($role_id == 1) {
             $role = 'Administrator';
+            $editrole = 'Admins';
         } else if($role_id == 2) {
             $role = 'Manager';
+            $editrole = 'Managers';
         } else if($role_id == 3) {
             $role = 'Staff';
+            $editrole = 'Staff';
         } else if($role_id == 4) {
             $role = 'Youth';
+            $editrole = 'Youths';
+        }
+        if($status_boolean) {
+            $status = "Active";
         }
         return view('staff.user.detail', [
             'user' => $user,
             'profile' => $profile,
             'role' => $role,
+            'editrole' => $editrole,
+            'status' =>$status,
         ]);
     }
 }

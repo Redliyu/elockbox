@@ -281,7 +281,7 @@
                                                                    style="color: #4C4F53"></i><strong>
                                             Manager</strong>
                                     </div>
-                                    <div style="color: #6699CC">{{ $data->cm_name }}
+                                    <div style="color: #6699CC">{{ Sentinel::findById($data->cm_id)->first_name." ".Sentinel::findById($data->cm_id)->last_name }}
                                     </div>
                                 </li>
                                 <li>
@@ -337,13 +337,13 @@
                                     <div class="col-md-4">
                                         <a href="{{ url('admin/case/'. $data->id.'/inactive') }}"
                                            class="btn btn-block btn-warning"
-                                           role="button" id="case_inactive">Inactive</a>
+                                           role="button" id="case_inactive">Inactivate</a>
                                     </div>
                                 @else
                                     <div class="col-md-4">
                                         <a href="{{ url('admin/case/'. $data->id.'/active') }}"
                                            class="btn btn-block btn-success"
-                                           role="button" id="case_inactive">Active</a>
+                                           role="button" id="case_inactive">Activate</a>
                                     </div>
                                 @endif
                                 <div class="col-md-4">
