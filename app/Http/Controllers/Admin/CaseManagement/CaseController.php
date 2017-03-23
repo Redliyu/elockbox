@@ -200,14 +200,15 @@ class CaseController extends Controller
         //$id is case id
         $case = CreateCase::find($id);
         $name = $case->first_name . ' ' . $case->last_name;
-        if ($request->youth_name == $name) {
+        if (strtolower($request->youth_name) == strtolower($name)) {
             CreateCase::find($id)->delete();
             WorkHistory::where('case_id', $id)->delete();
             EduHistory::where('case_id', $id)->delete();
             AddContact::where('case_id', $id)->delete();
             Docs::where('case_id', $id)->delete();
-            $deletepath = "uploads/" . $id;
-            Storage::deleteDirectory($deletepath);
+            $deletepath = "uploads/case/" . $id;
+//            Storage::deleteDirectory($deletepath);
+            File::deleteDirectory($deletepath);
             //additional contact delete
             return redirect('/admin/case/view');
         } else {
@@ -282,8 +283,8 @@ class CaseController extends Controller
     {
         $doc = Docs::find($id);
         $doc_path_name = $doc->path . '/' . $doc->filename;
-//        File::delete($doc_path_name);
-        Storage::delete($doc_path_name);
+        File::delete($doc_path_name);
+//        Storage::delete($doc_path_name);
         $doc->delete();
         return redirect()->back();
     }
