@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin\CaseManagement;
 
 use App\Avatar;
+use App\CreateCase;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Docs;
 use Illuminate\Support\Facades\Storage;
+use File;
 
 class FileuploadingController extends Controller
 {
@@ -28,7 +31,7 @@ class FileuploadingController extends Controller
 
         // move uploaded File
         $destinationPath = 'uploads/case/'.$id;
-        $filenewname = 'public/case/'.$id.'/'.$newName;
+//        $filenewname = 'public/case/'.$id.'/'.$newName;
         $file->move($destinationPath, $newName);
 //        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
         //save information in database docs
@@ -45,17 +48,18 @@ class FileuploadingController extends Controller
         return redirect('admin/case/'.$id.'/view');
     }
     public function uploadAvatar(Request $request) {
+        //case avatar
         $file = $request->file('avatar');
         $id = $request->id;
         $time = time();
         $newName = str_replace('.'.$file->getClientOriginalExtension(), '_'.$time.'.'.$file->getClientOriginalExtension(), $file->getClientOriginalName());
-        $destinationPath = 'uploads/'.$id;
-        $filenewname = 'uploads/'.$id.'/'.$newName;
-        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
+        $destinationPath = 'uploads/case/'.$id;
+        $file->move($destinationPath, $newName);
+//        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
         $old_ava = Avatar::where('case_id', $id)->first();
         if($old_ava) {
-            $deletepath = "uploads/" . $id . "/". $old_ava->filename;
-            Storage::delete($deletepath);
+            $deletepath = "uploads/case/" . $id . "/". $old_ava->filename;
+            File::delete($deletepath);
             $old_ava->case_id = $id;
             $old_ava->path = $destinationPath;
             $old_ava->filename = $newName;
