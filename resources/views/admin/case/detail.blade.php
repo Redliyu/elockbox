@@ -787,7 +787,8 @@
                                     @if($data->status)
                                         <td>
                                             <a class="btn btn-success"
-                                               href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
+                                               href="{{ Storage::url("public/app/".$doc->path."/".$doc->filename) }}"
+                                               {{--href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"--}}
                                                target="_blank">
                                                 <i class="fa fa-file-pdf-o" style="width: 10px"></i>
                                             </a>
@@ -802,7 +803,6 @@
                                         </td>
                                     @endif
                                 </tr>
-
                             @endforeach
                             </tbody>
                         </table>

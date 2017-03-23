@@ -42,8 +42,8 @@ class FileuploadingController extends Controller
 //        echo '<br>';
 
         // move uploaded File
-        $destinationPath = 'uploads/'.$id;
-        $filenewname = 'uploads/'.$id.'/'.$newName;
+        $destinationPath = 'public/case/'.$id;
+        $filenewname = 'public/case/'.$id.'/'.$newName;
 //        $file->move($destinationPath, $newName);
         Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
         //save information in database docs
