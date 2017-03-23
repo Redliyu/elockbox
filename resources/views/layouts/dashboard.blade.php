@@ -259,29 +259,22 @@
                     <div class="sidebar-menu">
                         <ul class="nav nav-sidebar">
                             <li>
-                                <a href="#"><i class="fa fa-laptop"></i><span
-                                            class="text"> Dashboard</span> <span
-                                            class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="{{ url('manager') }}"><i class="fa fa-plus-circle"></i><span
-                                                    class="text"> Activities</span></a>
-                                    </li>
-                                </ul>
+                                <a href="{{ url('manager') }}"><i class="fa fa-laptop"></i><span
+                                            class="text"> Dashboard</span></a>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span
+                            <li class="opened">
+                                <a><i class="fa fa-user"></i><span class="text"> User Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
+                                <ul class="nav sub" style="display: block;">
                                     <li><a href="{{ url('manager/user/view') }}"><i class="fa fa-list"></i><span
                                                     class="text"> View Users</span></a></li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
+                            <li class="opened">
+                                <a><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="{{ url('manager/case/create') }}"><i
-                                                    class="fa fa-plus-circle"></i><span
+                                <ul class="nav sub" style="display: block;">
+                                    <li><a href="{{ url('manager/case/create') }}"><i class="fa fa-plus-circle"></i><span
                                                     class="text"> Create Case</span></a>
                                     </li>
                                     <li><a href="{{ url('manager/case/view') }}"><i class="fa fa-list"></i><span
@@ -289,16 +282,51 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Shortcut</span> <span
-                                            class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> Other</span></a></li>
-                                    </li>
-                                </ul>
-                            </li>
                         </ul>
                     </div>
+                    {{--<div class="sidebar-menu">--}}
+                        {{--<ul class="nav nav-sidebar">--}}
+                            {{--<li>--}}
+                                {{--<a href="#"><i class="fa fa-laptop"></i><span--}}
+                                            {{--class="text"> Dashboard</span> <span--}}
+                                            {{--class="fa fa-angle-down pull-right"></span></a>--}}
+                                {{--<ul class="nav sub">--}}
+                                    {{--<li><a href="{{ url('manager') }}"><i class="fa fa-plus-circle"></i><span--}}
+                                                    {{--class="text"> Activities</span></a>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                                {{--<a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span--}}
+                                            {{--class="fa fa-angle-down pull-right"></span></a>--}}
+                                {{--<ul class="nav sub">--}}
+                                    {{--<li><a href="{{ url('manager/user/view') }}"><i class="fa fa-list"></i><span--}}
+                                                    {{--class="text"> View Users</span></a></li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                                {{--<a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span--}}
+                                            {{--class="fa fa-angle-down pull-right"></span></a>--}}
+                                {{--<ul class="nav sub">--}}
+                                    {{--<li><a href="{{ url('manager/case/create') }}"><i--}}
+                                                    {{--class="fa fa-plus-circle"></i><span--}}
+                                                    {{--class="text"> Create Case</span></a>--}}
+                                    {{--</li>--}}
+                                    {{--<li><a href="{{ url('manager/case/view') }}"><i class="fa fa-list"></i><span--}}
+                                                    {{--class="text"> View Cases</span></a></li>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                                {{--<a href="#"><i class="fa fa-folder"></i><span class="text"> Shortcut</span> <span--}}
+                                            {{--class="fa fa-angle-down pull-right"></span></a>--}}
+                                {{--<ul class="nav sub">--}}
+                                    {{--<li><a href="#"><i class="fa fa-list"></i><span class="text"> Other</span></a></li>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                        {{--</ul>--}}
+                    {{--</div>--}}
                 @elseif($user->inRole($staff))
                     <div class="sidebar-menu">
                         <ul class="nav nav-sidebar">

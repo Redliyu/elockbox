@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Manager;
 
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
@@ -10,6 +10,8 @@ use App\Http\Requests;
 use DB;
 use App\VrfyCode;
 use App\UserProfile;
+use App\Http\Controllers\Controller;
+
 
 class RegistrationController extends Controller
 {
@@ -51,7 +53,7 @@ class RegistrationController extends Controller
             $newprofile->zip = $request->get('zip');
             $newprofile->save();
             //return back with message
-            return redirect('/create')->withFlashMessage('User Successfully Created and Activated!');
+            return redirect('admin/user/create')->withFlashMessage('User Successfully Created and Activated!');
         } catch (InvalidArgumentException $e) {
             return redirect()->back()->withErrors(array("message" => "Failure"));
         }
