@@ -93,7 +93,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('settings/doctype/{id}/delete', 'SettingsManagement\SettingsController@deleteDocumentSettings');
     Route::get('settings/password', 'SettingsManagement\SettingsController@password');
     Route::post('settings/password/reset', 'SettingsManagement\SettingsController@resetPassword');
-    Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
     Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
     Route::post('user/{id}/edit', 'UserManagement\UserController@update');
     Route::get('user/{id}/active', 'UserManagement\UserController@active');
