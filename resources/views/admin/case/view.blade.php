@@ -57,7 +57,7 @@
                                     }
                                     ?>
                                 </td>
-                                <td>{{ $data->cm_name }}</td>
+                                <td>{{ Sentinel::findById($data->cm_id)->first_name." ".Sentinel::findById($data->cm_id)->last_name }}</td>
                                 <td>{{ $program_name[$data->program] }}</td>
                                 <td>
                                     @if($data->status)

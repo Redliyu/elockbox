@@ -281,7 +281,7 @@
                                                                    style="color: #4C4F53"></i><strong>
                                             Manager</strong>
                                     </div>
-                                    <div style="color: #6699CC">{{ $data->cm_name }}
+                                    <div style="color: #6699CC">{{ Sentinel::findById($data->cm_id)->first_name." ".Sentinel::findById($data->cm_id)->last_name }}
                                     </div>
                                 </li>
                                 <li>
