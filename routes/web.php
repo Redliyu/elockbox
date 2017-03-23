@@ -14,11 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/debug/create', 'InitialUserController@debugcreate');
+Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'InitialUserController@debugstore']);
+
 Route::group(['middleware' => 'guest'], function () {
-    Route::get('/debug/create', 'RegistrationController@debugcreate');
-    Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'RegistrationController@debugstore']);
-//    Route::get('/create', 'RegistrationController@create');
-//    Route::post('/create', ['as' => 'store', 'uses' => 'RegistrationController@store']);
     Route::get('/reset', 'Admin\PasswordController@initResetPwd');
     Route::post('/reset', 'Admin\PasswordController@sendEmailPwd');
 //    Route::get('/reset/{time}/{id}/{mdemail}/{mdrandom}', 'Admin\PasswordController@resetPwd');
@@ -111,6 +110,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
 });
 Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware' => ['manager']], function()
 {
+
     Route::get('', ['as' => 'manager_dashboard', 'uses' => 'ActivityManagement\ActivityController@view']);
     Route::get('user/view', 'UserManagement\UserController@view');
 //    Route::get('user/create', 'RegistrationController@create');
@@ -159,6 +159,7 @@ Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware' => [
 });
 Route::group(['namespace' => 'Staff', 'prefix' => 'staff', 'middleware' => ['staff']], function ()
 {
+
 //    Route::get('staff_logout', ['uses' => 'Staff\StaffController@logout']);
 });
 Route::group(['middleware' => ['youth']], function ()
