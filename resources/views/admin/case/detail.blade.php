@@ -158,7 +158,7 @@
                             {{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
                             <?php
                             if ($avatar) {
-                                echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
+                                echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
                             } else {
                                 echo "<img class='img-profile' src='" . asset('cssnew/assets/img/avatar.png') . "' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar' width='120px' height='120px'>";
                             }
@@ -778,7 +778,7 @@
                                 <tr>
                                     <td>{{ $doc_type_abbr[$doc->type] }}</td>
                                     <td>
-                                        <a href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
+                                        <a href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
                                            target="_blank" data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
@@ -787,7 +787,7 @@
                                     @if($data->status)
                                         <td>
                                             <a class="btn btn-success"
-                                               href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
+                                               href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
                                                target="_blank">
                                                 <i class="fa fa-file-pdf-o" style="width: 10px"></i>
                                             </a>
