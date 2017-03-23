@@ -132,7 +132,7 @@
                                     <td>{{$activity->related}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
-                                            <i class="fa fa-search-plus "></i>
+                                            <i class="fa fa-search-plus" style="width: 10px"></i>
                                         </a>
                                         <button type="button" class="btn btn-danger" data-toggle="modal"
                                                 data-target="#deleteactivity{{ $activity->id }}">
