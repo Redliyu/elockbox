@@ -166,20 +166,6 @@
                 {{--</ul>--}}
             {{--</li>--}}
             <li class="dropdown visible-md visible-lg">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gears"></i></a>
-                <ul class="dropdown-menu update-menu" role="menu">
-                    <li><a href="{{ url('admin/settings/program') }}"><i class="fa fa-list-alt"></i> Program List </a>
-                    </li>
-                    <li><a href="{{ url('admin/settings/doctype') }}"><i class="fa fa-file-text-o"></i> Document Types
-                        </a>
-                    </li>
-                    <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-rotate-right"></i> Reset Password</a>
-                    </li>
-                    <li><a href="{{ url('fund') }}"><i class="fa fa-dollar"></i> Fund Us</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown visible-md visible-lg">
                 <a id="cur_email" href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="user-avatar"
                                                                                                src="{{ asset('cssnew/assets/img/avatar.png') }}"
                                                                                                alt="user-mail">{{Sentinel::getUser()->email}}
@@ -345,37 +331,23 @@
                     <div class="sidebar-menu">
                         <ul class="nav nav-sidebar">
                             <li>
-                                <a href="#"><i class="fa fa-laptop"></i><span
-                                            class="text"> Dashboard</span> <span
-                                            class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="{{ url('staff') }}"><i class="fa fa-plus-circle"></i><span
-                                                    class="text"> Activities</span></a>
-                                    </li>
-                                </ul>
+                                <a href="{{ url('staff') }}"><i class="fa fa-laptop"></i><span
+                                            class="text"> Dashboard</span></a>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-user"></i><span class="text"> User Management</span> <span
+                            <li class="opened">
+                                <a><i class="fa fa-user"></i><span class="text"> User Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
+                                <ul class="nav sub" style="display: block;">
                                     <li><a href="{{ url('staff/user/view') }}"><i class="fa fa-list"></i><span
                                                     class="text"> View Users</span></a></li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
+                            <li class="opened">
+                                <a><i class="fa fa-folder"></i><span class="text"> Case Management</span> <span
                                             class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
+                                <ul class="nav sub" style="display: block;">
                                     <li><a href="{{ url('staff/case/view') }}"><i class="fa fa-list"></i><span
                                                     class="text"> View Cases</span></a></li>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-folder"></i><span class="text"> Shortcut</span> <span
-                                            class="fa fa-angle-down pull-right"></span></a>
-                                <ul class="nav sub">
-                                    <li><a href="#"><i class="fa fa-list"></i><span class="text"> Other</span></a></li>
                                     </li>
                                 </ul>
                             </li>

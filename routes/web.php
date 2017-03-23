@@ -159,6 +159,14 @@ Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware' => [
 Route::group(['namespace' => 'Staff', 'prefix' => 'staff', 'middleware' => ['staff']], function ()
 {
 
+    Route::get('', ['as' => 'staff_dashboard', 'uses' => 'ActivityManagement\ActivityController@view']);
+    Route::get('case/view', ['uses' => 'CaseManagement\CaseController@view']);
+    Route::get('case/{id}/view', ['uses' => 'CaseManagement\CaseController@viewdetail']);
+    Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
+    Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
+    Route::post('activity/create', 'ActivityManagement\ActivityController@create');
+    Route::get('{id}/view', 'ActivityManagement\ActivityController@viewdetail');
+//    Route::post('{id}/edit', 'ActivityManagement\ActivityController@update');
 //    Route::get('staff_logout', ['uses' => 'Staff\StaffController@logout']);
 });
 Route::group(['middleware' => ['youth']], function ()
