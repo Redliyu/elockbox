@@ -133,7 +133,7 @@
                                     <td>{{date("m/ad/Y H:i:s", strtotime($activity->updated_at))}}</td>
                                     <td>
                                         <a class="btn btn-success" href="{{ url('manager/'. $activity->id .'/view') }}">
-                                            <i class="fa fa-search-plus "></i>
+                                            <i class="fa fa-search-plus" style="width: 10px"></i>
                                         </a>
                                     </td>
                                 </tr>

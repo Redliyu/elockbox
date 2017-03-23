@@ -17,7 +17,7 @@ class PasswordController extends Controller
     //
     public function initResetPwd()
     {
-        return view('admin.resetpwd');
+        return view('manager.resetpwd');
     }
 
     public function sendEmailPwd(Request $request)

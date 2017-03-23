@@ -281,8 +281,7 @@
                                                                    style="color: #4C4F53"></i><strong>
                                             Manager</strong>
                                     </div>
-                                    <div style="color: #6699CC">{{ $data->cm_name }}
-                                    </div>
+                                    <div style="color: #6699CC">{{ $data->cm_name }}</div>
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
@@ -337,13 +336,13 @@
                                     <div class="col-md-6">
                                         <a href="{{ url('manager/case/'. $data->id.'/inactive') }}"
                                            class="btn btn-block btn-warning"
-                                           role="button" id="case_inactive">Inactive</a>
+                                           role="button" id="case_inactive">Inactivate</a>
                                     </div>
                                 @else
                                     <div class="col-md-6">
                                         <a href="{{ url('manager/case/'. $data->id.'/active') }}"
                                            class="btn btn-block btn-success"
-                                           role="button" id="case_inactive">Active</a>
+                                           role="button" id="case_inactive">Activate</a>
                                     </div>
                                 @endif
                             </div>
@@ -544,21 +543,23 @@
                             </thead>
                             <tbody>
                             @foreach($activities as $activity)
-                                <tr>
-                                    <td>{{ $activity->subject }}</td>
-                                    @if($activity->task)
-                                        <td><span class="label label-success">Done</span></td>
-                                    @else
-                                        <td><span class="label label-warning">To Do</span></td>
-                                    @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
-                                    <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
-                                    <td>{{ date("m/d/Y", strtotime($activity->updated_at)) }}</td>
-                                    <td><a class="btn btn-success" href="{{ url('manager/'. $activity->id .'/view') }}">
-                                            <i class="fa fa-search-plus "></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                {{--@if($activity->related == )--}}
+                                    <tr>
+                                        <td>{{ $activity->subject }}</td>
+                                        @if($activity->task)
+                                            <td><span class="label label-success">Done</span></td>
+                                        @else
+                                            <td><span class="label label-warning">To Do</span></td>
+                                        @endif
+                                        <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                        <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
+                                        <td>{{ date("m/d/Y", strtotime($activity->updated_at)) }}</td>
+                                        <td><a class="btn btn-success" href="{{ url('manager/'. $activity->id .'/view') }}">
+                                                <i class="fa fa-search-plus "></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {{--@endif--}}
                             @endforeach
                             </tbody>
                         </table>
