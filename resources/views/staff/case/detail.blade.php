@@ -45,7 +45,7 @@
                             {{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
                             <?php
                             if ($avatar) {
-                                echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px'>";
+                                echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px'>";
                             } else {
                                 echo "<img class='img-profile' src='" . asset('cssnew/assets/img/avatar.png') . "' width='120px' height='120px'>";
                             }
