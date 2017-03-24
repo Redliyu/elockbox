@@ -42,10 +42,10 @@ class FileuploadingController extends Controller
 //        echo '<br>';
 
         // move uploaded File
-        $destinationPath = 'uploads/'.$id;
-        $filenewname = 'uploads/'.$id.'/'.$newName;
-//        $file->move($destinationPath, $newName);
-        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
+        $destinationPath = 'uploads/case/'.$id;
+//        $filenewname = 'uploads/'.$id.'/'.$newName;
+        $file->move($destinationPath, $newName);
+//        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
         //save information in database docs
         $doc = new Docs;
         $doc->case_id = $id;
@@ -64,12 +64,13 @@ class FileuploadingController extends Controller
         $id = $request->id;
         $time = time();
         $newName = str_replace('.'.$file->getClientOriginalExtension(), '_'.$time.'.'.$file->getClientOriginalExtension(), $file->getClientOriginalName());
-        $destinationPath = 'uploads/'.$id;
-        $filenewname = 'uploads/'.$id.'/'.$newName;
-        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
+        $destinationPath = 'uploads/case/'.$id;
+        $file->move($destinationPath, $newName);
+//        $filenewname = 'uploads/'.$id.'/'.$newName;
+//        Storage::disk('local')->put($filenewname, file_get_contents($file->getRealPath()));
         $old_ava = Avatar::where('case_id', $id)->first();
         if($old_ava) {
-            $deletepath = "uploads/" . $id . "/". $old_ava->filename;
+            $deletepath = "uploads/case/" . $id . "/". $old_ava->filename;
             Storage::delete($deletepath);
             $old_ava->case_id = $id;
             $old_ava->path = $destinationPath;

@@ -523,19 +523,14 @@
                                 <tr>
                                     <td>{{ $doc_type_abbr[$doc->type] }}</td>
                                     <td>
-                                        <a href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
-                                           target="_blank" data-toggle="tooltip" data-placement="top"
+                                        <a data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
                                     <td>{{$doc->uploader}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
                                     @if($data->status)
                                         <td>
-                                            <a class="btn btn-success"
-                                               href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
-                                               target="_blank">
-                                                <i class="fa fa-file-pdf-o" style="width: 10px"></i>
-                                            </a>
+
                                         </td>
                                     @endif
                                 </tr>
