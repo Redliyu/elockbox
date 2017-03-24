@@ -314,8 +314,8 @@ class CaseController extends Controller
     {
         $doc = Docs::find($id);
         $doc_path_name = $doc->path . '/' . $doc->filename;
-//        File::delete($doc_path_name);
-        Storage::delete($doc_path_name);
+        File::delete($doc_path_name);
+//        Storage::delete($doc_path_name);
         $doc->delete();
         return redirect()->back();
     }

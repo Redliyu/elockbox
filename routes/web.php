@@ -121,7 +121,7 @@ Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware' => [
     Route::post('case/{id}/edit', 'CaseManagement\CaseController@update');
     Route::get('case/{id}/active', ['uses' => 'CaseManagement\CaseController@active']);
     Route::get('case/{id}/inactive', ['uses' => 'CaseManagement\CaseController@inactive']);
-    Route::post('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
+//    Route::post('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
     Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
     Route::post('case/{id}/account', ['as' => 'manager.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
     Route::post('case/upload', 'CaseManagement\FileuploadingController@showfileupload');
