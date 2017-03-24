@@ -21,7 +21,7 @@
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('login') }}">Home</a></li>
                 <li><i class="fa fa-gears"></i>Settings</li>
-                <li><i class="fa fa-list-alt"></i>Docuemnt Type</li>
+                <li><i class="fa fa-list-alt"></i>Document Type</li>
                 <?php if ($user = Sentinel::check()) {
                     $admin = Sentinel::findRoleByName('Admins');
                     $manager = Sentinel::findRoleByName('Managers');

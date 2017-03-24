@@ -275,7 +275,7 @@
                     <tr>
                         <td>{{ $doc_type_abbr[$doc->type] }}</td>
                         <td>
-                            <a href="http://localhost/elockboxdev/storage/app/{{$doc->path}}/{{$doc->filename}}"
+                            <a href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
                                target="_blank" data-toggle="tooltip" data-placement="top"
                                title="{{$doc->description}}">{{$doc->title}}</a></td>
                         <td>{{$doc->uploader}}</td>
