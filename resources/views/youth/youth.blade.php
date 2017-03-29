@@ -26,10 +26,12 @@
         .frame {
             padding: 15px;
         }
+
         .frame2 {
             padding-left: 2%;
             padding-right: 2%;
         }
+
         .coverall {
             margin-top: 3.0%;
             height: 100%;
@@ -37,22 +39,26 @@
             background-color: white;
 
         }
+
         body {
             background: white;
         }
+
         .hidden {
             display: none;
         }
+
         .green {
             color: green;
         }
+
         .red {
             color: red;
         }
     </style>
     <script>
-        $(document).ready(function(){
-            $("#button_addinfo").click(function(){
+        $(document).ready(function () {
+            $("#button_addinfo").click(function () {
                 $(".add_info").toggleClass("hidden");
                 $("#button_addinfo").toggleClass("green");
                 $("#button_addinfo").toggleClass("fa-plus-circle");
@@ -60,7 +66,7 @@
                 $("#button_addinfo").toggleClass("red");
 
             });
-            $("#button_geninfo").click(function(){
+            $("#button_geninfo").click(function () {
                 $(".gen_info").toggleClass("hidden");
                 $("#button_geninfo").toggleClass("green");
                 $("#button_geninfo").toggleClass("fa-plus-circle");
@@ -73,14 +79,18 @@
 
 </head>
 <body>
-<div class="navbar" role="navigation" style = "padding-left: 10px; padding-right:10px;">
+<div class="navbar" role="navigation" style="padding-left: 10px; padding-right:10px;">
     <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-left" style = "padding: 0px; margin: 0px; width: 28%">
-            <li class="visible-md visible-lg"> <a href="{{url('/')}}"><img class="text-logo" style="width: 250px;"
-                                                                           src="{{ asset('cssnew/assets/img/logo.png') }}"></a></li>
+        <ul class="nav navbar-nav navbar-left" style="padding: 0px; margin: 0px; width: 28%">
+            <li class="visible-md visible-lg"><a href="{{url('/')}}"><img class="text-logo" style="width: 250px;"
+                                                                          src="{{ asset('cssnew/assets/img/logo.png') }}"></a>
+            </li>
         </ul>
-        <ul class="nav navbar-nav navbar-left" style = "padding: 0px; font-size: 18px; color: rgb(22, 41,131)">
-            <li class="visible-xs visible-sm visible-md visible-lg"><large><b>Welcome to</b></large> <i class="fa fa-cube fa-large"></i> <b>e-lockbox, {{sentinel::getUser()-> first_name}}! <i class="fa fa-smile-o fa-large" aria-hidden="true"></i></b></large></li>
+        <ul class="nav navbar-nav navbar-left" style="padding: 0px; font-size: 18px; color: rgb(22, 41,131)">
+            <li class="visible-xs visible-sm visible-md visible-lg">
+                <large><b>Welcome to</b></large>
+                <i class="fa fa-cube fa-large"></i> <b>e-lockbox, {{sentinel::getUser()-> first_name}}! <i
+                            class="fa fa-smile-o fa-large" aria-hidden="true"></i></b></li>
         </ul>
         <div class="copyrights">
             Collect from
@@ -89,10 +99,14 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="">
                 <a id="cur_email" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    {{--<img class="user-avatar" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" alt="user-mail">--}}
+                    {{--<img class="user-avatar" src="{{ asset('cssnew/assets/img/avatar.png') }}" alt="user-mail">--}}
                     <?php
                     if ($avatar) {
-                        echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "'>";
+                        if ($_SERVER['SERVER_NAME'] == "localhost") {
+                            echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "'>";
+                        } else {
+                            echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "'>";
+                        }
                     } else {
                         echo "<img class='user-avatar' src='" . asset('cssnew/assets/img/avatar.png') . "'>";
                     }
@@ -106,11 +120,12 @@
         </ul>
     </div>
 </div>
-<br />
+<br/>
 <div class="coverall">
-    <div class = "frame">
-        <h3><strong>General Information</strong> <i id = "button_geninfo" class="fa fa-minus-circle red" aria-hidden="true"></i> </h3>
-        <div class = "frame2 gen_info">
+    <div class="frame">
+        <h3><strong>General Information</strong> <i id="button_geninfo" class="fa fa-minus-circle red"
+                                                    aria-hidden="true"></i></h3>
+        <div class="frame2 gen_info">
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <ul class="profile-details">
                     <li>
@@ -258,7 +273,7 @@
 
         <!-- display the vital document -->
         <h3><strong>Vital Documents</strong></h3>
-        <div class = "frame2">
+        <div class="frame2">
             <table class="table table-striped">
                 <thead>
                 <tr style="text-align: left">
@@ -274,11 +289,21 @@
                 @foreach($docs as $doc)
                     <tr>
                         <td>{{ $doc_type_abbr[$doc->type] }}</td>
-                        <td>
-                            <a href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
-                               target="_blank" data-toggle="tooltip" data-placement="top"
-                               title="{{$doc->description}}">{{$doc->title}}</a></td>
-                        <td>{{$doc->uploader}}</td>
+                        @if($_SERVER['SERVER_NAME'] == "localhost")
+                            <td>
+                                <a href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
+                                   target="_blank" data-toggle="tooltip" data-placement="top"
+                                   title="{{$doc->description}}">{{$doc->title}}</a>
+                            </td>
+                        @else
+                            <td>
+                                <a href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
+                                   target="_blank" data-toggle="tooltip" data-placement="top"
+                                   title="{{$doc->description}}">{{$doc->title}}</a>
+                            </td>
+                        @endif
+                        <td>{{$doc->uploader}}
+                        </td>
                         <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
                         <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
                     </tr>
@@ -289,12 +314,12 @@
         </div>
 
 
-
-        <h3><strong>Additional Information</strong> <i id = "button_addinfo" class="fa fa-plus-circle green" aria-hidden="true"></i></h3>
+        <h3><strong>Additional Information</strong> <i id="button_addinfo" class="fa fa-plus-circle green"
+                                                       aria-hidden="true"></i></h3>
         {{--Contact Information--}}
         <div class="col-md-12 add_info hidden">
             <div class="col-md-12">
-                <div class="col-md-12 col-xs-12" style = "padding: 0px; margin: 0px;">
+                <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
                     <h4><strong>Contact Information</strong></h4>
                 </div>
                 <!-- address -->
@@ -304,11 +329,11 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class = "col-md-2">Address</th>
-                                <th class = "col-md-2">City</th>
-                                <th class = "col-md-2">State</th>
-                                <th class = "col-md-2">ZipCode</th>
-                                <th class = "col-md-2">Status</th>
+                                <th class="col-md-2">Address</th>
+                                <th class="col-md-2">City</th>
+                                <th class="col-md-2">State</th>
+                                <th class="col-md-2">ZipCode</th>
+                                <th class="col-md-2">Status</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -335,9 +360,9 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class = "col-md-4">Type</th>
-                                <th class = "col-md-4">Number</th>
-                                <th class = "col-md-4">Status</th>
+                                <th class="col-md-4">Type</th>
+                                <th class="col-md-4">Number</th>
+                                <th class="col-md-4">Status</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -362,8 +387,8 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class = "col-md-6">Email</th>
-                                <th class = "col-md-6">Status</th>
+                                <th class="col-md-6">Email</th>
+                                <th class="col-md-6">Status</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -384,19 +409,19 @@
             </div>
             {{--Additional Contacts--}}
             <div class="col-md-12">
-                <div class="col-md-12" style = "padding: 0px; margin: 0px;">
+                <div class="col-md-12" style="padding: 0px; margin: 0px;">
                     <h4><strong>Additional Contacts</strong></h4>
                 </div>
                 @if($addcontacts->first() != null)
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th class = "col-md-2">Name</th>
-                            <th class = "col-md-2">Relationship</th>
-                            <th class = "col-md-2">Phone</th>
-                            <th class = "col-md-2">Email</th>
-                            <th class = "col-md-2">Address</th>
-                            <th class = "col-md-2">Status</th>
+                            <th class="col-md-2">Name</th>
+                            <th class="col-md-2">Relationship</th>
+                            <th class="col-md-2">Phone</th>
+                            <th class="col-md-2">Email</th>
+                            <th class="col-md-2">Address</th>
+                            <th class="col-md-2">Status</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -418,19 +443,19 @@
             </div>
             {{--Education History--}}
             <div class="col-md-12">
-                <div class="col-md-12" style = "padding: 0px; margin: 0px;">
+                <div class="col-md-12" style="padding: 0px; margin: 0px;">
                     <h4><strong>Education History</strong></h4>
                 </div>
                 @if($eduhistorys->first() != null)
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th class = "col-md-2">Start Date</th>
-                            <th class = "col-md-2">End Date</th>
-                            <th class = "col-md-2">School</th>
-                            <th class = "col-md-2">Level</th>
-                            <th class = "col-md-2">Address</th>
-                            <th class = "col-md-2">Status</th>
+                            <th class="col-md-2">Start Date</th>
+                            <th class="col-md-2">End Date</th>
+                            <th class="col-md-2">School</th>
+                            <th class="col-md-2">Level</th>
+                            <th class="col-md-2">Address</th>
+                            <th class="col-md-2">Status</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -452,20 +477,20 @@
             </div>
 
             {{--Work History--}}
-            <div class="col-md-12" >
-                <div class="col-md-12" style = "padding: 0px; margin: 0px;">
+            <div class="col-md-12">
+                <div class="col-md-12" style="padding: 0px; margin: 0px;">
                     <h4><strong>Work History</strong></h4>
                 </div>
                 @if($workhistorys->first() != null)
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th class = "col-md-2">Start Date</th>
-                            <th class = "col-md-2">End Date</th>
-                            <th class = "col-md-2">Company</th>
-                            <th class = "col-md-2">Industry</th>
-                            <th class = "col-md-2">Address</th>
-                            <th class = "col-md-2">Status</th>
+                            <th class="col-md-2">Start Date</th>
+                            <th class="col-md-2">End Date</th>
+                            <th class="col-md-2">Company</th>
+                            <th class="col-md-2">Industry</th>
+                            <th class="col-md-2">Address</th>
+                            <th class="col-md-2">Status</th>
                         </tr>
                         </thead>
                         <tbody>

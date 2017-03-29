@@ -77,8 +77,6 @@ class YouthController extends Controller
             'case_phone' => $case_phone,
             'case_email' => $case_email,
             'avatar' => $avatar,
-
-
         ]);
     }
     public function logout() {

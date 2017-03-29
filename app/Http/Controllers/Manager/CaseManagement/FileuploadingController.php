@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Docs;
 use Illuminate\Support\Facades\Storage;
+use File;
 
 class FileuploadingController extends Controller
 {
@@ -71,7 +72,7 @@ class FileuploadingController extends Controller
         $old_ava = Avatar::where('case_id', $id)->first();
         if($old_ava) {
             $deletepath = "uploads/case/" . $id . "/". $old_ava->filename;
-            Storage::delete($deletepath);
+            File::delete($deletepath);
             $old_ava->case_id = $id;
             $old_ava->path = $destinationPath;
             $old_ava->filename = $newName;
