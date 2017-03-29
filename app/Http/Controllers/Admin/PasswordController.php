@@ -60,12 +60,12 @@ class PasswordController extends Controller
         $mdfn = md5($first_name);
         $random = rand(100000, 999999);
         $mdrandom = md5($random);
-        $link = "http://localhost/elockboxdev/public/reset/" . $time . "/" . $user_id . "/" . $mdemail . "/" . $mdrandom;
+        $link = "http://beta.mylaspace.com/reset/" . $time . "/" . $user_id . "/" . $mdemail . "/" . $mdrandom;
         $imgPath = 'https://cdn.shopify.com/s/files/1/1090/4924/files/Living_Advantage_Logo_large.png?13792516517561167664';
         $data = ['name' => $first_name, 'email' => $email, 'imgPath' => $imgPath, 'link' => $link];
         Mail::send('resetemail', $data, function ($message) use ($email, $first_name) {
             $message->to($email, $first_name)->subject('e-Lockbox Reset Password');
-            $message->from('marisafkj@gmail.com', 'Living Advantage Inc.');
+            $message->from('livingadvantageelockbox@gmail.com', 'Living Advantage Inc.');
         });
     }
 
