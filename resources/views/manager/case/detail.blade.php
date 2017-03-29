@@ -158,7 +158,11 @@
                             {{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
                             <?php
                             if ($avatar) {
-                                echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
+                                if ($_SERVER['SERVER_NAME'] == "localhost") {
+                                    echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
+                                } else {
+                                    echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar'>";
+                                }
                             } else {
                                 echo "<img class='img-profile' src='" . asset('cssnew/assets/img/avatar.png') . "' style='cursor: pointer' data-toggle='modal' data-target='#uploadAvatar' width='120px' height='120px'>";
                             }
@@ -772,20 +776,34 @@
                             @foreach($docs as $doc)
                                 <tr>
                                     <td>{{ $doc_type_abbr[$doc->type] }}</td>
-                                    <td>
-                                        <a href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
-                                           target="_blank" data-toggle="tooltip" data-placement="top"
-                                           title="{{$doc->description}}">{{$doc->title}}</a></td>
-                                    <td>{{$doc->uploader}}</td>
+                                    @if($_SERVER['SERVER_NAME'] == "localhost")
+                                        <td>
+                                            <a href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
+                                               target="_blank" data-toggle="tooltip" data-placement="top"
+                                               title="{{$doc->description}}">{{$doc->title}}</a></td>
+                                    @else
+                                        <td>
+                                            <a href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
+                                               target="_blank" data-toggle="tooltip" data-placement="top"
+                                               title="{{$doc->description}}">{{$doc->title}}</a></td>
+                                    @endif
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
                                     @if($data->status)
                                         <td>
-                                            <a class="btn btn-success"
-                                               href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
-                                               target="_blank">
-                                                <i class="fa fa-file-pdf-o" style="width: 10px"></i>
-                                            </a>
+                                            @if($_SERVER['SERVER_NAME'] == "localhost")
+                                                <a class="btn btn-success"
+                                                   href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
+                                                   target="_blank">
+                                                    <i class="fa fa-file-pdf-o" style="width: 10px"></i>
+                                                </a>
+                                            @else
+                                                <a class="btn btn-success"
+                                                   href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
+                                                   target="_blank">
+                                                    <i class="fa fa-file-pdf-o" style="width: 10px"></i>
+                                                </a>
+                                            @endif
                                             <button type="button" class="btn btn-warning" data-toggle="modal"
                                                     data-target="#{{$doc->id}}">
                                                 <i class="fa fa-pencil-square-o" style="width: 10px"></i>
