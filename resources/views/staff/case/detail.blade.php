@@ -42,18 +42,13 @@
                     {{--Avatar--}}
                     <div class="col-md-4" style="margin-top: 40px">
                         <div class="text-center">
-                            {{--                            <img class="img-profile" src="{{ asset('cssnew/assets/img/avatar.jpg') }}" style="cursor: pointer">--}}
-                            <?php
-                            if ($avatar) {
-                                if ($_SERVER['SERVER_NAME'] == "localhost") {
-                                    echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px'>";
-                                } else {
-                                    echo "<img class='img-profile' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "' width='120px' height='120px'>";
-                                }
-                            } else {
-                                echo "<img class='img-profile' src='" . asset('cssnew/assets/img/avatar.png') . "' width='120px' height='120px'>";
-                            }
-                            ?>
+                            @if($avatar)
+                                <img class='img-profile' src='{{asset($avatar->path.'/'.$avatar->filename)}}'
+                                     width='120px' height='120px'>
+                            @else
+                                <img class='img-profile' src='{{asset('cssnew/assets/img/avatar.png')}}'
+                                     width='120px' height='120px'>
+                            @endif
                         </div>
                         <h3 class="text-center"><strong>{{ $data->first_name.' '.$data->last_name }}</strong></h3>
                     </div>

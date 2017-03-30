@@ -99,18 +99,11 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="">
                 <a id="cur_email" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    {{--<img class="user-avatar" src="{{ asset('cssnew/assets/img/avatar.png') }}" alt="user-mail">--}}
-                    <?php
-                    if ($avatar) {
-                        if ($_SERVER['SERVER_NAME'] == "localhost") {
-                            echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "'>";
-                        } else {
-                            echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "'>";
-                        }
-                    } else {
-                        echo "<img class='user-avatar' src='" . asset('cssnew/assets/img/avatar.png') . "'>";
-                    }
-                    ?>
+                    @if($avatar)
+                        <img class="user-avatar" src="{{asset($avatar->path.'/'.$avatar->filename)}}" alt="user-avatar">
+                    @else
+                        <img class="user-avatar" src="{{ asset('cssnew/assets/img/avatar.png') }}" alt="user-mail">
+                    @endif
                 </a>
             </li>
             <li class="visible-sm visible-md visible-lg">
@@ -289,19 +282,11 @@
                 @foreach($docs as $doc)
                     <tr>
                         <td>{{ $doc_type_abbr[$doc->type] }}</td>
-                        @if($_SERVER['SERVER_NAME'] == "localhost")
-                            <td>
-                                <a href="http://{{$_SERVER['SERVER_NAME']}}/elockboxdev/public/{{$doc->path}}/{{$doc->filename}}"
-                                   target="_blank" data-toggle="tooltip" data-placement="top"
-                                   title="{{$doc->description}}">{{$doc->title}}</a>
-                            </td>
-                        @else
-                            <td>
-                                <a href="http://{{$_SERVER['SERVER_NAME']}}/{{$doc->path}}/{{$doc->filename}}"
-                                   target="_blank" data-toggle="tooltip" data-placement="top"
-                                   title="{{$doc->description}}">{{$doc->title}}</a>
-                            </td>
-                        @endif
+                        <td>
+                            <a href="{{asset($doc->path.'/'.$doc->filename)}}"
+                               target="_blank" data-toggle="tooltip" data-placement="top"
+                               title="{{$doc->description}}">{{$doc->title}}</a>
+                        </td>
                         <td>{{$doc->uploader}}
                         </td>
                         <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
