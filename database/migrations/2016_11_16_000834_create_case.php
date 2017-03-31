@@ -122,6 +122,12 @@ class CreateCase extends Migration
             $table->string('document_type')->nullable();
             $table->timestamps();
         });
+        Schema::create('survey', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('link')->nullable();
+            $table->string('description')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

@@ -251,6 +251,9 @@
                                     <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-gear"></i><span
                                                     class="text"> Reset Password</span></a></li>
                                     </li>
+                                    <li><a href="{{ url('admin/settings/survey') }}"><i class="fa fa-gear"></i><span
+                                                    class="text"> Set Survey</span></a></li>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

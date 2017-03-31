@@ -6,6 +6,7 @@ use App\CreateCase;
 use App\Docs;
 use App\DocType;
 use App\ProgramList;
+use App\Survey;
 use App\User;
 use App\UserRole;
 use App\UserStatus;
@@ -110,8 +111,28 @@ class SettingsController extends Controller
             Sentinel::update($user, array('password' => $request->password1));
             return redirect()->back();
         }catch (Exception $e) {
-
+            return 0;
         }
+    }
 
+    public function survey()
+    {
+        $survey = Survey::all();
+        return view("admin.settings.survey", [
+            'surveys' => $survey,
+        ]);
+    }
+
+    public function addSurvey(Request $request)
+    {
+        try{
+            $survey = new Survey;
+            $survey->link = $request->get('link');
+            $survey->description = $request->get('description');
+            $survey->save();
+            return redirect()->back();
+        }catch (Exception $e) {
+            return 0;
+        }
     }
 }

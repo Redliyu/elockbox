@@ -102,6 +102,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('{id}/edit', 'ActivityManagement\ActivityController@update');
     Route::get('{id}/delete', 'ActivityManagement\ActivityController@delete');
     Route::post('case/addactivity', 'ActivityManagement\ActivityController@create');
+    Route::get('settings/survey', 'SettingsManagement\SettingsController@survey');
+    Route::post('settings/survey/add', 'SettingsManagement\SettingsController@addSurvey');
 //    Route::get('settings/password', 'PasswordController@')
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
