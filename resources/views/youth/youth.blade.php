@@ -24,16 +24,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <style>
         .frame {
-            padding: 15px;
+            padding: 5%;
         }
 
         .frame2 {
-            padding-left: 2%;
-            padding-right: 2%;
+            padding-left: 0%;
+            padding-right: 0%;
         }
 
-        .coverall {
-            margin-top: 3.0%;
+        .profile {
+            margin-top: 45px;
             height: 100%;
             width: 100%;
             background-color: white;
@@ -55,6 +55,17 @@
         .red {
             color: red;
         }
+        footer {
+            margin: 0 auto !important;
+        }
+        .glyphicon.glyphicon-envelope {
+            font-size: 20px;
+        }
+        .survey_div {
+            width: 100%;
+            text-align: center;
+        }
+        a.inset{border-style: groove; padding: 10px; color: royalblue; max-width: 100%;}
     </style>
     <script>
         $(document).ready(function () {
@@ -80,42 +91,67 @@
 </head>
 <body>
 <div class="navbar" role="navigation" style="padding-left: 10px; padding-right:10px;">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-left" style="padding: 0px; margin: 0px; width: 28%">
-            <li class="visible-md visible-lg"><a href="{{url('/')}}"><img class="text-logo" style="width: 250px;"
-                                                                          src="{{ asset('cssnew/assets/img/logo.png') }}"></a>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-left" style="padding: 0px; font-size: 18px; color: rgb(22, 41,131)">
-            <li class="visible-xs visible-sm visible-md visible-lg">
-                <large><b>Welcome to</b></large>
-                <i class="fa fa-cube fa-large"></i> <b>e-lockbox, {{sentinel::getUser()-> first_name}}! <i
-                            class="fa fa-smile-o fa-large" aria-hidden="true"></i></b></li>
-        </ul>
-        <div class="copyrights">
-            Collect from
-            <a href="http://greenbay.usc.edu/csci577/fall2016/projects/team10">Team10</a>
+        <div class="container-fluid">
+            <ul class="nav navbar-nav navbar-left" style="padding: 0px; margin: 0px; margin-left: -25px">
+                <li class="visible-sm visible-md visible-lg"><a href="{{url('/')}}"><img  style="width: 250px;"
+                                                                              src="{{ asset('cssnew/assets/img/logo.png') }}"></a>
+                </li>
+                <li class="visible-xs"><a href="{{url('/')}}"><img  style="width: 60px;"
+                                                                              src="{{ asset('cssnew/assets/img/logo_m.png') }}"></a>
+                </li>
+                <li class="visible-lg" style= "text-align:center; color: rgb(21,20,200); margin-left: 230px; font-size: 22px">
+                    <b>Welcome back, {{sentinel::getUser()-> first_name}}! <i class="fa fa-smile-o fa-large" aria-hidden="true"></i></b>
+                </li>
+            </ul>
+            <!-- <ul class="nav navbar-nav navbar-left">
+                <li class="visible-xs visible-sm visible-md visible-lg">
+                    <a class = "link_home" href="{{url('/')}}" alt = "homepage"><i class="fa fa-home fa-2x" aria-hidden="true"></i></a><a class = "link_home" href="{{url('/')}}" alt = "homepage"><i class="fa fa-cube fa-2x"></i> <b>e-lockbox</b></a>
+                </li>
+            </ul> -->
+            <div class="copyrights">
+                Collect from
+                <a href="http://greenbay.usc.edu/csci577/fall2016/projects/team10">Team10</a>
+            </div>
+            <!-- <ul class="nav navbar-nav navbar-middle">
+                <li class="visible-sm visible-md visible-lg" style= "text-align:center; color: rgb(21,20,200);">
+                    <b>Welcome back, {{sentinel::getUser()-> first_name}}! <i class="fa fa-smile-o fa-large" aria-hidden="true"></i></b>
+                </li>
+             </ul> -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                    <a id="cur_email" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <?php
+                        if ($avatar) {
+                            if ($_SERVER['SERVER_NAME'] == "localhost") {
+                                echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "'>";
+                            } else {
+                                echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "'>";
+                            }
+                        } else {
+                            echo "<img class='user-avatar' src='" . asset('cssnew/assets/img/avatar.png') . "'>";
+                        }
+                        ?>
+                    </a>
+                </li>
+                <li class="visible-sm visible-md visible-lg">
+                    <a>{{sentinel::getUser()->email}}</a>
+                </li>
+                <li>
+                    <a href="mailto:{{$cm_email}}?Subject=I%20need%20help%20from%20you,%20{{$data->cm_name}}!" target="_bottom" data-toggle="tooltip" data-placement="bottom"
+                                                   title="Contact your case manager?"><i class="fa fa-envelope-o"></i></a>
+                </li>
+                <li><a href="{{ url('/logout') }}" target="_top" data-toggle="tooltip" data-placement="bottom"
+                                                   title="Exit e-lockbox?"><i class="fa fa-power-off"></i></a></li>
+            </ul>
         </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="">
-                <a id="cur_email" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    @if($avatar)
-                        <img class="user-avatar" src="{{asset($avatar->path.'/'.$avatar->filename)}}" alt="user-avatar">
-                    @else
-                        <img class="user-avatar" src="{{ asset('cssnew/assets/img/avatar.png') }}" alt="user-mail">
-                    @endif
-                </a>
-            </li>
-            <li class="visible-sm visible-md visible-lg">
-                <a>{{sentinel::getUser()->email}}</a>
-            </li>
-            <li><a href="{{ url('/logout') }}"><i class="fa fa-power-off"></i></a></li>
-        </ul>
     </div>
-</div>
 <br/>
-<div class="coverall">
+<div class="row profile">
     <div class="frame">
+        <div class = "survey_div">
+            <a href = "{{$survey->link}}" target = "_blank" class = "inset" data-toggle="tooltip" data-placement="bottom"
+                                                   title="{{$survey->description}}">Please fill our Survey!</a>
+        </div>
         <h3><strong>General Information</strong> <i id="button_geninfo" class="fa fa-minus-circle red"
                                                     aria-hidden="true"></i></h3>
         <div class="frame2 gen_info">
@@ -267,6 +303,7 @@
         <!-- display the vital document -->
         <h3><strong>Vital Documents</strong></h3>
         <div class="frame2">
+             @if($docs->first() != null)
             <table class="table table-striped">
                 <thead>
                 <tr style="text-align: left">
@@ -296,6 +333,9 @@
                 @endforeach
                 </tbody>
             </table>
+            @else 
+            <p>You currently do not have any document uploaded!</p>
+            @endif
         </div>
 
 

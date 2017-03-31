@@ -22,6 +22,7 @@ use App\EduHistory;
 use App\AddContact;
 use App\DocType;
 use App\ProgramList;
+use App\Survey;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -55,10 +56,15 @@ class YouthController extends Controller
         $doc_type_name = null;
         $doc_type_abbr = null;
         $doc_type = DocType::all();
+        $survey = Survey::all()->first();
+        //dd($survey);
         foreach ($cm_id_list as $cm_id) {
             $cm = User::find($cm_id->user_id);
             $all_list[$cm_id->user_id] = $cm->first_name . ' ' . $cm->last_name;
         }
+        $cm_email = User::where('id', $data->cm_id)->first()->email;
+
+        //dd($cm_email);
         foreach ($doc_type as $doc_name) {
             $doc_type_name[$doc_name->id] = $doc_name->document_type;
             $doc_type_abbr[$doc_name->id] = $doc_name->document_abbr;
@@ -77,6 +83,8 @@ class YouthController extends Controller
             'case_phone' => $case_phone,
             'case_email' => $case_email,
             'avatar' => $avatar,
+            'cm_email' => $cm_email,
+            'survey' => $survey,
         ]);
     }
     public function logout() {
