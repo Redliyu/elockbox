@@ -53,8 +53,10 @@
                             <tr>
                                 <th style="width: 14%;">Link</th>
                                 <th style="width: 14%;">Description</th>
+                                <th style="width: 14%">Program</th>
                                 <th style="width: 14%;">Created Time</th>
                                 <th style="width: 14%;">Last Modified Time</th>
+                                <th style="width: 14%">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -62,8 +64,19 @@
                                 <tr>
                                     <td>{{ $survey->link }}</td>
                                     <td>{{ $survey->description }}</td>
+                                    <td>{{ $program_name[$survey->program] }}</td>
                                     <td>{{ date("m/d/Y H:i:s", strtotime($survey->created_at)) }}</td>
                                     <td>{{ date("m/d/Y H:i:s", strtotime($survey->updated_at)) }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                data-target="#editsurvey{{ $survey->id }}">
+                                            <i class="fa fa-pencil-square-o" style="width: 10px"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deletesurvey{{ $survey->id }}">
+                                            <i class="fa fa-trash-o" style="width: 10px"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -102,6 +115,12 @@
                             {{ Form::text('description', null, ['placeholder' => 'Description', 'class' => 'form-control']) }}
                         </div>
                     </div>
+                    <div class="form-group row">
+                        {!! Form::label('program', 'Program', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                        <div class="col-md-10">
+                            {!! Form::select('program', $program_name, null, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="form-group pull-right">
@@ -113,5 +132,87 @@
         </div>
     </div>
     <!-- end add type -->
+
+    <!-- delete survey -->
+    @foreach($surveys as $survey)
+        <div class="modal fade" style="margin-top:10%" id="deletesurvey{{ $survey->id }}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="">Delete Survey</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding-left: 130px">
+                            <p style="font-size: 20px; color: red">Are you sure to delete ?</p>
+                            <p><strong>Please confirm survey information:</strong></p>
+                            <p><strong>Description: </strong>{{$survey->description}}</p>
+                            <p><strong>Last Modify
+                                    date: </strong>{{date("m/d/Y H:i:s", strtotime($survey->updated_at))}}</p>
+                            <p><strong>Created
+                                    date: </strong>{{date("m/d/Y H:i:s", strtotime($survey->created_at))}}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-danger"
+                               href={{ url('/admin/settings/survey/'.$survey->id.'/delete') }}>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end delete survey -->
+
+    <!-- edit survey -->
+    @foreach($surveys as $survey)
+        <div class="modal fade" style="margin-top:10%" id="editsurvey{{ $survey->id }}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="">Edit Survey</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['url' => 'admin/settings/survey/'.$survey->id.'/edit']) !!}
+                        {{ csrf_field() }}
+                        <div class="form-group row">
+                            {{ Form::label('link', 'Link', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('link', $survey->link, ['placeholder' => 'Survey link', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ Form::label('description', 'Description', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                            <div class="col-md-10">
+                                {{ Form::text('description', $survey->description, ['placeholder' => 'Description', 'class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {!! Form::label('program', 'Program', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                            <div class="col-md-10">
+                                {!! Form::select('program', $program_name, $survey->program, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group pull-right">
+                            {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- end edit program -->
 
 @endsection

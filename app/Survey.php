@@ -9,6 +9,6 @@ class Survey extends Model
     //
     protected $table = 'survey';
     protected $fillable = [
-        'link', 'description',
+        'link', 'description', 'program'
     ];
 }
