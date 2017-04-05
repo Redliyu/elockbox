@@ -118,8 +118,14 @@ class SettingsController extends Controller
     public function survey()
     {
         $survey = Survey::all();
+        $program_list = ProgramList::all();
+        $program_name = null;
+        foreach ($program_list as $program) {
+            $program_name[$program->id] = $program->program_name;
+        }
         return view("admin.settings.survey", [
             'surveys' => $survey,
+            'program_name' => $program_name
         ]);
     }
 
@@ -129,10 +135,26 @@ class SettingsController extends Controller
             $survey = new Survey;
             $survey->link = $request->get('link');
             $survey->description = $request->get('description');
+            $survey->program = $request->get('program');
             $survey->save();
             return redirect()->back();
         }catch (Exception $e) {
             return 0;
         }
+    }
+
+    public function deleteSurvey($id) {
+        $survey = Survey::find($id);
+        $survey->delete();
+        return redirect()->back();
+    }
+
+    public function editSurvey($id, Request $request) {
+        $survey = Survey::find($id);
+        $survey->link = $request->get('link');
+        $survey->description = $request->get('description');
+        $survey->program = $request->get('program');
+        $survey->save();
+        return redirect()->back();
     }
 }

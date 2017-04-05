@@ -126,6 +126,7 @@ class CreateCase extends Migration
             $table->increments('id');
             $table->string('link')->nullable();
             $table->string('description')->nullable();
+            $table->string('program')->nullable();
             $table->timestamps();
         });
     }
