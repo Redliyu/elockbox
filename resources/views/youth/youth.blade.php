@@ -123,7 +123,7 @@
                         <?php
                         if ($avatar) {
                             if ($_SERVER['SERVER_NAME'] == "localhost") {
-                                echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/elockboxdev/public/" . $avatar->path . "/" . $avatar->filename . "'>";
+                                echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/elockbox/public/" . $avatar->path . "/" . $avatar->filename . "'>";
                             } else {
                                 echo "<img class='user-avatar' src='http://" . $_SERVER['SERVER_NAME'] . "/" . $avatar->path . "/" . $avatar->filename . "'>";
                             }
@@ -148,10 +148,12 @@
 <br/>
 <div class="row profile">
     <div class="frame">
+        @if($survey->first())
         <div class = "survey_div">
-            <a href = "{{$survey->link}}" target = "_blank" class = "inset" data-toggle="tooltip" data-placement="bottom"
-                                                   title="{{$survey->description}}">Please fill our Survey!</a>
+            <a href = "{{$survey->link}}" target = "_blank" class = "inset" data-toggle="tooltip" data-placement="bottom"                                           title="{{$survey->description}}">Please fill our Survey!
+            </a>
         </div>
+        @endif
         <h3><strong>General Information</strong> <i id="button_geninfo" class="fa fa-minus-circle red"
                                                     aria-hidden="true"></i></h3>
         <div class="frame2 gen_info">
