@@ -46,6 +46,8 @@ class YouthController extends Controller
         $ad_id_list = UserRole::where('role_id', 1)->get();
         $all_list = null;
         $program_name = null;
+        $program_id = $data->program;
+        //dd($program_id);
         $program_list = ProgramList::all();
         foreach ($program_list as $program) {
             $program_name[$program->id] = $program->program_name;
@@ -56,7 +58,7 @@ class YouthController extends Controller
         $doc_type_name = null;
         $doc_type_abbr = null;
         $doc_type = DocType::all();
-        $survey = Survey::all()->first();
+        $surveys = Survey::where('program', $program_id)->get();
         //dd($survey);
         foreach ($cm_id_list as $cm_id) {
             $cm = User::find($cm_id->user_id);
@@ -84,7 +86,7 @@ class YouthController extends Controller
             'case_email' => $case_email,
             'avatar' => $avatar,
             'cm_email' => $cm_email,
-            'survey' => $survey,
+            'surveys' => $surveys,
         ]);
     }
     public function logout() {

@@ -66,6 +66,10 @@
             text-align: center;
         }
         a.inset{border-style: groove; padding: 10px; color: royalblue; max-width: 100%;}
+        .thead_inverse {
+            background-color: rgb(89, 89, 89);
+            color: white;
+        }
     </style>
     <script>
         $(document).ready(function () {
@@ -83,6 +87,22 @@
                 $("#button_geninfo").toggleClass("fa-plus-circle");
                 $("#button_geninfo").toggleClass("fa-minus-circle");
                 $("#button_geninfo").toggleClass("red");
+
+            });
+             $("#button_survey").click(function () {
+                $("#survey_div").toggleClass("hidden");
+                $("#button_survey").toggleClass("green");
+                $("#button_survey").toggleClass("fa-plus-circle");
+                $("#button_survey").toggleClass("fa-minus-circle");
+                $("#button_survey").toggleClass("red");
+
+            });
+             $("#button_docs").click(function () {
+                $("#docs_div").toggleClass("hidden");
+                $("#button_docs").toggleClass("green");
+                $("#button_docs").toggleClass("fa-plus-circle");
+                $("#button_docs").toggleClass("fa-minus-circle");
+                $("#button_docs").toggleClass("red");
 
             });
         });
@@ -148,12 +168,33 @@
 <br/>
 <div class="row profile">
     <div class="frame">
-        @if($survey->first())
-        <div class = "survey_div">
-            <a href = "{{$survey->link}}" target = "_blank" class = "inset" data-toggle="tooltip" data-placement="bottom"                                           title="{{$survey->description}}">Please fill our Survey!
-            </a>
-        </div>
-        @endif
+        <h3><strong>Surveys</strong> <i id="button_survey" class="fa fa-plus-circle green"
+                                                   aria-hidden="true"></i></h3>
+         <div class="frame2 hidden" id = "survey_div">
+            @if($surveys->first())
+            <div class = "col-xs-12 table-responsive">
+            <table id = "survey_table" class="table table-hover table-condensed">
+                <thead>
+                    <th class="col-xs-6">Description</th>
+                    <th class="col-md-6">Link</th>
+                </thead>
+                <tbody>
+                    @foreach($surveys as $survey)
+                    <tr class="info">
+                        <td>{{$survey->description}}</td><td><a href = "{{$survey->link}}" target = "_blank">{{$survey->link}}</a></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <!-- <div class = "survey_div">
+                <a href = "{{$survey->link}}" target = "_blank" class = "inset" data-toggle="tooltip" data-placement="bottom"                                           title="{{$survey->description}}">Please fill our Survey!
+                </a>
+            </div> -->
+            </div>
+            @else
+            <p class="text-warning" style ="margin-left: 8px">There is no survey available currently!</p>
+            @endif
+         </div>
         <h3><strong>General Information</strong> <i id="button_geninfo" class="fa fa-minus-circle red"
                                                     aria-hidden="true"></i></h3>
         <div class="frame2 gen_info">
@@ -178,11 +219,6 @@
                                 Birthday</strong>
                         </div>
                         <div style="color: #6699CC">
-                            {{--@if($data->birthday)--}}
-                            {{--{{ date('m/d/Y', strtotime($data->birthday)) }}--}}
-                            {{--@else--}}
-                            {{--N/A--}}
-                            {{--@endif--}}
                             <?php $date = new DateTime($data->birthday);
                             if ($date->format('m/d/Y') == "12/31/1969") {
                                 echo "N/A";
@@ -303,17 +339,18 @@
         </div>
 
         <!-- display the vital document -->
-        <h3><strong>Vital Documents</strong></h3>
-        <div class="frame2">
-             @if($docs->first() != null)
-            <table class="table table-striped">
+        <h3><strong>Vital Documents</strong> <i id="button_docs" class="fa fa-minus-circle red"
+                                                   aria-hidden="true"></i></h3>
+        <div class="frame2" id = "docs_div">
+            @if($docs->first() != null)
+            <div class="table-responsive">
+            <table class="table table-bordered table-hover">
                 <thead>
-                <tr style="text-align: left">
-                    <th style="width: 14%;">Type</th>
-                    <th style="width: 14%;">Title</th>
-                    <th style="width: 14%;">Uploaded By</th>
-                    <th style="width: 21%;">Upload Date</th>
-                    <th style="width: 21%;">Last Modified Date</th>
+                <tr style="text-align: left" class = "thead_inverse">
+                    <th style="width: 25%;">Type</th>
+                    <th style="width: 25%;">Title</th>
+                    <th style="width: 25%;">Uploaded By</th>
+                    <th style="width: 25%;">Last Modified Date</th>
                 </tr>
 
                 </thead>
@@ -328,15 +365,15 @@
                         </td>
                         <td>{{$doc->uploader}}
                         </td>
-                        <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
-                        <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
+                        <td>{{date("m/d/Y", strtotime($doc->updated_at))}}</td>
                     </tr>
 
                 @endforeach
                 </tbody>
             </table>
+            </div>
             @else 
-            <p>You currently do not have any document uploaded!</p>
+            <p style = "margin-left: 8px" class="text-warning">You currently do not have any document uploaded!</p>
             @endif
         </div>
 
@@ -353,9 +390,10 @@
                 <div class="col-md-12">
                     <h5><strong>Address</strong></h5>
                     @if($case_address->first() != null)
-                        <table class="table table-striped">
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
                             <thead>
-                            <tr>
+                            <tr class = "thead_inverse">
                                 <th class="col-md-2">Address</th>
                                 <th class="col-md-2">City</th>
                                 <th class="col-md-2">State</th>
@@ -375,8 +413,9 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
                     @else
-                        <p>You have no content!</p>
+                        <p class="text-warning">You have no content!</p>
                     @endif
                 </div>
 
@@ -384,9 +423,10 @@
                 <div class="col-md-12" style="">
                     <h5><strong>Phone</strong></h5>
                     @if($case_phone->first() != null)
-                        <table class="table table-striped">
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
                             <thead>
-                            <tr>
+                            <tr class = "thead_inverse">
                                 <th class="col-md-4">Type</th>
                                 <th class="col-md-4">Number</th>
                                 <th class="col-md-4">Status</th>
@@ -402,8 +442,9 @@
                             @endforeach
                             </tbody>
                         </table>
+                        </div>
                     @else
-                        <p>You have no content!</p>
+                        <p class="text-warning">You have no content!</p>
                     @endif
                 </div>
 
@@ -411,9 +452,10 @@
                 <div class="col-md-12" style="">
                     <h5><strong>Email</strong></h5>
                     @if($case_email->first() != null)
-                        <table class="table table-striped">
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
                             <thead>
-                            <tr>
+                            <tr class = "thead_inverse">
                                 <th class="col-md-6">Email</th>
                                 <th class="col-md-6">Status</th>
                             </tr>
@@ -429,8 +471,9 @@
                             @endforeach
                             </tbody>
                         </table>
+                        </div>
                     @else
-                        <p>You have no content!</p>
+                        <p class="text-warning">You have no content!</p>
                     @endif
                 </div>
             </div>
@@ -440,9 +483,10 @@
                     <h4><strong>Additional Contacts</strong></h4>
                 </div>
                 @if($addcontacts->first() != null)
-                    <table class="table table-striped">
+                 <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
                         <thead>
-                        <tr>
+                        <tr class = "thead_inverse">
                             <th class="col-md-2">Name</th>
                             <th class="col-md-2">Relationship</th>
                             <th class="col-md-2">Phone</th>
@@ -464,8 +508,9 @@
                         @endforeach
                         </tbody>
                     </table>
+                </div>
                 @else
-                    <p>You have no content!</p>
+                    <p class="text-warning">You have no content!</p>
                 @endif
             </div>
             {{--Education History--}}
@@ -474,9 +519,10 @@
                     <h4><strong>Education History</strong></h4>
                 </div>
                 @if($eduhistorys->first() != null)
-                    <table class="table table-striped">
+                 <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
                         <thead>
-                        <tr>
+                        <tr class = "thead_inverse">
                             <th class="col-md-2">Start Date</th>
                             <th class="col-md-2">End Date</th>
                             <th class="col-md-2">School</th>
@@ -498,8 +544,9 @@
                         @endforeach
                         </tbody>
                     </table>
+                </div>
                 @else
-                    <p>You have no content!</p>
+                    <p class="text-warning">You have no content!</p>
                 @endif
             </div>
 
@@ -509,9 +556,10 @@
                     <h4><strong>Work History</strong></h4>
                 </div>
                 @if($workhistorys->first() != null)
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
+                 <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-inverse">
+                        <tr class = "thead_inverse">
                             <th class="col-md-2">Start Date</th>
                             <th class="col-md-2">End Date</th>
                             <th class="col-md-2">Company</th>
@@ -533,8 +581,9 @@
                         @endforeach
                         </tbody>
                     </table>
+                </div>
                 @else
-                    <p>You have no content!</p>
+                    <p class="text-warning">You have no content!</p>
                 @endif
             </div>
         </div>
