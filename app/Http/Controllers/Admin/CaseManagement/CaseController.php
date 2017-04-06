@@ -49,7 +49,7 @@ class CaseController extends Controller
 
     public function store(CreateCaseFormRequest $request)
     {
-        try{
+        try {
             $currentUser = User::where('email', $request->creator)->first();
             $input = $request->only('email', 'first_name', 'last_name', 'birthday', 'gender', 'ssn', 'ilp', 'ethnicity', 'program');
             $case = new CreateCase;
@@ -66,7 +66,7 @@ class CaseController extends Controller
             $case->cm_name = $currentUser->first_name . ' ' . $currentUser->last_name;
             $case->save();
             return redirect('admin/case/create')->withFlashMessage('Case Successfully Created and Activated!');
-        }catch (QueryException $e) {
+        } catch (QueryException $e) {
             return redirect()->back()->withErrors(array("message" => "Fail to create a case, please check your email."));
         }
 
@@ -401,6 +401,36 @@ class CaseController extends Controller
     }
 
     //contact information
+    public function addcontactinfo(Request $request)
+    {
+        if ($request->get('address') || $request->get('city') || $request->get('zipcode') || $request->get('address_status')) {
+            $address = new CaseAddress;
+            $address->case_id = $request->get('id');
+            $address->address = $request->get('address');
+            $address->city = $request->get('city');
+            $address->state = $request->get('state');
+            $address->zipcode = $request->get('zipcode');
+            $address->status = $request->get('address_status');
+            $address->save();
+        }
+        if ($request->get('number') || $request->get('type') || $request->get('phone_status')) {
+            $phone = new CasePhone;
+            $phone->case_id = $request->get('id');
+            $phone->number = $request->get('number');
+            $phone->type = $request->get('type');
+            $phone->status = $request->get('phone_status');
+            $phone->save();
+        }
+        if ($request->get('email') || $request->get('email_status')) {
+            $email = new CaseEmail();
+            $email->case_id = $request->get('id');
+            $email->email = $request->get('email');
+            $email->status = $request->get('email_status');
+            $email->save();
+        }
+        return redirect()->back();
+    }
+
     public function addAddress(Request $request)
     {
         $address = new CaseAddress;

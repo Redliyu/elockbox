@@ -5,118 +5,121 @@
     <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
     <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
     <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
+    <script src="{{ asset('cssnew/assets/js/pages/form-wizard.js') }}"></script>
+    <script src="{{ asset('cssnew/assets/plugins/wizard/jquery.bootstrap.wizard.min.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('#ddl').datepicker({
-                minDate: new Date(),
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
+      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('#ddl').datepicker({
+          minDate: new Date(),
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
         });
-        function test(obj) {
-            if (obj.value.toLowerCase() == document.getElementById('youth_name1').innerHTML) {
-                document.getElementById("delCase").disabled = false;
-            } else {
-                document.getElementById("delCase").disabled = true;
-            }
+      });
+      function test(obj) {
+        if (obj.value.toLowerCase() == document.getElementById('youth_name1').innerHTML) {
+          document.getElementById('delCase').disabled = false;
+        } else {
+          document.getElementById('delCase').disabled = true;
         }
-        function upload_avatar() {
-            document.getElementById("avatar_upload").click();
-        }
+      }
+      function upload_avatar() {
+        document.getElementById('avatar_upload').click();
+      }
     </script>
 
     <script type="text/javascript">
-        // When the document is ready
-        $(document).ready(function () {
+      // When the document is ready
+      $(document).ready(function() {
 
-            $('#example1').datepicker({
-                dateFormat: "mm/dd/yy",
-                maxDate: new Date(),
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#start_date1').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#end_date1').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#start_date2').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#end_date2').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#start_date_edu1').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#end_date_edu1').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#start_date_edu2').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true
-            });
-            $('#end_date_edu2').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#birthday_edit').datepicker({
-                dateFormat: "mm/dd/yy",
-                changeYear: true,
-                changeMonth: true,
-            });
-            $('#ssn').blur(function () {
-                if ((document.getElementById('ssn').value.length != 0) && (document.getElementById('ssn').value.length != 11)) {
-                    $('#cssn').fadeIn();
-                } else {
-                    $('#cssn').fadeOut();
-                }
-            });
-            $('#pwd2').keyup(function () {
-                if (document.getElementById('pwd2').value != document.getElementById('pwd1').value) {
-                    $('#cpwd').fadeIn();
-                } else {
-                    $('#cpwd').fadeOut();
-                }
-            });
+        $('#example1').datepicker({
+          dateFormat: 'mm/dd/yy',
+          maxDate: new Date(),
+          changeYear: true,
+          changeMonth: true,
         });
-        function format_ssn(ssn) {
-            var re = /^(\d{3})[-]?(\d{2})[-]?(\d{4})$/;
-            var newstr = ssn.replace(re, '$1-$2-$3');
-            document.getElementById('ssn').value = newstr;
+        $('#start_date1').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#end_date1').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#start_date2').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#end_date2').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#start_date_edu1').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#end_date_edu1').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#start_date_edu2').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#end_date_edu2').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#birthday_edit').datepicker({
+          dateFormat: 'mm/dd/yy',
+          changeYear: true,
+          changeMonth: true,
+        });
+        $('#ssn').blur(function() {
+          if ((document.getElementById('ssn').value.length != 0) &&
+              (document.getElementById('ssn').value.length != 11)) {
+            $('#cssn').fadeIn();
+          } else {
+            $('#cssn').fadeOut();
+          }
+        });
+        $('#pwd2').keyup(function() {
+          if (document.getElementById('pwd2').value != document.getElementById('pwd1').value) {
+            $('#cpwd').fadeIn();
+          } else {
+            $('#cpwd').fadeOut();
+          }
+        });
+      });
+      function format_ssn(ssn) {
+        var re = /^(\d{3})[-]?(\d{2})[-]?(\d{4})$/;
+        var newstr = ssn.replace(re, '$1-$2-$3');
+        document.getElementById('ssn').value = newstr;
+      }
+      function check_input(form) {
+        if ((form.ssn.value.length != 0) && (form.ssn.value.length != 11)) {
+          return false;
+        } else {
+          return true;
         }
-        function check_input(form) {
-            if ((form.ssn.value.length != 0) && (form.ssn.value.length != 11)) {
-                return false;
-            } else {
-                return true;
-            }
+      }
+      function check_input_pwd(form) {
+        if ((form.pwd1.value != form.pwd2.value)) {
+          document.getElementById('pwd2').setAttribute('style', 'border: 1px solid red');
+          return false;
+        } else {
+          return true;
         }
-        function check_input_pwd(form) {
-            if ((form.pwd1.value != form.pwd2.value)) {
-                document.getElementById('pwd2').setAttribute('style', 'border: 1px solid red');
-                return false;
-            } else {
-                return true;
-            }
-        }
+      }
     </script>
 @stop
 
@@ -302,7 +305,7 @@
                                                                    style="color: #4C4F53"></i><strong> Social
                                             Security
                                             Number</strong></div>
-                                    <div style="color: #6699CC" onclick="show_ssn()" id="hidden_ssn">
+                                    <div style="color: #6699CC" onclick="show_ssn();" id="hidden_ssn">
                                         @if($data->ssn)
                                             <?php
                                             //                                            $ssn_array = str_split($data->ssn);
@@ -790,11 +793,11 @@
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
                                     @if($data->status)
                                         <td>
-                                                <a class="btn btn-success"
-                                                   href="{{asset($doc->path.'/'.$doc->filename)}}"
-                                                   target="_blank">
-                                                    <i class="fa fa-file-pdf-o" style="width: 10px"></i>
-                                                </a>
+                                            <a class="btn btn-success"
+                                               href="{{asset($doc->path.'/'.$doc->filename)}}"
+                                               target="_blank">
+                                                <i class="fa fa-file-pdf-o" style="width: 10px"></i>
+                                            </a>
                                             <button type="button" class="btn btn-warning" data-toggle="modal"
                                                     data-target="#{{$doc->id}}">
                                                 <i class="fa fa-pencil-square-o" style="width: 10px"></i>
@@ -1938,6 +1941,7 @@
     </div>
     <!-- end edit general information -->
 
+
     <!-- add contact information -->
     <div class="modal fade" style="margin-top:10%" id="addcontactinfo" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
@@ -1950,127 +1954,231 @@
                     <h4 class="modal-title" id="">Contact Information</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="panel panel-default">
-                        <ul class="nav tab-menu nav-tabs" id="myTab">
-                            <li class="active"><a href="#contact_address">Address</a></li>
-                            <li><a href="#contact_phone">Phone</a></li>
-                            <li><a href="#contact_email">Email</a></li>
-                        </ul>
-                        <div class="panel-body">
-                            <div id="myTabContent" class="tab-content">
-                                <div class="tab-pane active" id="contact_address">
-                                    {!! Form::open(['url' => '/admin/case/addaddress']) !!}
-                                    {{ csrf_field() }}
-                                    <div class="form-group" style="display: none; visibility: hidden">
-                                        {!! Form::text('id', $data->id) !!}
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::text('address', null, ['placeholder' => 'Address', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::text('city', null, ['placeholder' => 'City', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {!! Form::select('state', ['N/A'=>'--',
-                                'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',
-                                'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',
-                                'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',
-                                'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',
-                                'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',
-                                'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',
-                                'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',
-                                'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
-                                'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
-                                'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
-                                'WY' => 'WY'], null, ['class' => 'form-control']) !!}
-                                            {{--'placeholder' => 'Choose state'--}}
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('zipcode', 'Zip', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::text('zipcode', null, ['placeholder' => '90000', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group pull-right">
-                                        {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
-                                        {{ Form::close() }}
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="contact_phone">
-                                    {!! Form::open(['url' => '/admin/case/addphone']) !!}
-                                    {{ csrf_field() }}
-                                    <div class="form-group" style="display: none; visibility: hidden">
-                                        {!! Form::text('id', $data->id) !!}
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::text('number', null, ['placeholder' => '123-456-7890', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::text('type', null, ['placeholder' => 'Type', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group pull-right">
-                                        {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
-                                        {{ Form::close() }}
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="contact_email">
-                                    {!! Form::open(['url' => '/admin/case/addemail']) !!}
-                                    {{ csrf_field() }}
-                                    <div class="form-group" style="display: none; visibility: hidden">
-                                        {!! Form::text('id', $data->id) !!}
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::email('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        {{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
-                                        <div class="col-md-10">
-                                            {{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group pull-right">
-                                        {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
-                                        {{ Form::close() }}
-                                    </div>
-                                </div>
-                            </div>
+                    {!! Form::open(['url' => '/admin/case/addcontactinfo']) !!}
+                    {{ csrf_field() }}
+                    <div class="form-group" style="display: none; visibility: hidden">
+                        {!! Form::text('id', $data->id) !!}
+                    </div>
+                    <h4>Address</h4>
+                    <div class="form-group row">
+                        {{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('address', null, ['placeholder' => 'Address', 'class' => 'form-control']) }}
                         </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('city', null, ['placeholder' => 'City', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {!! Form::select('state', ['N/A'=>'--',
+                'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',
+                'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',
+                'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',
+                'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',
+                'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',
+                'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',
+                'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',
+                'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',
+                'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',
+                'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',
+                'WY' => 'WY'], null, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('zipcode', 'Zip', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('zipcode', null, ['placeholder' => '90000', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('address_status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('address_status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <hr>
+                    <h4>Phone</h4>
+                    <div class="form-group row">
+                        {{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('number', null, ['placeholder' => '123-456-7890', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('type', null, ['placeholder' => 'Type', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('phone_status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('phone_status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <hr>
+                    <h4>Email</h4>
+                    <div class="form-group row">
+                        {{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::email('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ Form::label('email_status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}
+                        <div class="col-md-10">
+                            {{ Form::text('email_status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group pull-right">
+                        {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
+                        {{ Form::close() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- end new add contact information -->
+
+    {{--<!-- add contact information -->--}}
+    {{--<div class="modal fade" style="margin-top:10%" id="addcontactinfo" tabindex="-1" role="dialog"--}}
+    {{--aria-labelledby="myModalLabel" aria-hidden="true">--}}
+    {{--<div class="modal-dialog" role="document">--}}
+    {{--<div class="modal-content">--}}
+    {{--<div class="modal-header">--}}
+    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+    {{--<span aria-hidden="true">&times;</span>--}}
+    {{--</button>--}}
+    {{--<h4 class="modal-title" id="">Contact Information</h4>--}}
+    {{--</div>--}}
+    {{--<div class="modal-body">--}}
+    {{--<div class="panel panel-default">--}}
+    {{--<ul class="nav tab-menu nav-tabs" id="myTab">--}}
+    {{--<li class="active"><a href="#contact_address">Address</a></li>--}}
+    {{--<li><a href="#contact_phone">Phone</a></li>--}}
+    {{--<li><a href="#contact_email">Email</a></li>--}}
+    {{--</ul>--}}
+    {{--<div class="panel-body">--}}
+    {{--<div id="myTabContent" class="tab-content">--}}
+    {{--<div class="tab-pane active" id="contact_address">--}}
+    {{--{!! Form::open(['url' => '/admin/case/addaddress']) !!}--}}
+    {{--{{ csrf_field() }}--}}
+    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
+    {{--{!! Form::text('id', $data->id) !!}--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('address', 'Address', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('address', null, ['placeholder' => 'Address', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('city', 'City', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('city', null, ['placeholder' => 'City', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('state', 'State', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{!! Form::select('state', ['N/A'=>'--',--}}
+    {{--'AL' => 'AL', 'AK' => 'AK', 'AZ' => 'AZ', 'AR' => 'AR', 'CA' => 'CA',--}}
+    {{--'CO' => 'CO', 'CT' => 'CT', 'DE' => 'DE', 'DC' => 'DC', 'FL' => 'FL',--}}
+    {{--'GA' => 'GA', 'HI' => 'HI', 'ID' => 'ID', 'IL' => 'IL', 'IN' => 'IN',--}}
+    {{--'IA' => 'IA', 'KS' => 'KS', 'KY' => 'KY', 'LA' => 'LA', 'ME' => 'ME',--}}
+    {{--'MD' => 'MD', 'MA' => 'MA', 'MI' => 'MI', 'MN' => 'MN', 'MS' => 'MS',--}}
+    {{--'MO' => 'MO', 'MT' => 'MT', 'NE' => 'NE', 'NV' => 'NV', 'NH' => 'NH',--}}
+    {{--'NJ' => 'NJ', 'NM' => 'NM', 'NY' => 'NY', 'NC' => 'NC', 'ND' => 'ND',--}}
+    {{--'OH' => 'OH', 'OK' => 'OK', 'OR' => 'OR', 'PA' => 'PA', 'RI' => 'RI',--}}
+    {{--'SC' => 'SC', 'SD' => 'SD', 'TN' => 'TN', 'TX' => 'TX', 'UT' => 'UT',--}}
+    {{--'VT' => 'VT', 'VA' => 'VA', 'WA' => 'WA', 'WV' => 'WV', 'WI' => 'WI',--}}
+    {{--'WY' => 'WY'], null, ['class' => 'form-control']) !!}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('zipcode', 'Zip', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('zipcode', null, ['placeholder' => '90000', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group pull-right">--}}
+    {{--{{ Form::submit('Save', ['class' => 'btn btn-primary']) }}--}}
+    {{--{{ Form::close() }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="tab-pane" id="contact_phone">--}}
+    {{--{!! Form::open(['url' => '/admin/case/addphone']) !!}--}}
+    {{--{{ csrf_field() }}--}}
+    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
+    {{--{!! Form::text('id', $data->id) !!}--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('phone', 'Phone', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('number', null, ['placeholder' => '123-456-7890', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('type', 'Type', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('type', null, ['placeholder' => 'Type', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group pull-right">--}}
+    {{--{{ Form::submit('Save', ['class' => 'btn btn-primary']) }}--}}
+    {{--{{ Form::close() }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="tab-pane" id="contact_email">--}}
+    {{--{!! Form::open(['url' => '/admin/case/addemail']) !!}--}}
+    {{--{{ csrf_field() }}--}}
+    {{--<div class="form-group" style="display: none; visibility: hidden">--}}
+    {{--{!! Form::text('id', $data->id) !!}--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('email', 'Email', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::email('email', null, ['placeholder' => 'email@email.com', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group row">--}}
+    {{--{{ Form::label('status', 'Status', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) }}--}}
+    {{--<div class="col-md-10">--}}
+    {{--{{ Form::text('status', null, ['placeholder' => 'Status', 'class' => 'form-control']) }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="form-group pull-right">--}}
+    {{--{{ Form::submit('Save', ['class' => 'btn btn-primary']) }}--}}
+    {{--{{ Form::close() }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--</div>--}}
+    {{--<!-- end new add contact information -->--}}
 
     <!-- old add contact information -->
     {{--<!-- address -->--}}
@@ -2657,8 +2765,8 @@
                         <div class="col-sm-10">
                             <input list="recipient" name="recipient" class="form-control" id="to"
                                    placeholder="Recipient"
-                                   onclick="change_focus(this.id)" onfocus="this.placeholder=''"
-                                   onblur="this.placeholder='Recipient'" required autocomplete="off">
+                                   onclick="change_focus(this.id);" onfocus="this.placeholder='';"
+                                   onblur="this.placeholder='Recipient';" required autocomplete="off">
                             <datalist id="recipient">
                                 @foreach($admins as $admin)
                                     <option value="{{ Sentinel::findById($admin->user_id)->email}}">{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</option>
@@ -2678,8 +2786,8 @@
                         <div class="col-sm-10">
                             <input list="mentioned" name="mentioned" class="form-control" id="cc"
                                    placeholder="Mentioned"
-                                   onclick="change_focus(this.id)" onfocus="this.placeholder=''"
-                                   onblur="this.placeholder='Mentioned'">
+                                   onclick="change_focus(this.id);" onfocus="this.placeholder='';"
+                                   onblur="this.placeholder='Mentioned';">
                             <datalist id="mentioned">
                                 @foreach($admins as $admin)
                                     <option value="{{ Sentinel::findById($admin->user_id)->email}}">{{ Sentinel::findById($admin->user_id)->first_name." ".Sentinel::findById($admin->user_id)->last_name }}</option>
