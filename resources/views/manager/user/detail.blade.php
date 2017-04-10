@@ -278,15 +278,6 @@
                             {!! Form::text('zip', $profile->zip, ['placeholder' => '90000', 'class' => 'form-control']) !!}
                             </div>
                         </div>
-                        <div class="form-group row">
-{{--                            {!! Form::label('role', 'Level*', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align: right']) !!}--}}
-                            <label class="col-md-2 col-form-label control-label" style="padding-top:7px; text-align:right;">
-                                <span><strong>Level </strong></span><span style="color: red"><strong>*</strong></span>
-                            </label>
-                            <div class="col-md-10">
-                            {!! Form::select('role', ['Admins' => 'Admin', 'Managers' => 'Case Manager', 'Staff' => 'Staff', 'Youths' => 'Youth'], $editrole, ['class' => 'form-control']) !!}
-                            </div>
-                        </div>
                         <div class="form-group pull-right">
                             <a type="button" class="btn btn-default" href="{{ url('manager/user/'.$user->id.'/view') }}">Cancel</a>
                             {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}

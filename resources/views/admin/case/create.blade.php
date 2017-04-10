@@ -4,6 +4,8 @@
 @section('head')
 
     <link href="{{ asset('cssnew/datepicker/jquery-ui.css') }}" rel="stylesheet">
+    <link href="{{ asset('cssnew/datepicker/jquery-ui.theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('cssnew/datepicker/jquery-ui.structure.css') }}" rel="stylesheet">
     <script src="{{ asset('cssnew/datepicker/js/jquery-3.1.1.js') }}"></script>
     <script src="{{ asset('cssnew/datepicker/jquery-ui.js') }}"></script>
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
@@ -14,9 +16,11 @@
         $(document).ready(function () {
             $('#birthday_create').datepicker({
                 maxDate: new Date(),
+                minDate: '-75Y',
+                yearRange: "c-75:c+0",
                 dateFormat: "mm/dd/yy",
                 changeYear: true,
-                changeMonth: true,
+                changeMonth: true
             });
             $('#ssn').blur(function () {
                 if((document.getElementById('ssn').value.length != 0) && (document.getElementById('ssn').value.length != 11)) {

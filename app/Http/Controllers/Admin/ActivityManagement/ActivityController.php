@@ -115,7 +115,11 @@ class ActivityController extends Controller
         } catch (InvalidArgumentException $e) {
             print $e;
         }
-        return redirect('admin');
+        if($request->get('case_related')) {
+            return redirect()->back();
+        } else {
+            return redirect('admin');
+        }
     }
     public function delete($activity_id) {
         $activity = Activity::where('id', $activity_id)->first();

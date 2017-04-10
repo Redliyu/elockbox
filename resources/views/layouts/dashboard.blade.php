@@ -171,16 +171,16 @@
                                                                                                alt="user-mail">{{Sentinel::getUser()->email}}
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="dropdown-menu-header">
-                        <strong>Account</strong>
-                    </li>
-                    <li><a href="page-profile.html"><i class="fa fa-user"></i> Profile</a></li>
-                    <li><a href="page-login.html"><i class="fa fa-wrench"></i> Settings</a></li>
-                    <li><a href="page-invoice.html"><i class="fa fa-usd"></i> Payments <span
-                                    class="label label-default">10</span></a></li>
-                    <li><a href="gallery.html"><i class="fa fa-file"></i> File <span
-                                    class="label label-primary">27</span></a></li>
-                    <li class="divider"></li>
+                    {{--<li class="dropdown-menu-header">--}}
+                        {{--<strong>Account</strong>--}}
+                    {{--</li>--}}
+                    {{--<li><a href="page-profile.html"><i class="fa fa-user"></i> Profile</a></li>--}}
+                    {{--<li><a href="page-login.html"><i class="fa fa-wrench"></i> Settings</a></li>--}}
+                    {{--<li><a href="page-invoice.html"><i class="fa fa-usd"></i> Payments <span--}}
+                                    {{--class="label label-default">10</span></a></li>--}}
+                    {{--<li><a href="gallery.html"><i class="fa fa-file"></i> File <span--}}
+                                    {{--class="label label-primary">27</span></a></li>--}}
+                    {{--<li class="divider"></li>--}}
                     <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
                 </ul>
             </li>
@@ -250,6 +250,9 @@
                                     </li>
                                     <li><a href="{{ url('admin/settings/password') }}"><i class="fa fa-gear"></i><span
                                                     class="text"> Reset Password</span></a></li>
+                                    </li>
+                                    <li><a href="{{ url('admin/settings/survey') }}"><i class="fa fa-gear"></i><span
+                                                    class="text"> Set Survey</span></a></li>
                                     </li>
                                 </ul>
                             </li>

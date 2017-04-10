@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(DocumentTypeSeeder::class);
         $this->call(ProgramListSeeder::class);
+        $this->call(InitialUserSeeder::class);
 
         Model::reguard();
     }

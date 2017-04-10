@@ -33,7 +33,7 @@
                 <div class="heading text-center">
                     <!-- Heading -->
                     <br><br>
-                    <h2>Welcome to E-Lockbox!</h2>
+                    <h2>Welcome to e-Lockbox!</h2>
                     <p>Please enter your email and password.</p>
                 </div>
             </div>

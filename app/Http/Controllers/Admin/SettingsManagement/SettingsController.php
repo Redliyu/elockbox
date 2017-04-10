@@ -6,6 +6,7 @@ use App\CreateCase;
 use App\Docs;
 use App\DocType;
 use App\ProgramList;
+use App\Survey;
 use App\User;
 use App\UserRole;
 use App\UserStatus;
@@ -110,8 +111,54 @@ class SettingsController extends Controller
             Sentinel::update($user, array('password' => $request->password1));
             return redirect()->back();
         }catch (Exception $e) {
-
+            return 0;
         }
+    }
 
+    public function survey()
+    {
+        $survey = Survey::all();
+        $program_list = ProgramList::all();
+        $program_name = null;
+        foreach ($program_list as $program) {
+            $program_name[$program->id] = $program->program_name;
+        }
+        return view("admin.settings.survey", [
+            'surveys' => $survey,
+            'program_name' => $program_name
+        ]);
+    }
+
+    public function addSurvey(Request $request)
+    {
+        try{
+            $survey = new Survey;
+            $survey->link = $request->get('link');
+            $survey->description = $request->get('description');
+            $survey->program = $request->get('program');
+            $survey->save();
+            return redirect()->back();
+        }catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    public function deleteSurvey($id) {
+        $survey = Survey::find($id);
+        $survey->delete();
+        return redirect()->back();
+    }
+
+    public function editSurvey($id, Request $request) {
+        try{
+            $survey = Survey::find($id);
+            $survey->link = $request->get('link');
+            $survey->description = $request->get('description');
+            $survey->program = $request->get('program');
+            $survey->save();
+            return redirect()->back();
+        }catch (Exception $e) {
+            return 0;
+        }
     }
 }

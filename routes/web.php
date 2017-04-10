@@ -74,6 +74,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/addcontacts', 'CaseManagement\CaseController@storeAddContacts');
     Route::post('case/addcontacts/{id}/edit', 'CaseManagement\CaseController@editAddContacts');
     Route::get('case/addcontacts/{id}/delete', 'CaseManagement\CaseController@deleteAddContacts');
+    Route::post('case/addcontactinfo', 'CaseManagement\CaseController@addContactInfo');
     Route::post('case/addaddress', 'CaseManagement\CaseController@addAddress');
     Route::post('case/contact/address/{id}/edit', 'CaseManagement\CaseController@editAddress');
     Route::get('case/contact/address/{id}/delete', 'CaseManagement\CaseController@deleteAddress');
@@ -102,6 +103,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('{id}/edit', 'ActivityManagement\ActivityController@update');
     Route::get('{id}/delete', 'ActivityManagement\ActivityController@delete');
     Route::post('case/addactivity', 'ActivityManagement\ActivityController@create');
+    Route::get('settings/survey', 'SettingsManagement\SettingsController@survey');
+    Route::post('settings/survey/add', 'SettingsManagement\SettingsController@addSurvey');
+    Route::get('settings/survey/{id}/delete', 'SettingsManagement\SettingsController@deleteSurvey');
+    Route::post('settings/survey/{id}/edit', 'SettingsManagement\SettingsController@editSurvey');
 //    Route::get('settings/password', 'PasswordController@')
 ////    Route::get('admin_logout', ['uses' => 'Admin\AdminController@logout']);
 //    Route::get('/create', 'RegistrationController@create');
@@ -121,7 +126,7 @@ Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware' => [
     Route::post('case/{id}/edit', 'CaseManagement\CaseController@update');
     Route::get('case/{id}/active', ['uses' => 'CaseManagement\CaseController@active']);
     Route::get('case/{id}/inactive', ['uses' => 'CaseManagement\CaseController@inactive']);
-    Route::post('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
+//    Route::post('case/{id}/delete', ['uses' => 'CaseManagement\CaseController@delete']);
     Route::get('case/{id}/account', ['uses' => 'CaseManagement\CaseController@createaccount']);
     Route::post('case/{id}/account', ['as' => 'manager.case.create.account', 'uses' => 'CaseManagement\CaseController@storeaccount']);
     Route::post('case/upload', 'CaseManagement\FileuploadingController@showfileupload');
