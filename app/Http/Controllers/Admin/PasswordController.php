@@ -8,6 +8,8 @@ use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Log;
+
 use Mail;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -87,6 +89,7 @@ class PasswordController extends Controller
         } else {
             if (md5($user->email) == $mdemail) {
                 Sentinel::update($user, array('password' => $request->password));
+                @Log::info('Password Self-Reset: ' . $user->email);
                 return redirect('/');
             } else {
                 echo "Authentication Failure";

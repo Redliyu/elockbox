@@ -13,6 +13,7 @@ use App\UserStatus;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Illuminate\Support\Facades\Log;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -42,6 +43,7 @@ class SettingsController extends Controller
         $program->program_abbr = $request->get('program_abbr');
         $program->program_name = $request->get('program_name');
         $program->save();
+        @Log::info('Program Settings Created: ' . Sentinel::getUser()->email . ' Program Abbreviation: ' . $program->program_abbr);
         return redirect()->back();
     }
     public function editProgramSettings($id, Request $request) {
@@ -77,6 +79,7 @@ class SettingsController extends Controller
         $doc_type->document_abbr = $request->get('document_abbr');
         $doc_type->document_type = $request->get('document_type');
         $doc_type->save();
+        @Log::info('Document Settings Created: ' . Sentinel::getUser()->email . ' Document Abbreviation: ' . $doc_type->document->abbr);
         return redirect()->back();
     }
     public function editDocumentSettings($id, Request $request) {
@@ -109,6 +112,7 @@ class SettingsController extends Controller
             $user_id = $user_find->id;
             $user = Sentinel::findById($user_id);
             Sentinel::update($user, array('password' => $request->password1));
+            @Log::info('Password Reset: ' . Sentinel::getUser()->email . ' User: ' . $user_find->email);
             return redirect()->back();
         }catch (Exception $e) {
             return 0;
@@ -137,6 +141,7 @@ class SettingsController extends Controller
             $survey->description = $request->get('description');
             $survey->program = $request->get('program');
             $survey->save();
+            @Log::info('Survey Created: ' . Sentinel::getUser()->email . ' Survey Description: ' . $survey->description);
             return redirect()->back();
         }catch (Exception $e) {
             return 0;
@@ -156,6 +161,7 @@ class SettingsController extends Controller
             $survey->description = $request->get('description');
             $survey->program = $request->get('program');
             $survey->save();
+            @Log::info('Survey Edited: ' . Sentinel::getUser()->email . ' Survey Description: ' . $survey->description);
             return redirect()->back();
         }catch (Exception $e) {
             return 0;
