@@ -119,6 +119,7 @@ class LoginController extends Controller
     }
 
     public function logout() {
+        @Log::info('User Logout: '.Sentinel::getUser()->email);
         Sentinel::logout();
         return redirect()->intended('/');
     }
