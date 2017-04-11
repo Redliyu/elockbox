@@ -149,7 +149,7 @@ class UserController extends Controller
 //        dd($role);
         $role->save();
         @Log::info('User Edited: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
-        return redirect()->back();
+        return redirect()->back()->withFlashMessage("User profile was successfully updated.");
     }
     public function inactive($user_id) {
         $curuser_id = Sentinel::getUser()->id;
@@ -159,7 +159,7 @@ class UserController extends Controller
             @Log::info('User Inactivated: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
             return redirect()->back();
         } else {
-            return redirect('error');
+            return redirect()->back()->withErrors(["You cannot inactivate yourself."]);
         }
 
     }

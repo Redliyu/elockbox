@@ -19,6 +19,7 @@ use App\Http\Requests\CreateCaseFormRequest;
 use App\Http\Requests\UpdateCaseFormRequest;
 use App\Http\Controllers\Controller;
 use Mockery\CountValidator\Exception;
+use Psy\Exception\ErrorException;
 use Sentinel;
 use DB;
 use App\VrfyCode;
@@ -51,7 +52,7 @@ class CaseController extends Controller
     public function store(CreateCaseFormRequest $request)
     {
         try {
-            $currentUser = User::where('email', $request->creator)->first();
+            $currentUser = @User::where('email', $request->creator)->first();
             $input = $request->only('email', 'first_name', 'last_name', 'birthday', 'gender', 'ssn', 'ilp', 'ethnicity', 'program');
             $case = new CreateCase;
             $case->email = $request->get('email');

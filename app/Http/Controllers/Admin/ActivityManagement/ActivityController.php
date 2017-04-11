@@ -57,7 +57,6 @@ class ActivityController extends Controller
     public function update($activity_id, Request $request) {
         try{
             $activity = Activity::where('id', $activity_id)->first();
-//            echo $activity;
             $activity->subject = $request->get('subject');
             $activity->task = $request->get('task');
             $activity->ddl = date("Y-m-d", strtotime($request->get('ddl')));
