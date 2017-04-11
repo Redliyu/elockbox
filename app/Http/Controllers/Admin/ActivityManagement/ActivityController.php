@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Psy\Exception\ErrorException;
 
 class ActivityController extends Controller
 {
@@ -100,7 +101,10 @@ class ActivityController extends Controller
             $activity = new Activity;
             $activity->subject = $request->get('subject');
             $activity->ddl = date("Y-m-d", strtotime($request->get('ddl')));
-            $recipient = User::where('email', $request->get('recipient'))->first()->id;
+            $recipient = @User::where('email', $request->get('recipient'))->first()->id;
+            if($recipient == null) {
+                throw new ErrorException('Invaid user input');
+            }
             $activity->assigned = $recipient;
             $activity->creator = Sentinel::getUser()->id;
             if($request->get('mentioned')) {
@@ -112,14 +116,17 @@ class ActivityController extends Controller
             }
             $activity->message = $request->get('message');
             $activity->save();
+            if($request->get('case_related')) {
+                return redirect()->back();
+            } else {
+                return redirect('admin')->withFlashMessage('Activity successfull created!');
+            }
         } catch (InvalidArgumentException $e) {
             print $e;
+        } catch (ErrorException $e) {
+            return redirect()->back()->withErrors(["Invalid recipient!"]);
         }
-        if($request->get('case_related')) {
-            return redirect()->back();
-        } else {
-            return redirect('admin');
-        }
+
     }
     public function delete($activity_id) {
         $activity = Activity::where('id', $activity_id)->first();

@@ -180,7 +180,7 @@ Route::group(['middleware' => ['youth']], function ()
 //    Route::get('youth_logout', ['uses' => 'Youth\YouthController@logout']);
 });
 Route::get('/fail', function() {
-    echo 'You do not have premission!';
+    return view('errors.nopermission');
 });
 Route::get('/error', function () {
     return view('errors.503');
