@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>404</title>
+        <title>404 Not Found</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="{{ asset('cssnew/assets/ico/favicon.ico') }}" type="image/x-icon"/>

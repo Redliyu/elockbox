@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use League\Flysystem\Exception;
+use Psy\Exception\ErrorException;
 
 class SettingsController extends Controller
 {
@@ -108,14 +109,17 @@ class SettingsController extends Controller
     }
     public function resetPassword(Request $request) {
         try{
-            $user_find = User::where('email', $request->user)->first();
+            @$user_find = User::where('email', $request->user)->first();
+            if($user_find == null) {
+                throw new ErrorException('Invalid email!');
+            }
             $user_id = $user_find->id;
             $user = Sentinel::findById($user_id);
             Sentinel::update($user, array('password' => $request->password1));
             @Log::info('Password Reset: ' . Sentinel::getUser()->email . ' User: ' . $user_find->email);
-            return redirect()->back();
-        }catch (Exception $e) {
-            return 0;
+            return redirect()->back()->with('flash_message','Password successfully update!');
+        }catch (ErrorException $e) {
+            return redirect()->back()->withErrors(["Invalid email!"]);
         }
     }
 

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Be right back.</title>
+        <title>500 Internal Server Error</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-        <link rel="shortcut icon" href="{{ asset('cssnew/assets/ico/favicon.ico') }}" type="image/x-icon"/>
 
         <style>
             html, body {
@@ -46,8 +45,8 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Sorry.</div>
-                <div class="subtitle">You don't have the permission to visit this page.</div>
+                <div class="title">Be right back.</div>
+                <div class="subtitle">The server currently cannot handle your request.</div>
                 <div>Contact IT: <a href="mailto:it@LivingAdvantageInc.org">it@livingadvantageinc.org</a></div>
             </div>
         </div>

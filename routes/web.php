@@ -179,7 +179,7 @@ Route::group(['middleware' => ['youth']], function () {
 //    Route::get('youth_logout', ['uses' => 'Youth\YouthController@logout']);
 });
 Route::get('/fail', function() {
-    return view('errors.nopermission');
+    return view('errors.403');
 });
 Route::get('/error', function () {
     return view('errors.503');
