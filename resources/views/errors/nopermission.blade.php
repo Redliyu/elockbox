@@ -36,12 +36,18 @@
                 font-size: 72px;
                 margin-bottom: 40px;
             }
+
+            .subtitle {
+                font-size: 60px;
+                margin-bottom: 40px;
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">You don't have the permission to visit this page.</div>
+                <div class="title">Sorry.</div>
+                <div class="subtitle">You don't have the permission to visit this page.</div>
                 <div>Contact IT: <a href="mailto:it@LivingAdvantageInc.org">it@livingadvantageinc.org</a></div>
             </div>
         </div>

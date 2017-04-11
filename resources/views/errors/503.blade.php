@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Be right back.</title>
+        <title>503</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -35,12 +35,19 @@
                 font-size: 72px;
                 margin-bottom: 40px;
             }
+
+            .subtitle {
+                font-size: 60px;
+                margin-bottom: 40px;
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
                 <div class="title">Be right back.</div>
+                <div class="subtitle">The server currently cannot handle your request.</div>
+                <div>Contact IT: <a href="mailto:it@LivingAdvantageInc.org">it@livingadvantageinc.org</a></div>
             </div>
         </div>
     </body>
