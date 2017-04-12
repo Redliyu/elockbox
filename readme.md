@@ -173,7 +173,7 @@ The uploaded documents is under public/uploads/case directory. Each subdirectory
 * Create database named YOURDATABASE
 `create database YOURDATABASE;`
 * Delete database named YOURDATABASE
-`drop database YOURDATABASE`
+`drop database YOURDATABASE;`
 
 
 
