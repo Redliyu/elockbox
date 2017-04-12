@@ -168,7 +168,7 @@
             <li class="dropdown visible-md visible-lg">
                 <a id="cur_email" href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="user-avatar"
                                                                                                src="{{ asset('cssnew/assets/img/avatar.png') }}"
-                                                                                               alt="user-mail">{{Sentinel::getUser()->email}}
+                                                                                               alt="user-mail">{{@Sentinel::getUser()->email ? : "Not exists."}}
                 </a>
                 <ul class="dropdown-menu">
                     {{--<li class="dropdown-menu-header">--}}
@@ -252,7 +252,7 @@
                                                     class="text"> Reset Password</span></a></li>
                                     </li>
                                     <li><a href="{{ url('admin/settings/survey') }}"><i class="fa fa-gear"></i><span
-                                                    class="text"> Set Survey</span></a></li>
+                                                    class="text"> Survey Settings</span></a></li>
                                     </li>
                                 </ul>
                             </li>

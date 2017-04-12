@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Sentinel;
 use DB;
 use App\Http\Requests\VrfycodeFormRequest;
@@ -49,11 +50,12 @@ class LoginController extends Controller
             return redirect()->back()->withInput()->withErrorMessage('User Not Activated.');
         } catch (ThrottlingException $e) {
             return redirect()->back()->withInput()->withErrorMessage($e->getMessage());
+        } catch (\Swift_TransportException $e) {
+            abort(404);
         }
     }
 
     protected function redirectVrfyCode($user_id, $email, $code) {
-//        echo "<script>alert($code)</script>";//to delete
         return view('login.verify', [
             'user_id' => $user_id,
             'email' => $email,
@@ -74,16 +76,27 @@ class LoginController extends Controller
         $manager = Sentinel::findRoleByName('Managers');
         $staff = Sentinel::findRoleByName('Staff');
         $youth = Sentinel::findRoleByName('Youths');
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
         if ($user->inRole($admin)) {
+            Log::info('Admin User Login: '.$user->email.' ip: '.$ip);
             Sentinel::login($user);//create session!! do not delete!!
             return redirect()->intended('admin');
         } elseif ($user->inRole($manager)) {
+            Log::info('Manager User Login: '.$user->email.' ip: '.$ip);
             Sentinel::login($user);//create session!! do not delete!!
             return redirect()->intended('manager');
         } elseif ($user->inRole($staff)) {
+            Log::info('Staff User Login: '.$user->email.' ip: '.$ip);
             Sentinel::login($user);//create session!! do not delete!!
             return redirect()->intended('staff');
         } elseif ($user->inRole($youth)) {
+            Log::info('Youth User Login: '.$user->email.' ip: '.$ip);
             Sentinel::login($user);//create session!! do not delete!!
             return redirect()->intended('youth');
         } else {
@@ -106,6 +119,7 @@ class LoginController extends Controller
     }
 
     public function logout() {
+        @Log::info('User Logout: '.Sentinel::getUser()->email);
         Sentinel::logout();
         return redirect()->intended('/');
     }

@@ -47,6 +47,15 @@
             </ol>
         </div>
     </div>
+    @if (session()->has('flash_message'))
+        <div class="alert alert-success col-md-12">
+            <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @elseif($errors->any())
+        <div class="alert alert-danger col-md-12">
+            <p>{{ $errors->first() }}</p>
+        </div>
+    @endif
     <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -77,15 +86,15 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    {!! Form::label('password', 'New Password', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                    {!! Form::label('password1', 'New Password', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
                     <div class="col-md-10">
-                        {!! Form::text('password1', null, ['id' => 'pwd1', 'placeholder' => 'New password', 'class' => 'form-control', 'autocomplete' => 'off']) !!}
+                        {!! Form::password('password1', ['id' => 'pwd1', 'placeholder' => 'New password', 'class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required']) !!}
                     </div>
                 </div>
                 <div class="form-group row">
-                    {!! Form::label('password', 'Confirm Password', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
+                    {!! Form::label('password2', 'Confirm Password', ['class' => 'col-md-2 col-form-label control-label', 'style' => 'padding-top:7px; text-align:right']) !!}
                     <div class="col-md-10">
-                        {!! Form::text('password2', null, ['id' => 'pwd2', 'placeholder' => 'New password', 'class' => 'form-control', 'autocomplete' => 'off']) !!}
+                        {!! Form::password('password2', ['id' => 'pwd2', 'placeholder' => 'New password', 'class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required']) !!}
                     </div>
                     <div id="cpwd" style="display: none; color: red; margin-bottom: -10px;" class="col-md-4 col-md-offset-2">
                         Password not same.

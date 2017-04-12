@@ -51,12 +51,11 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th style="width: 14%;">Link</th>
-                                <th style="width: 14%;">Description</th>
-                                <th style="width: 14%">Program</th>
-                                <th style="width: 14%;">Created Time</th>
-                                <th style="width: 14%;">Last Modified Time</th>
-                                <th style="width: 14%">Action</th>
+                                <th style="width: 20%;">Link</th>
+                                <th style="width: 20%;">Description</th>
+                                <th style="width: 20%">Program</th>
+                                <th style="width: 20%;">Last Modified Time</th>
+                                <th style="width: 20%">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -64,8 +63,7 @@
                                 <tr>
                                     <td>{{ $survey->link }}</td>
                                     <td>{{ $survey->description }}</td>
-                                    <td>{{ $program_name[$survey->program] }}</td>
-                                    <td>{{ date("m/d/Y H:i:s", strtotime($survey->created_at)) }}</td>
+                                    <td>{{ @($program_name[$survey->program]) ?: "Program has been deleted."}}</td>
                                     <td>{{ date("m/d/Y H:i:s", strtotime($survey->updated_at)) }}</td>
                                     <td>
                                         <button type="button" class="btn btn-warning" data-toggle="modal"
