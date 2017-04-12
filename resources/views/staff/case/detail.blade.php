@@ -506,16 +506,16 @@
                         <table class="table table-striped">
                             <thead>
                             <tr style="text-align: left">
-                                <th style="width: 14%;">Type</th>
-                                <th style="width: 14%;">Title</th>
-                                <th style="width: 14%;">Uploaded By</th>
-                                <th style="width: 21%;">Upload Date</th>
-                                <th style="width: 21%;">Last Modified Date</th>
+                                <th style="width: 6%;">Type</th>
+                                <th style="width: 11%;">Title</th>
+                                <th style="width: 11%">Visibility</th>
+                                <th style="width: 11%;">Uploaded By</th>
+                                <th style="width: 22%;">Upload Date</th>
+                                <th style="width: 22%;">Last Modified Date</th>
                                 @if($data->status)
-                                    <th style="width: 14%;">Action</th>
+                                    <th style="width: 16%;">Action</th>
                                 @endif
                             </tr>
-
                             </thead>
                             <tbody>
                             @foreach($docs as $doc)
@@ -524,6 +524,7 @@
                                     <td>
                                         <a data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
+                                    <td>{{$doc->visible}}</td>
                                     <td>{{$doc->uploader}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
@@ -533,7 +534,6 @@
                                         </td>
                                     @endif
                                 </tr>
-
                             @endforeach
                             </tbody>
                         </table>
