@@ -918,7 +918,7 @@
                     Notice: Either uppercase or lowercase is accepted.
                     {!! Form::open(['url' => 'admin/case/'.$data->id.'/delete']) !!}
                     <div class="form-group row" style="margin-top: 10px; padding-left: 15px; padding-right: 15px;">
-                        {{ Form::text('youth_name', null, ['placeholder' => 'Firstname Lastname', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)', 'autocomplete' => 'off']) }}
+                        {{ Form::text('youth_name', null, ['placeholder' => 'Firstname Lastname', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onchange' => 'test(this)', 'onkeyup' => 'test(this)', 'onmousemove' => 'test(this)',  'onmousedown' => 'test(this)','autocomplete' => 'off']) }}
 
                         {{ Form::submit('I understand the consequences, delete this case', ['id' => 'delCase', 'class' => 'btn btn-danger pull-right', 'disabled']) }}
                     </div>
