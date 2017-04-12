@@ -74,6 +74,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('case/addcontacts', 'CaseManagement\CaseController@storeAddContacts');
     Route::post('case/addcontacts/{id}/edit', 'CaseManagement\CaseController@editAddContacts');
     Route::get('case/addcontacts/{id}/delete', 'CaseManagement\CaseController@deleteAddContacts');
+    Route::post('case/addcontactinfo', 'CaseManagement\CaseController@addContactInfo');
     Route::post('case/addaddress', 'CaseManagement\CaseController@addAddress');
     Route::post('case/contact/address/{id}/edit', 'CaseManagement\CaseController@editAddress');
     Route::get('case/contact/address/{id}/delete', 'CaseManagement\CaseController@deleteAddress');

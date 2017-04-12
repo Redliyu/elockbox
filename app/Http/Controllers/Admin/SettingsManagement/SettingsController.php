@@ -150,11 +150,15 @@ class SettingsController extends Controller
     }
 
     public function editSurvey($id, Request $request) {
-        $survey = Survey::find($id);
-        $survey->link = $request->get('link');
-        $survey->description = $request->get('description');
-        $survey->program = $request->get('program');
-        $survey->save();
-        return redirect()->back();
+        try{
+            $survey = Survey::find($id);
+            $survey->link = $request->get('link');
+            $survey->description = $request->get('description');
+            $survey->program = $request->get('program');
+            $survey->save();
+            return redirect()->back();
+        }catch (Exception $e) {
+            return 0;
+        }
     }
 }
