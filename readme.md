@@ -6,7 +6,9 @@ This instruction will be organized by following parts.
 
 * [Install on local machine](#install-on-local-machine)
 * [Install on server](#install-on-server)
-* [Check Logs](#check-logs)
+* [Maintain the server](#maintain-the-server)
+* [Useful command](#useful-command)
+* [Authors](#authors)
 
 
 ## Install on Local Machine
@@ -29,12 +31,15 @@ These are the prerequisites for installing on local machine, if your machine do 
 ### Installing
 
 ###### 1. Clone the repository to the local.
-`$ git clone https://github.com/Phantomato/elockboxDEV.git`
+```
+$ git clone https://github.com/Phantomato/elockbox.git
+$ cd elockbox
+```
 
-###### 2. cd into the directory, then install.
+###### 2. Under the directory, then install.
 `$ composer install`
 
-###### 3. Change file '.env.example' to '.env', and create database according to the file '.env'.
+###### 3. Change file '.env.example' to '.env', and create database according to the file '.env'. Basically you need to set up the database name, username and password.
 
 ###### 4. Generate a new key.
 `$ php artisan key:generate`
@@ -43,7 +48,10 @@ These are the prerequisites for installing on local machine, if your machine do 
 `$ php artisan migrate`
 
 ###### 6. Seed the initial data into the database.
-`$ php artisan db:seed`
+```bash
+$ composer dump-autoload
+$ php artisan db:seed
+```
 
 ###### 7. Try to run this project in browser. Use `/public/debug/create` to create the first user. Have fun :)
 
@@ -80,7 +88,7 @@ $ sudo systemctl restart apache2
 ```
 Now you can test by your browser by visit `http://your_server_IP_address`.
 
-#### Installing and configuring MySQL
+#### 2. Installing and configuring MySQL
 
 Install MySQL.
 ```bash
@@ -93,7 +101,7 @@ $ sudo mysql_secure_installation
 ```
 You will be asked to config security level of MySQL.
 
-#### Installing and configuring PHP
+#### 3. Installing and configuring PHP
 
 Install PHP and some tools.
 ```bash
@@ -120,7 +128,7 @@ Suggest to install `php-cli`, `php-curl`, `php-gd`, `php-pear`, `php-imagick`, `
 
 After these steps, you can test your php by `$ sudo nano /var/www/html/info.php` and write `<?php phpinfo(); ?>` in it.
 
-#### Installing composer, git and some basic command line tools.
+#### 4. Installing composer, git and some basic command line tools.
 
 Install curl and composer.
 ```bash
@@ -129,22 +137,42 @@ $ sudo curl -sS https://getcomposer.org/installer | php
 $ sudo mv composer.phar /usr/local/bin/composer
 $ sudo chmod +x /usr/local/bin/composer
 ```
-Clone the project.
-```bash
-$ sudo apt install git
-$ sudo git clone https://github.com/Phantomato/elockboxDEV.git
-$ cd ./elockboxDEV
-```
-Set up the .env and create database, then install the project.
-```bash
-$ php artisan key:generate
-$ php artisan migrate
-$ php artisan db:seed
-```
+
+Then you can follow the [installing instructions](#installing).
 
 Now you finish the installation. Visit `/elockboxDEV/public` to see the project and use `/elockboxDEV/public/debug/create` to create the first user.
 
-## Check logs
+## Maintain the Server
+
+### Check log files
+
+The log file named laravel.log is under /storage/logs directory. The log is self-describable.
+
+The following action will be logged.
+* Login the system.
+* Logout the system.
+* Create/Activate/Inactivate an account.
+* Create/Activate/Inactivate/Edit a case.
+
+In order to make log files readable, the maintainer should periodically backup and rename the old log files. There is no need to create laravel.log again. The system will generate a new log file. Recommend the following step:
+
+```bash
+$ sudo mv laravel.log laravel.log.bak1
+```
+
+This command will rename the file as laravel.log.bak1. You can add time in the file name if necessary.
+
+### Uploaded documents
+
+The uploaded documents is under public/uploads/case directory. Each subdirectory is named after case id.
+
+## Useful Command
+
+* Log into mysql as root with password
+`$ mysql -r root -p`
+* Create database named YOURDATABASE
+`create database YOURDATABASE;`
+*
 
 
 ## Authors
