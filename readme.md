@@ -2,6 +2,13 @@
 
 A data management system based on PHP, Laravel5 framework, and MySQL. Developed by USC CSCI577 2016Fall Team10.
 
+This instruction will be organized by following parts.
+
+* [Install on local machine](#install-on-local-machine)
+* [Install on server](#install-on-server)
+* [Check Logs](#check-logs)
+
+
 ## Install on Local Machine
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -92,7 +99,7 @@ Install PHP and some tools.
 ```bash
 $ sudo apt-get install php libapache2-mod-php php-mcrypt php-mysql
 ```
-Then edit the priority of index.*.
+Then edit the priority of index.
 ```bash
 $ sudo nano /etc/apache2/mods-enabled/dir.conf
 ```
@@ -136,6 +143,8 @@ $ php artisan db:seed
 ```
 
 Now you finish the installation. Visit `/elockboxDEV/public` to see the project and use `/elockboxDEV/public/debug/create` to create the first user.
+
+## Check logs
 
 
 ## Authors
