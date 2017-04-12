@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegistrationFormRequest;
+use Illuminate\Support\Facades\Log;
 use Sentinel;
 use App\Http\Requests;
 use DB;
@@ -16,13 +17,15 @@ use App\Http\Controllers\Controller;
 class RegistrationController extends Controller
 {
     //
-    public function create() {
+    public function create()
+    {
         return view('registration.create');
     }
 
-    public function store(RegistrationFormRequest $request) {
+    public function store(RegistrationFormRequest $request)
+    {
         //get email, pwd, f_n, l_n
-        try{
+        try {
             $input = $request->only('email', 'password', 'first_name', 'last_name');
             ////register and activate, store account into users table and activations table
             $user = Sentinel::registerAndActivate($input);
@@ -52,6 +55,7 @@ class RegistrationController extends Controller
             $newprofile->state = $request->get('state');
             $newprofile->zip = $request->get('zip');
             $newprofile->save();
+            @Log::info('Account Created: ' . Sentinel::getUser()->email . ' Account: ' . $request->get('email') . ' Role: ' . $request->get('role'));
             //return back with message
             return redirect('admin/user/create')->withFlashMessage('User Successfully Created and Activated!');
         } catch (InvalidArgumentException $e) {
@@ -60,11 +64,13 @@ class RegistrationController extends Controller
 
     }
 
-    public function debugcreate() {
+    public function debugcreate()
+    {
         return view('debugcreate');
     }
 
-    public function debugstore(Request $request) {
+    public function debugstore(Request $request)
+    {
         $input = $request->only('email', 'password', 'first_name', 'last_name');
         $user = Sentinel::registerAndActivate($input);
         $role = $request->only('role');
