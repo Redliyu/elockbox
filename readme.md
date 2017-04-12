@@ -172,7 +172,9 @@ The uploaded documents is under public/uploads/case directory. Each subdirectory
 `$ mysql -r root -p`
 * Create database named YOURDATABASE
 `create database YOURDATABASE;`
-*
+* Delete database named YOURDATABASE
+`drop database YOURDATABASE`
+
 
 
 ## Authors
