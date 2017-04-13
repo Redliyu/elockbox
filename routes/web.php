@@ -170,6 +170,7 @@ Route::group(['namespace' => 'Staff', 'prefix' => 'staff', 'middleware' => ['sta
     Route::get('case/{id}/view', ['uses' => 'CaseManagement\CaseController@viewdetail']);
     Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
     Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
+    Route::post('user/{id}/edit', 'UserManagement\UserController@update');
     Route::post('activity/create', 'ActivityManagement\ActivityController@create');
     Route::get('{id}/view', 'ActivityManagement\ActivityController@viewdetail');
 //    Route::post('{id}/edit', 'ActivityManagement\ActivityController@update');
