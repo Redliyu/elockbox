@@ -178,9 +178,7 @@
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong> Social
-                                            Security
-                                            Number</strong></div>
+                                                                   style="color: #4C4F53"></i><strong> SSN </strong></div>
                                     <div style="color: #6699CC" onclick="show_ssn()" id="hidden_ssn">
                                         @if($data->ssn)
                                             <?php

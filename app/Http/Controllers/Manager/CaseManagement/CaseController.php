@@ -12,6 +12,7 @@ use App\ProgramList;
 use App\UserRole;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use App\Http\Requests;
 use App\Http\Requests\CreateCaseFormRequest;
@@ -65,6 +66,7 @@ class CaseController extends Controller
             $case->cm_id = $currentUser->id;
             $case->cm_name = $currentUser->first_name . ' ' . $currentUser->last_name;
             $case->save();
+            @Log::info('Case Created: ' . $currentUser->email . ' Case: ' . $case->email);
             return redirect('manager/case/create')->withFlashMessage('Case Successfully Created and Activated!');
         }catch (QueryException $e) {
             return redirect()->back()->withErrors(array("message" => "Fail to create a case, please check your email."));
@@ -182,6 +184,7 @@ class CaseController extends Controller
             $case->ethnicity = $request->get('ethnicity');
             $case->program = $request->get('program');
             $case->save();
+            @Log::info('Case Edited: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
             return redirect('manager/case/' . $id . '/view');
         } else {
             return redirect('fail');
@@ -199,6 +202,7 @@ class CaseController extends Controller
         if($case->cm_id == Sentinel::getUser()->id) {
             $case->status = 1;
             $case->save();
+            @Log::info('Case Activated: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
             return redirect('/manager/case/' . $id . '/view');
         } else {
             return redirect('fail');
@@ -211,6 +215,7 @@ class CaseController extends Controller
         if($case->cm_id == Sentinel::getUser()->id) {
             $case->status = 0;
             $case->save();
+            @Log::info('Case Inactivated: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
             return redirect('/manager/case/' . $id . '/view');
         } else {
             return redirect('fail');
@@ -232,6 +237,7 @@ class CaseController extends Controller
                 $deletepath = "uploads/" . $id;
                 Storage::deleteDirectory($deletepath);
                 //additional contact delete
+                @Log::info('Case Deleted: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
                 return redirect('/manager/case/view');
             } else {
                 return redirect()->back();
@@ -290,6 +296,7 @@ class CaseController extends Controller
             $newprofile->state = $request->get('state');
             $newprofile->zip = $request->get('zip');
             $newprofile->save();
+            @Log::info('Case Account Created: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
             return redirect()->back();
         } else {
             return redirect('fail');
@@ -432,6 +439,36 @@ class CaseController extends Controller
     }
 
     //contact information
+    public function addcontactinfo(Request $request)
+    {
+        if ($request->get('address') || $request->get('city') || $request->get('zipcode') || $request->get('address_status')) {
+            $address = new CaseAddress;
+            $address->case_id = $request->get('id');
+            $address->address = $request->get('address');
+            $address->city = $request->get('city');
+            $address->state = $request->get('state');
+            $address->zipcode = $request->get('zipcode');
+            $address->status = $request->get('address_status');
+            $address->save();
+        }
+        if ($request->get('number') || $request->get('type') || $request->get('phone_status')) {
+            $phone = new CasePhone;
+            $phone->case_id = $request->get('id');
+            $phone->number = $request->get('number');
+            $phone->type = $request->get('type');
+            $phone->status = $request->get('phone_status');
+            $phone->save();
+        }
+        if ($request->get('email') || $request->get('email_status')) {
+            $email = new CaseEmail();
+            $email->case_id = $request->get('id');
+            $email->email = $request->get('email');
+            $email->status = $request->get('email_status');
+            $email->save();
+        }
+        return redirect()->back();
+    }
+
     public function addAddress(Request $request)
     {
         $address = new CaseAddress;
