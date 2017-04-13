@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff\UserManagement;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -115,11 +116,30 @@ class UserController extends Controller
             $status = "Active";
         }
         return view('staff.user.detail', [
+            'user_id' => $user_id,
             'user' => $user,
             'profile' => $profile,
             'role' => $role,
             'editrole' => $editrole,
             'status' =>$status,
         ]);
+    }
+    public function update($user_id, Request $request) {
+        $user = User::where('id', $user_id)->first();
+        $profile = UserProfile::where('user_id', $user_id)->first();
+        $role = UserRole::where('user_id', $user_id)->first();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $profile->phone_number = $request->phone_number;
+        $profile->address1 = $request->address1;
+        $profile->address2 = $request->address2;
+        $profile->city = $request->city;
+        $profile->state = $request->state;
+        $profile->zip = $request->zip;
+        $user->save();
+        $profile->save();
+        $role->save();
+        @Log::info('User Edited: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
+        return redirect()->back();
     }
 }
