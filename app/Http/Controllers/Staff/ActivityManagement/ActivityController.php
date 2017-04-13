@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Staff\ActivityManagement;
 use App\Activity;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 use App\User;
 use App\UserRole;
 use App\Http\Requests;
@@ -112,6 +114,7 @@ class ActivityController extends Controller
             }
             $activity->message = $request->get('message');
             $activity->save();
+            @Log::info('Activity Created: ' . Sentinel::getUser()->email . ' Activity Subject: ' . $activity->subject . ' Activity Recipient: '.Sentinel::findById($activity->assigned)->email);
         } catch (InvalidArgumentException $e) {
             print $e;
         }

@@ -34,7 +34,7 @@
                     {{--General Information--}}
                     <div class="col-md-8" style="margin-top: 20px">
                         <h4><strong>General Information</strong></h4>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <ul class="profile-details">
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
@@ -51,7 +51,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <ul class="profile-details">
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
@@ -68,7 +68,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <ul class="profile-details">
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"

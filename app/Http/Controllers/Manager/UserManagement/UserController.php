@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager\UserManagement;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -135,19 +136,10 @@ class UserController extends Controller
         $profile->city = $request->city;
         $profile->state = $request->state;
         $profile->zip = $request->zip;
-        if($request->role == "Admins") {
-            $role->role_id = 1;
-        } elseif($request->role == "Managers") {
-            $role->role_id = 2;
-        } elseif($request->role == "Staff") {
-            $role->role_id = 3;
-        } else {
-            $role->role_id = 4;
-        }
         $user->save();
         $profile->save();
-//        dd($role);
         $role->save();
+        @Log::info('User Edited: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
         return redirect()->back();
     }
     public function inactive($user_id) {
@@ -155,6 +147,7 @@ class UserController extends Controller
         if($curuser_id != $user_id) {
             $user = Sentinel::findById($user_id);
             Activation::remove($user);
+            @Log::info('User Inactivated: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
             return redirect()->back();
         } else {
             return redirect('error');
@@ -168,6 +161,7 @@ class UserController extends Controller
             $activation = Activation::create($user);
             $code = $activation->code;
             Activation::complete($user, $code);
+            @Log::info('User Activated: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
             return redirect()->back();
         } else {
             return redirect('error');

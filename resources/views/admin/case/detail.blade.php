@@ -34,53 +34,74 @@
       $(document).ready(function() {
 
         $('#example1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           maxDate: new Date(),
           changeYear: true,
           changeMonth: true,
         });
         $('#start_date1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#end_date1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#start_date2').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#end_date2').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#start_date_edu1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#end_date_edu1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#start_date_edu2').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#end_date_edu2').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#birthday_edit').datepicker({
+          maxDate: new Date(),
           dateFormat: 'mm/dd/yy',
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           changeYear: true,
           changeMonth: true,
         });
@@ -310,9 +331,7 @@
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong> Social
-                                            Security
-                                            Number</strong></div>
+                                                                   style="color: #4C4F53"></i><strong> SSN </strong></div>
                                     <div style="color: #6699CC" onclick="show_ssn();" id="hidden_ssn">
                                         @if($data->ssn)
                                             <?php
@@ -505,7 +524,9 @@
                                 <tr>
                                     <th style="width: 42%;">Email</th>
                                     <th style="width: 42%;">Status</th>
+                                    @if($data->status)
                                     <th style="width: 14%;">Action</th>
+                                        @endif
                                 </tr>
                                 </thead>
                                 <tbody>

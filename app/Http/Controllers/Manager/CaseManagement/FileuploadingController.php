@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Docs;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use File;
+use Sentinel;
+use App\CreateCase;
 
 class FileuploadingController extends Controller
 {
@@ -20,6 +23,7 @@ class FileuploadingController extends Controller
     public function showfileupload(Request $request){
         $file = $request -> file('image');
         $id = $request->id;
+        $case = CreateCase::where("id", $id)->first();
         $type = $request->type;
         // show the file name
         $time = time();
@@ -57,6 +61,7 @@ class FileuploadingController extends Controller
         $doc->path = $destinationPath;
         $doc->visible = $request->get('visible');
         $doc->filename = $newName;
+        @Log::info('File uploaded: ' . Sentinel::getUser()->email . ' Case: ' . $case->email. ' File name: ' . $newName);
         $doc->save();
         return redirect('manager/case/'.$id.'/view');
     }
