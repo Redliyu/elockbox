@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,7 +47,9 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 //        return parent::render($request, $exception);
-//        return view('errors.500');
+        if($exception instanceof ValidationException) {
+            return parent::render($request, $exception);
+        }
         return response()->make(view('errors.404'), 404);
     }
 
