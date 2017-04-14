@@ -34,6 +34,13 @@ class LoginController extends Controller
     }
 
     public function authenticate(Request $request) {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
         $input = $request->only('email', 'password');
         try{
             if(Sentinel::authenticate($input)) {
@@ -45,6 +52,7 @@ class LoginController extends Controller
                 $this->basic_email($user_id);
                 return $this->redirectVrfyCode($user_id, $email, $code);
             }
+            @Log::warning('User Login Failed: '.$request->get('email'). ' ip: '.$ip);
             return redirect()->back()->withInput()->withErrorMessage('Invalid credentials provided');
         } catch (NotActivatedException $e) {
             return redirect()->back()->withInput()->withErrorMessage('User Not Activated.');
