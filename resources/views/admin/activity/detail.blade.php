@@ -19,6 +19,9 @@
             document.getElementById("view_activity").style.display = "block";
             document.getElementById("view_activity").style.visibility = "visible";
         }
+        function goBack() {
+          window.history.back();
+        }
         function change_focus(id) {
             focus_id = id;
         }
@@ -52,6 +55,15 @@
         </div>
     </div>
 
+    @if (session()->has('flash_message'))
+        <div class="alert alert-success col-md-12">
+            <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @elseif($errors->any())
+        <div class="alert alert-danger col-md-12">
+            <p>{{ $errors->first() }}</p>
+        </div>
+    @endif
     <div>
         {{--view activity--}}
         <div class="row inbox" id="view_activity">
@@ -157,7 +169,7 @@
                                           readonly>{{ $activity->message }}</textarea>
                             </div>
                             <div class="form-group pull-right">
-                                <a type="button" class="btn btn-default" href="{{ url('admin') }}">Cancel</a>
+                                <a type="button" class="btn btn-default" onclick="goBack()">Cancel</a>
                                 {{ Form::button('Edit', ['class' => 'btn btn-success', 'onclick' => 'javaScript:edit()']) }}
                                 {{ Form::close() }}
                             </div>

@@ -52,6 +52,15 @@
         </div>
     </div>
 
+    @if (session()->has('flash_message'))
+        <div class="alert alert-success col-md-12">
+            <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @elseif($errors->any())
+        <div class="alert alert-danger col-md-12">
+            <p>{{ $errors->first() }}</p>
+        </div>
+    @endif
     <div>
         {{--view activity--}}
         <div class="row inbox" id="view_activity">

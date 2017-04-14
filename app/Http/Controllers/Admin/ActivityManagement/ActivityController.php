@@ -60,7 +60,10 @@ class ActivityController extends Controller
             $activity->subject = $request->get('subject');
             $activity->task = $request->get('task');
             $activity->ddl = date("Y-m-d", strtotime($request->get('ddl')));
-            $recipient = User::where('email', $request->get('recipient'))->first()->id;
+            $recipient = @User::where('email', $request->get('recipient'))->first()->id;
+            if($recipient == null) {
+                throw new ErrorException('Invaid user input');
+            }
             if($activity->assigned == $recipient) {
                 $activity->assigned = $recipient;
             } else {
@@ -68,7 +71,10 @@ class ActivityController extends Controller
                 $activity->reci_status = 0;
             }
             if($request->get('mentioned')) {
-                $mentioned = User::where('email', $request->get('mentioned'))->first()->id;
+                $mentioned = @User::where('email', $request->get('mentioned'))->first()->id;
+                if($mentioned == null) {
+                    throw new ErrorException('Invaid user input');
+                }
                 if($activity->mentioned == $mentioned) {
                     $activity->mentioned = $mentioned;
                 } else {
@@ -95,6 +101,8 @@ class ActivityController extends Controller
             $activity->save();
         } catch (InvalidArgumentException $e) {
             print $e;
+        } catch (ErrorException $e) {
+            return redirect()->back()->withErrors(["Invalid recipient!"]);
         }
         return redirect('admin');
     }
@@ -110,7 +118,10 @@ class ActivityController extends Controller
             $activity->assigned = $recipient;
             $activity->creator = Sentinel::getUser()->id;
             if($request->get('mentioned')) {
-                $mentioned = User::where('email', $request->get('mentioned'))->first()->id;
+                $mentioned = @User::where('email', $request->get('mentioned'))->first()->id;
+                if($mentioned == null) {
+                    throw new ErrorException('Invaid user input');
+                }
                 $activity->mentioned = $mentioned;
             }
             if($request->get('case_related')) {

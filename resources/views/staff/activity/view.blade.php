@@ -204,7 +204,11 @@
                     <div class="panel-body contacts">
 
                         <a href="#" class="btn btn-primary btn-block">Contacts</a>
-
+                        <ul style="margin: 5px 0 0 0; border: 1px solid #20a8d8;">
+                            <li style="display: inline-block; cursor: default"><i class="label label-danger"></i><span style="font-size: 11px">Admin</span></li>
+                            <li style="display: inline-block; cursor: default"><i class="label label-primary"></i><span style="font-size: 11px">Manager</span></li>
+                            <li style="display: inline-block; cursor: default"><i class="label label-success"></i><span style="font-size: 11px">Staff</span></li>
+                        </ul>
                         <ul id="contacts_list">
                             @foreach($admins as $admin)
                                 <li onclick="add(this)" style="height: 50px">

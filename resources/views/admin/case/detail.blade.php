@@ -573,12 +573,14 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th style="width: 16%;">Subject</th>
-                                <th style="width: 16%;">Task</th>
-                                <th style="width: 16%;">Due Date</th>
-                                <th style="width: 16%;">Assigned To</th>
-                                <th style="width: 16%;">Last Modified Date</th>
-                                <th style="width: 16%;">Action</th>
+                                <th style="width: 12.5%;">Subject</th>
+                                <th style="width: 7.5%;">Task</th>
+                                <th style="width: 12.5%;">Due Date</th>
+                                <th style="width: 12.5%;">Assigned To</th>
+                                <th style="width: 12.5%;">Created By</th>
+                                <th style="width: 12.5%;">Mentioned To</th>
+                                <th style="width: 20%;">Last Modified Date</th>
+                                <th style="width: 10%;">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -590,9 +592,21 @@
                                     @else
                                         <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    @if($activity->ddl == "1969-12-31 00:00:00")
+                                        <td>N/A</td>
+                                    @else
+                                    <td>
+                                        {{date("m/d/Y", strtotime($activity->ddl))}}
+                                    </td>
+                                    @endif
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
-                                    <td>{{ date("m/d/Y", strtotime($activity->updated_at)) }}</td>
+                                    <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
+                                    @if($activity->mentioned)
+                                    <td>{{Sentinel::findById($activity->mentioned)->first_name." ".Sentinel::findById($activity->mentioned)->last_name}}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
+                                    <td>{{ date("m/d/Y H:i:s", strtotime($activity->updated_at)) }}</td>
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
                                         </a>
