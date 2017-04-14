@@ -19,6 +19,9 @@
             document.getElementById("view_activity").style.display = "block";
             document.getElementById("view_activity").style.visibility = "visible";
         }
+        function goBack() {
+          window.history.back();
+        }
         function change_focus(id) {
             focus_id = id;
         }
@@ -166,7 +169,7 @@
                                           readonly>{{ $activity->message }}</textarea>
                             </div>
                             <div class="form-group pull-right">
-                                <a type="button" class="btn btn-default" href="{{ url('admin') }}">Cancel</a>
+                                <a type="button" class="btn btn-default" onclick="goBack()">Cancel</a>
                                 {{ Form::button('Edit', ['class' => 'btn btn-success', 'onclick' => 'javaScript:edit()']) }}
                                 {{ Form::close() }}
                             </div>

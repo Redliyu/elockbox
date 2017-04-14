@@ -359,7 +359,13 @@
                                     @else
                                         <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    @if($activity->ddl == "1969-12-31 00:00:00")
+                                        <td>N/A</td>
+                                    @else
+                                        <td>
+                                            {{date("m/d/Y", strtotime($activity->ddl))}}
+                                        </td>
+                                    @endif
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
                                     <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
                                     @if($activity->mentioned)
