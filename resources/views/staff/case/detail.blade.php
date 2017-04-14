@@ -341,13 +341,13 @@
                             <thead>
                             <tr>
                                 <th style="width: 12.5%;">Subject</th>
-                                <th style="width: 12.5%;">Task</th>
+                                <th style="width: 7.5%;">Task</th>
                                 <th style="width: 12.5%;">Due Date</th>
                                 <th style="width: 12.5%;">Assigned To</th>
                                 <th style="width: 12.5%;">Created By</th>
                                 <th style="width: 12.5%;">Mentioned To</th>
-                                <th style="width: 12.5%;">Last Modified Date</th>
-                                <th style="width: 12.5%;">Action</th>
+                                <th style="width: 20%;">Last Modified Date</th>
+                                <th style="width: 10%;">Action</th>
                             </tr>
                             </thead>
                             <tbody>
