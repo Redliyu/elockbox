@@ -88,7 +88,7 @@ class LoginController extends Controller
         if ($excode == $input['vrfycode']) {
             return $this->redirectWhenLoggedIn($userid);
         }
-        @Log::warning('User Login Failed: ' . $request->get('email') . ' ip: ' . $ip . ' Reason: Wrong verification code.');
+        @Log::warning('User Login Failed: ' . Sentinel::findById($userid)->email . ' ip: ' . $ip . ' Reason: Wrong verification code.');
         return redirect('/login')->withInput()->withErrorMessage('Wrong verification code');
     }
 
