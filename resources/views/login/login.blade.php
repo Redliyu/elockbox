@@ -10,7 +10,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand scroll-top logo"><b><img src="{{ url('assets/img/logo.png') }}"
+                    <a class="navbar-brand scroll-top logo"><b><img class="hidden-xs" src="{{ url('assets/img/logo.png') }}"
                                                                     alt=""></b></a>
                 </div>
                 <!--/.navbar-header-->
@@ -66,7 +66,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::submit('Log in', ['class' => 'btn btn-block btn-primary']) !!}
-                        <span class="form-group" style="padding-left: 63%"><a href="{{ url("/reset") }}">Forgot your password?</a></span>
+                        <span class="form-group"><a href="{{ url("/reset") }}">Forgot your password?</a></span>
                     </div>
                 </div>
             </div>
