@@ -181,7 +181,7 @@
                 <tbody>
                     @foreach($surveys as $survey)
                     <tr class="info">
-                        <td>{{$survey->description}}</td><td><a href = "{{$survey->link}}">{{$survey->link}}</a></td>
+                        <td>{{$survey->description}}</td><td><a href = "{{$survey->link}}" target="_blank">{{$survey->link}}</a></td>
                     </tr>
                     @endforeach
                 </tbody>
