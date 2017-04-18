@@ -222,31 +222,6 @@ class CaseController extends Controller
         }
     }
 
-    public function delete($id, Request $request)
-    {
-        //$id is case id
-        $case = CreateCase::find($id);
-        if($case->cm_id == Sentinel::getUser()->id) {
-            $name = $case->first_name . ' ' . $case->last_name;
-            if ($request->youth_name == $name) {
-                CreateCase::find($id)->delete();
-                WorkHistory::where('case_id', $id)->delete();
-                EduHistory::where('case_id', $id)->delete();
-                AddContact::where('case_id', $id)->delete();
-                Docs::where('case_id', $id)->delete();
-                $deletepath = "uploads/" . $id;
-                Storage::deleteDirectory($deletepath);
-                //additional contact delete
-                @Log::info('Case Deleted: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
-                return redirect('/manager/case/view');
-            } else {
-                return redirect()->back();
-            }
-        } else {
-            return redirect('fail');
-        }
-    }
-
     public function createaccount($id)
     {
         $case = CreateCase::find($id);

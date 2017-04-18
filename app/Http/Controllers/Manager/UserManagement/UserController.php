@@ -124,7 +124,8 @@ class UserController extends Controller
             'status' =>$status,
         ]);
     }
-    public function update($user_id, Request $request) {
+    public function update($user_id, Request $request)
+    {
         $user = User::where('id', $user_id)->first();
         $profile = UserProfile::where('user_id', $user_id)->first();
         $role = UserRole::where('user_id', $user_id)->first();
@@ -141,31 +142,5 @@ class UserController extends Controller
         $role->save();
         @Log::info('User Edited: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
         return redirect()->back();
-    }
-    public function inactive($user_id) {
-        $curuser_id = Sentinel::getUser()->id;
-        if($curuser_id != $user_id) {
-            $user = Sentinel::findById($user_id);
-            Activation::remove($user);
-            @Log::info('User Inactivated: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
-            return redirect()->back();
-        } else {
-            return redirect('error');
-        }
-
-    }
-    public function active($user_id) {
-        $curuser_id = Sentinel::getUser()->id;
-        if($curuser_id != $user_id) {
-            $user = Sentinel::findById($user_id);
-            $activation = Activation::create($user);
-            $code = $activation->code;
-            Activation::complete($user, $code);
-            @Log::info('User Activated: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
-            return redirect()->back();
-        } else {
-            return redirect('error');
-        }
-
     }
 }
