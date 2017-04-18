@@ -47,7 +47,15 @@
             </ol>
         </div>
     </div>
-
+    @if (session()->has('flash_message'))
+        <div class="alert alert-success col-md-12">
+            <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @elseif($errors->any())
+        <div class="alert alert-danger col-md-12">
+            <p>{{ $errors->first() }}</p>
+        </div>
+    @endif
     <div class="row profile" id="view">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -63,7 +71,7 @@
                     {{--General Information--}}
                     <div class="col-md-8" style="margin-top: 20px">
                         <h4><strong>General Information</strong></h4>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <ul class="profile-details">
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
@@ -80,7 +88,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <ul class="profile-details">
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
@@ -97,7 +105,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <ul class="profile-details">
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"

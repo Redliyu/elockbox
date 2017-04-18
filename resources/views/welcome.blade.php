@@ -10,7 +10,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand scroll-top logo"><b><img src="{{ url('assets/img/logo.png') }}" alt=""></b></a>
+                    <a class="navbar-brand scroll-top logo"><b><img src="{{ url('assets/img/logo.png') }} " alt="" class="hidden-xs"></b></a>
                 </div>
                 <!--/.navbar-header-->
                 <div id="main-nav" class="collapse navbar-collapse">
@@ -41,7 +41,7 @@
                         <div class="da-img"></div>
                     </div>
                     <div class="da-slide">
-                        <h2> E-lockbox</h2>
+                        <h2> e-Lockbox</h2>
                         <p>E-management system helps foster kids in Los Angeles county to remote access their critical documents </p>
                         <div class="da-img"></div>
                     </div>
@@ -62,7 +62,7 @@
     <section id="introText">
         <div class="container">
             <div class="text-center">
-                <h1>We create new e-lockbox website system for youth</h1>
+                <h1>We create new e-Lockbox website system for youth</h1>
                 <p>We hope this website will be perfect as you like </p>
             </div>
         </div>
@@ -221,7 +221,7 @@
         <div class="container">
             <div class="heading text-center">
                 <!-- Heading -->
-                <h2>Living Advatage Inc. E-lockbox</h2>
+                <h2>Living Advatage Inc. e-Lockbox</h2>
                 <p>e-management system helps fosters in Los Angeles County </p>
             </div>
             <div class="row">
@@ -245,7 +245,7 @@
                 <div class="col-md-4 text-center tileBox">
                     <div class="txtHead"><i class="fa fa-lightbulb-o"></i>
                         <h3>Team10 <span class="id-color">USC</span></h3></div>
-                    <p>Development team of a new version of E-lockbox.</p>
+                    <p>Development team of a new version of e-Lockbox.</p>
                 </div>
                 <!-- end: -->
             </div>

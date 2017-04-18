@@ -8,16 +8,19 @@ use App\CaseAddress;
 use App\CaseEmail;
 use App\CasePhone;
 use App\DocType;
+use App\Http\Controllers\Admin\UserManagement\UserController;
 use App\ProgramList;
 use App\UserRole;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use App\Http\Requests;
 use App\Http\Requests\CreateCaseFormRequest;
 use App\Http\Requests\UpdateCaseFormRequest;
 use App\Http\Controllers\Controller;
 use Mockery\CountValidator\Exception;
+use Psy\Exception\ErrorException;
 use Sentinel;
 use DB;
 use App\VrfyCode;
@@ -50,7 +53,7 @@ class CaseController extends Controller
     public function store(CreateCaseFormRequest $request)
     {
         try {
-            $currentUser = User::where('email', $request->creator)->first();
+            $currentUser = @User::where('email', $request->creator)->first();
             $input = $request->only('email', 'first_name', 'last_name', 'birthday', 'gender', 'ssn', 'ilp', 'ethnicity', 'program');
             $case = new CreateCase;
             $case->email = $request->get('email');
@@ -65,6 +68,7 @@ class CaseController extends Controller
             $case->cm_id = $currentUser->id;
             $case->cm_name = $currentUser->first_name . ' ' . $currentUser->last_name;
             $case->save();
+            @Log::info('Case Created: ' . $currentUser->email . ' Case: ' . $case->email);
             return redirect('admin/case/create')->withFlashMessage('Case Successfully Created and Activated!');
         } catch (QueryException $e) {
             return redirect()->back()->withErrors(array("message" => "Fail to create a case, please check your email."));
@@ -171,6 +175,7 @@ class CaseController extends Controller
         $case->cm_id = $cm_id;
         $case->cm_name = $cm_name;
         $case->save();
+        @Log::info('Case Edited: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
         return redirect('admin/case/' . $id . '/view');
     }
 
@@ -184,6 +189,7 @@ class CaseController extends Controller
         $case = CreateCase::find($id);
         $case->status = 1;
         $case->save();
+        @Log::info('Case Activated: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
         return redirect('/admin/case/' . $id . '/view');
     }
 
@@ -192,6 +198,7 @@ class CaseController extends Controller
         $case = CreateCase::find($id);
         $case->status = 0;
         $case->save();
+        @Log::info('Case Inactivated: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
         return redirect('/admin/case/' . $id . '/view');
     }
 
@@ -200,6 +207,7 @@ class CaseController extends Controller
         //$id is case id
         $case = CreateCase::find($id);
         $name = $case->first_name . ' ' . $case->last_name;
+        @Log::info('Case Deleted: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
         if (strtolower($request->youth_name) == strtolower($name)) {
             CreateCase::find($id)->delete();
             WorkHistory::where('case_id', $id)->delete();
@@ -260,6 +268,7 @@ class CaseController extends Controller
         $newprofile->state = $request->get('state');
         $newprofile->zip = $request->get('zip');
         $newprofile->save();
+        @Log::info('Case Account Created: ' . Sentinel::getUser()->email . ' Case: ' . $case->email);
         return redirect()->back();
     }
 

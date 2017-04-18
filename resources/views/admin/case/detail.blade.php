@@ -34,53 +34,74 @@
       $(document).ready(function() {
 
         $('#example1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           maxDate: new Date(),
           changeYear: true,
           changeMonth: true,
         });
         $('#start_date1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#end_date1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#start_date2').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#end_date2').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#start_date_edu1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#end_date_edu1').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#start_date_edu2').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#end_date_edu2').datepicker({
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           dateFormat: 'mm/dd/yy',
           changeYear: true,
           changeMonth: true,
         });
         $('#birthday_edit').datepicker({
+          maxDate: new Date(),
           dateFormat: 'mm/dd/yy',
+          minDate: '-75Y',
+          yearRange: "c-75:c+0",
           changeYear: true,
           changeMonth: true,
         });
@@ -149,7 +170,15 @@
         </div>
     </div>
     <!-- end nav bar -->
-
+    @if (session()->has('flash_message'))
+        <div class="alert alert-success col-md-12">
+            <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @elseif($errors->any())
+        <div class="alert alert-danger col-md-12">
+            <p>{{ $errors->first() }}</p>
+        </div>
+    @endif
     <!-- all shown information -->
     <div class="row profile">
         <div class="col-md-12">
@@ -302,9 +331,7 @@
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong> Social
-                                            Security
-                                            Number</strong></div>
+                                                                   style="color: #4C4F53"></i><strong> SSN </strong></div>
                                     <div style="color: #6699CC" onclick="show_ssn();" id="hidden_ssn">
                                         @if($data->ssn)
                                             <?php
@@ -497,7 +524,9 @@
                                 <tr>
                                     <th style="width: 42%;">Email</th>
                                     <th style="width: 42%;">Status</th>
+                                    @if($data->status)
                                     <th style="width: 14%;">Action</th>
+                                        @endif
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -544,12 +573,14 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th style="width: 16%;">Subject</th>
-                                <th style="width: 16%;">Task</th>
-                                <th style="width: 16%;">Due Date</th>
-                                <th style="width: 16%;">Assigned To</th>
-                                <th style="width: 16%;">Last Modified Date</th>
-                                <th style="width: 16%;">Action</th>
+                                <th style="width: 12.5%;">Subject</th>
+                                <th style="width: 7.5%;">Task</th>
+                                <th style="width: 12.5%;">Due Date</th>
+                                <th style="width: 12.5%;">Assigned To</th>
+                                <th style="width: 12.5%;">Created By</th>
+                                <th style="width: 12.5%;">Mentioned To</th>
+                                <th style="width: 20%;">Last Modified Date</th>
+                                <th style="width: 10%;">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -561,9 +592,21 @@
                                     @else
                                         <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    @if($activity->ddl == "1969-12-31 00:00:00")
+                                        <td>N/A</td>
+                                    @else
+                                    <td>
+                                        {{date("m/d/Y", strtotime($activity->ddl))}}
+                                    </td>
+                                    @endif
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
-                                    <td>{{ date("m/d/Y", strtotime($activity->updated_at)) }}</td>
+                                    <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
+                                    @if($activity->mentioned)
+                                    <td>{{Sentinel::findById($activity->mentioned)->first_name." ".Sentinel::findById($activity->mentioned)->last_name}}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
+                                    <td>{{ date("m/d/Y H:i:s", strtotime($activity->updated_at)) }}</td>
                                     <td><a class="btn btn-success" href="{{ url('admin/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
                                         </a>
@@ -910,7 +953,7 @@
                     Notice: Either uppercase or lowercase is accepted.
                     {!! Form::open(['url' => 'admin/case/'.$data->id.'/delete']) !!}
                     <div class="form-group row" style="margin-top: 10px; padding-left: 15px; padding-right: 15px;">
-                        {{ Form::text('youth_name', null, ['placeholder' => 'Firstname Lastname', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onkeyup' => 'test(this)', 'autocomplete' => 'off']) }}
+                        {{ Form::text('youth_name', null, ['placeholder' => 'Firstname Lastname', 'class' => 'form-control', 'style' => 'margin-bottom: 15px', 'onchange' => 'test(this)', 'onkeyup' => 'test(this)', 'onmousemove' => 'test(this)',  'onmousedown' => 'test(this)','autocomplete' => 'off']) }}
 
                         {{ Form::submit('I understand the consequences, delete this case', ['id' => 'delCase', 'class' => 'btn btn-danger pull-right', 'disabled']) }}
                     </div>
