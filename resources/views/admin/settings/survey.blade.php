@@ -61,11 +61,11 @@
                             <tbody>
                             @foreach($surveys as $survey)
                                 <tr>
-                                    <td>{{ $survey->link }}</td>
-                                    <td>{{ $survey->description }}</td>
-                                    <td>{{ @($program_name[$survey->program]) ?: "Program has been deleted."}}</td>
-                                    <td>{{ date("m/d/Y H:i:s", strtotime($survey->updated_at)) }}</td>
-                                    <td>
+                                    <td style="max-width: 100px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">{{ $survey->link }}</td>
+                                    <td style="max-width: 20%">{{ $survey->description }}</td>
+                                    <td style="max-width: 20%">{{ @($program_name[$survey->program]) ?: "Program has been deleted."}}</td>
+                                    <td style="max-width: 20%">{{ date("m/d/Y H:i:s", strtotime($survey->updated_at)) }}</td>
+                                    <td style="max-width: 20%">
                                         <button type="button" class="btn btn-warning" data-toggle="modal"
                                                 data-target="#editsurvey{{ $survey->id }}">
                                             <i class="fa fa-pencil-square-o" style="width: 10px"></i>

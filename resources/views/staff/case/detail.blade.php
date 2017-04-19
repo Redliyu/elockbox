@@ -178,9 +178,7 @@
                                 </li>
                                 <li>
                                     <div style="color: #4C4F53"><i class="fa fa-building-o"
-                                                                   style="color: #4C4F53"></i><strong> Social
-                                            Security
-                                            Number</strong></div>
+                                                                   style="color: #4C4F53"></i><strong> SSN </strong></div>
                                     <div style="color: #6699CC" onclick="show_ssn()" id="hidden_ssn">
                                         @if($data->ssn)
                                             <?php
@@ -342,12 +340,14 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th style="width: 16%;">Subject</th>
-                                <th style="width: 16%;">Task</th>
-                                <th style="width: 16%;">Due Date</th>
-                                <th style="width: 16%;">Assigned To</th>
-                                <th style="width: 16%;">Last Modified Date</th>
-                                <th style="width: 16%;">Action</th>
+                                <th style="width: 12.5%;">Subject</th>
+                                <th style="width: 7.5%;">Task</th>
+                                <th style="width: 12.5%;">Due Date</th>
+                                <th style="width: 12.5%;">Assigned To</th>
+                                <th style="width: 12.5%;">Created By</th>
+                                <th style="width: 12.5%;">Mentioned To</th>
+                                <th style="width: 20%;">Last Modified Date</th>
+                                <th style="width: 10%;">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -359,9 +359,21 @@
                                     @else
                                         <td><span class="label label-warning">To Do</span></td>
                                     @endif
-                                    <td>{{date("m/d/Y", strtotime($activity->ddl))}}</td>
+                                    @if($activity->ddl == "1969-12-31 00:00:00")
+                                        <td>N/A</td>
+                                    @else
+                                        <td>
+                                            {{date("m/d/Y", strtotime($activity->ddl))}}
+                                        </td>
+                                    @endif
                                     <td>{{Sentinel::findById($activity->assigned)->first_name." ".Sentinel::findById($activity->assigned)->last_name}}</td>
-                                    <td>{{ date("m/d/Y", strtotime($activity->updated_at)) }}</td>
+                                    <td>{{Sentinel::findById($activity->creator)->first_name." ".Sentinel::findById($activity->creator)->last_name}}</td>
+                                    @if($activity->mentioned)
+                                        <td>{{Sentinel::findById($activity->mentioned)->first_name." ".Sentinel::findById($activity->mentioned)->last_name}}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
+                                    <td>{{ date("m/d/Y H:i:s", strtotime($activity->updated_at)) }}</td>
                                     <td><a class="btn btn-success" href="{{ url('staff/'. $activity->id .'/view') }}">
                                             <i class="fa fa-search-plus "></i>
                                         </a>
@@ -506,16 +518,16 @@
                         <table class="table table-striped">
                             <thead>
                             <tr style="text-align: left">
-                                <th style="width: 14%;">Type</th>
-                                <th style="width: 14%;">Title</th>
-                                <th style="width: 14%;">Uploaded By</th>
-                                <th style="width: 21%;">Upload Date</th>
-                                <th style="width: 21%;">Last Modified Date</th>
+                                <th style="width: 6%;">Type</th>
+                                <th style="width: 11%;">Title</th>
+                                <th style="width: 11%">Visibility</th>
+                                <th style="width: 11%;">Uploaded By</th>
+                                <th style="width: 22%;">Upload Date</th>
+                                <th style="width: 22%;">Last Modified Date</th>
                                 @if($data->status)
-                                    <th style="width: 14%;">Action</th>
+                                    <th style="width: 16%;">Action</th>
                                 @endif
                             </tr>
-
                             </thead>
                             <tbody>
                             @foreach($docs as $doc)
@@ -524,6 +536,7 @@
                                     <td>
                                         <a data-toggle="tooltip" data-placement="top"
                                            title="{{$doc->description}}">{{$doc->title}}</a></td>
+                                    <td>{{$doc->visible}}</td>
                                     <td>{{$doc->uploader}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->created_at))}}</td>
                                     <td>{{date("m/d/Y H:i:s", strtotime($doc->updated_at))}}</td>
@@ -533,7 +546,6 @@
                                         </td>
                                     @endif
                                 </tr>
-
                             @endforeach
                             </tbody>
                         </table>

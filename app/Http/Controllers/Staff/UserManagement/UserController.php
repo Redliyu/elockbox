@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff\UserManagement;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -17,23 +18,10 @@ use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
-    //
-//    public function view() {
-//        //last_name, first_name, email from user table
-//        //phone from profile
-//        //role from role users table and roles table
-//        //status from activations, if do not have, then not active
-//        $user = User::all();
-//        $profile = UserProfile::all();
-//        $user_role = UserRole::all();
-//        $status = UserStatus::all();
-//        return view('user.view', [
-//            'users' => $user,
-//            'profiles' => $profile,
-//            'user_roles' => $user_role,
-//            'statuss' => $status,
-//        ]);
-//    }
+    /**
+     * View users in a list - name, email, phone number, level, status, action for details
+     * @return staff.user.view
+     */
     public function view() {
         $users = User::all();
         $profiles = UserProfile::all();
@@ -90,6 +78,12 @@ class UserController extends Controller
             'datas' => $paginatedSearchResults,
         ]);
     }
+
+    /**
+     * View detail information of a user - name, level, email, phone, status, address
+     * @param int $user_id
+     * @return staff.user.detail
+     */
     public function viewdetail($user_id) {
         $user = User::where('id', $user_id)->first();
         $profile = UserProfile::where('user_id', $user_id)->first();
@@ -115,11 +109,37 @@ class UserController extends Controller
             $status = "Active";
         }
         return view('staff.user.detail', [
+            'user_id' => $user_id,
             'user' => $user,
             'profile' => $profile,
             'role' => $role,
             'editrole' => $editrole,
             'status' =>$status,
         ]);
+    }
+
+    /**
+     * Edit own information - first name, last name, phone, address 1, address 2, city, state, zip, level
+     * @param int $user_id
+     * @param Request $request - User's inputs
+     * @return staff.user.detail
+     */
+    public function update($user_id, Request $request) {
+        $user = User::where('id', $user_id)->first();
+        $profile = UserProfile::where('user_id', $user_id)->first();
+        $role = UserRole::where('user_id', $user_id)->first();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $profile->phone_number = $request->phone_number;
+        $profile->address1 = $request->address1;
+        $profile->address2 = $request->address2;
+        $profile->city = $request->city;
+        $profile->state = $request->state;
+        $profile->zip = $request->zip;
+        $user->save();
+        $profile->save();
+        $role->save();
+        @Log::info('User Edited: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
+        return redirect()->back();
     }
 }

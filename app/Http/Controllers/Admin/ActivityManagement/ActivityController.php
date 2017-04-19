@@ -18,7 +18,10 @@ use Psy\Exception\ErrorException;
 
 class ActivityController extends Controller
 {
-    //
+    /**
+     * This function is for view brief activities.
+     * @return [array]  [return to admin/activity/view]
+     */
     public function view() {
         $admins = UserRole::where("role_id", 1)->get();
         $managers = UserRole::where("role_id", 2)->get();
@@ -31,6 +34,12 @@ class ActivityController extends Controller
             'staffs' => $staffs,
         ]);
     }
+
+    /**
+     * This function is for view detailed activity.
+     * @param  [int]    $activity_id    [activity id]
+     * @return [array]                  [return to admin/activity/detail]
+     */
     public function viewdetail($activity_id) {
         $admins = UserRole::where("role_id", 1)->get();
         $managers = UserRole::where("role_id", 2)->get();
@@ -54,13 +63,23 @@ class ActivityController extends Controller
             'staffs' => $staffs,
         ]);
     }
+
+    /**
+     * This function is for edit activity.
+     * @param  [int]    $activity_id    [activity id]
+     * @param  [array]  $request        [form from admin/activity/detail]
+     * @return [array]                  [return to admin]
+     */
     public function update($activity_id, Request $request) {
         try{
             $activity = Activity::where('id', $activity_id)->first();
             $activity->subject = $request->get('subject');
             $activity->task = $request->get('task');
             $activity->ddl = date("Y-m-d", strtotime($request->get('ddl')));
-            $recipient = User::where('email', $request->get('recipient'))->first()->id;
+            $recipient = @User::where('email', $request->get('recipient'))->first()->id;
+            if($recipient == null) {
+                throw new ErrorException('Invaid user input');
+            }
             if($activity->assigned == $recipient) {
                 $activity->assigned = $recipient;
             } else {
@@ -68,7 +87,10 @@ class ActivityController extends Controller
                 $activity->reci_status = 0;
             }
             if($request->get('mentioned')) {
-                $mentioned = User::where('email', $request->get('mentioned'))->first()->id;
+                $mentioned = @User::where('email', $request->get('mentioned'))->first()->id;
+                if($mentioned == null) {
+                    throw new ErrorException('Invaid user input');
+                }
                 if($activity->mentioned == $mentioned) {
                     $activity->mentioned = $mentioned;
                 } else {
@@ -95,9 +117,17 @@ class ActivityController extends Controller
             $activity->save();
         } catch (InvalidArgumentException $e) {
             print $e;
+        } catch (ErrorException $e) {
+            return redirect()->back()->withErrors(["Invalid recipient!"]);
         }
         return redirect('admin');
     }
+
+    /**
+     * This function is for create activity.
+     * @param  [array]  $request    [form from admin/activity/view]
+     * @return [array]              [return to admin]
+     */
     public function create(Request $request) {
         try{
             $activity = new Activity;
@@ -110,7 +140,10 @@ class ActivityController extends Controller
             $activity->assigned = $recipient;
             $activity->creator = Sentinel::getUser()->id;
             if($request->get('mentioned')) {
-                $mentioned = User::where('email', $request->get('mentioned'))->first()->id;
+                $mentioned = @User::where('email', $request->get('mentioned'))->first()->id;
+                if($mentioned == null) {
+                    throw new ErrorException('Invaid user input');
+                }
                 $activity->mentioned = $mentioned;
             }
             if($request->get('case_related')) {
@@ -129,8 +162,13 @@ class ActivityController extends Controller
         } catch (ErrorException $e) {
             return redirect()->back()->withErrors(["Invalid recipient!"]);
         }
-
     }
+
+    /**
+     * This function is for delete activity.
+     * @param  [int]    $activity_id    [activity id]
+     * @return [array]                  [return to admin]
+     */
     public function delete($activity_id) {
         $activity = Activity::where('id', $activity_id)->first();
         $activity->delete();

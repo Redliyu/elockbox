@@ -142,6 +142,7 @@ Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware' => [
     Route::post('case/addcontacts', 'CaseManagement\CaseController@storeAddContacts');
     Route::post('case/addcontacts/{id}/edit', 'CaseManagement\CaseController@editAddContacts');
     Route::get('case/addcontacts/{id}/delete', 'CaseManagement\CaseController@deleteAddContacts');
+    Route::post('case/addcontactinfo', 'CaseManagement\CaseController@addContactInfo');
     Route::post('case/addaddress', 'CaseManagement\CaseController@addAddress');
     Route::post('case/contact/address/{id}/edit', 'CaseManagement\CaseController@editAddress');
     Route::get('case/contact/address/{id}/delete', 'CaseManagement\CaseController@deleteAddress');
@@ -169,6 +170,7 @@ Route::group(['namespace' => 'Staff', 'prefix' => 'staff', 'middleware' => ['sta
     Route::get('case/{id}/view', ['uses' => 'CaseManagement\CaseController@viewdetail']);
     Route::get('user/view', ['uses' => 'UserManagement\UserController@view']);
     Route::get('user/{id}/view', 'UserManagement\UserController@viewdetail');
+    Route::post('user/{id}/edit', 'UserManagement\UserController@update');
     Route::post('activity/create', 'ActivityManagement\ActivityController@create');
     Route::get('{id}/view', 'ActivityManagement\ActivityController@viewdetail');
 //    Route::post('{id}/edit', 'ActivityManagement\ActivityController@update');

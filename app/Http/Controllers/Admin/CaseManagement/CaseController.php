@@ -8,6 +8,7 @@ use App\CaseAddress;
 use App\CaseEmail;
 use App\CasePhone;
 use App\DocType;
+use App\Http\Controllers\Admin\UserManagement\UserController;
 use App\ProgramList;
 use App\UserRole;
 use Illuminate\Database\QueryException;
