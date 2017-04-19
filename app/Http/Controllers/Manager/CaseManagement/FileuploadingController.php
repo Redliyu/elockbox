@@ -12,11 +12,20 @@ use File;
 
 class FileuploadingController extends Controller
 {
-    //
+    /**
+     * This function is show the case upload page
+     * @return [return case.upload]
+     */
     public function index(){
         return view('case.upload');
     }
+
     // create new function for show uploaded page
+    /**
+     * This function is save the file uploaded and it's information
+     * @param  [array] $request [form data from admin.case.detail]
+     * @return                  [return staff.case.$id.view]
+     */
     public function showfileupload(Request $request){
         $file = $request -> file('image');
         $id = $request->id;
@@ -60,6 +69,12 @@ class FileuploadingController extends Controller
         $doc->save();
         return redirect('manager/case/'.$id.'/view');
     }
+
+    /**
+     * This function is to upload the avatar for the youth user of a case
+     * @param  [array] $request [form data from staff.case.detail]
+     * @return [array]          [return staff.case.$id.view]
+     */
     public function uploadAvatar(Request $request) {
         $file = $request->file('avatar');
         $id = $request->id;

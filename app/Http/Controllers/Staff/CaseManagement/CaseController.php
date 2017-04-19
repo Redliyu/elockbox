@@ -34,6 +34,10 @@ use Illuminate\Support\Facades\Storage;
 
 class CaseController extends Controller
 {
+    /**
+     * This function is to show the view case page by listing the cases in the case management
+     * @return [array]          [return staff.case.view]
+     */
     public function view()
     {
 //        $data = CreateCase::all()->sortByDesc('id')->paginate(10);
@@ -50,6 +54,11 @@ class CaseController extends Controller
         ]);
     }
 
+    /**
+     * This function is to show the detail page for a specific case 
+     * @param  [int]   $id      [case id]
+     * @return [array]          true -> [return staff.case.detail] false -> [return error]
+     */
     public function viewdetail($id)
     {
         $data = CreateCase::find($id);
