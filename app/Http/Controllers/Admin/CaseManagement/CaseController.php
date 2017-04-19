@@ -243,7 +243,7 @@ class CaseController extends Controller
      * This function is to delete a case
      * @param  [int]   $id      [case id]
      * @param  [array] $request [form data from admin.case.detail]
-     * @return [array]          [return case,main]
+     * @return [array]          [return admin.case.view]
      */
     public function delete($id, Request $request)
     {

@@ -35,7 +35,10 @@ use Illuminate\Support\Facades\Storage;
 
 class CaseController extends Controller
 {
-    //
+    /**
+    * This function is to show the create page in case management by adding the programs from the setting into the drop-down list 
+    * @return [return manager.case.create]
+    */
     public function create()
     {
         $program_list = ProgramList::all();
@@ -48,6 +51,11 @@ class CaseController extends Controller
         ]);
     }
 
+     /**
+     * This function is to store case information into database and create a case.
+     * @param  [array] $request [form data from manager.case.create]
+     * @return [array]          [return manager.case.create]
+     */
     public function store(CreateCaseFormRequest $request)
     {
         try{
@@ -74,6 +82,10 @@ class CaseController extends Controller
 
     }
 
+    /**
+     * This function is to show the view case page by listing the cases in the case management
+     * @return [array]          [return manager.case.view]
+     */
     public function view()
     {
 //        $data = CreateCase::all()->sortByDesc('id')->paginate(10);
@@ -94,6 +106,11 @@ class CaseController extends Controller
         ]);
     }
 
+    /**
+     * This function is to show the detail page for a specific case 
+     * @param  [int]   $id      [case id]
+     * @return [array]          true -> [return mamager.case.detail] false -> [return error]
+     */
     public function viewdetail($id)
     {
         $data = CreateCase::find($id);
@@ -167,6 +184,12 @@ class CaseController extends Controller
 
     }
 
+    /**
+     * This function is to edit the case information for a specific case 
+     * @param  [int]   $id      [case id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.$id.view]
+     */
     public function update($id, UpdateCaseFormRequest $request)
     {
         $case_id = $request->get('id');
@@ -191,11 +214,20 @@ class CaseController extends Controller
         }
     }
 
+     /**
+     * This function is to test the edit page for a case
+     * @return [return manager.case.edit]
+     */
     public function test()
     {
         return view('manager.case.edit');
     }
 
+    /**
+     * This function is to active a case
+     * @param  [int]   $id      [case id]
+     * @return                  [return mamager.case.$id.view]
+     */
     public static function active($id)
     {
         $case = CreateCase::find($id);
@@ -209,6 +241,11 @@ class CaseController extends Controller
         }
     }
 
+    /**
+     * This function is to inactive a case
+     * @param  [int]   $id      [case id]
+     * @return                  [return mamager.case.$id.view]
+     */
     public static function inactive($id)
     {
         $case = CreateCase::find($id);
@@ -222,6 +259,12 @@ class CaseController extends Controller
         }
     }
 
+    /**
+     * This function is to delete a case
+     * @param  [int]   $id      [case id]
+     * @param  [array] $request [form data from admin.case.detail]
+     * @return [array]          [return mamager.case.view]
+     */
     public function delete($id, Request $request)
     {
         //$id is case id
@@ -247,6 +290,11 @@ class CaseController extends Controller
         }
     }
 
+    /**
+     * This function is to show the create youth account page for a case 
+     * @param  [int]   $id      [case id]
+     * @return [array]          [return manager.case.account]
+     */
     public function createaccount($id)
     {
         $case = CreateCase::find($id);
@@ -259,6 +307,12 @@ class CaseController extends Controller
         }
     }
 
+    /**
+     * This function is create a youth account for a case and save the data into database
+     * @param  [int]   $id      [user id]
+     * @param  [array] $request [form data from mamager.case.detail]
+     * @return [array]          [return manager.case.$id.view]
+     */
     public function storeaccount($id, Request $request)
     {
         $case = CreateCase::find($id);
@@ -303,7 +357,11 @@ class CaseController extends Controller
         }
     }
 
-    //Doc
+    /**
+     * This function is to edit the uploaded file in case detail page
+     * @param  [array] $request [form data from mamager.case.detail]
+     * @return [array]          [return manager.case.$case_id.view]
+     */
     public function editfile(Request $request)
     {
         $case_id = $request->get('id');
@@ -317,6 +375,12 @@ class CaseController extends Controller
         return redirect('manager/case/' . $case_id . '/view');
     }
 
+    /**
+     * This function is to delete the uploaded file in case detail page
+     * @param  [int]   $id      [docs id]
+     * @param  [array] $request [form data from mamager.case.detail]
+     * @return [array]          [return mamager.case.$case_id.view]
+     */
     public function deletefile($id)
     {
         $doc = Docs::find($id);
@@ -328,6 +392,11 @@ class CaseController extends Controller
     }
 
     //Work History
+    /**
+     * This function is to store the case's work history information
+     * @param  [int]   $id      [work_history id]
+     * @return                  [return manager.case.detail]
+     */
     public function storeWorkHistory(Request $request)
     {
 
@@ -343,6 +412,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to edit the case's work history information
+     * @param  [int]   $id      [work_history id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function editWorkHistory($id, Request $request)
     {
         $case_id = $request->get('id');
@@ -358,6 +433,11 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to delete the case's work history information
+     * @param  [int]   $id      [work_history id]
+     * @return                  [return manager.case.detail]
+     */
     public function deleteWorkHistory($id)
     {
         $workhistory = WorkHistory::find($id);
@@ -366,6 +446,11 @@ class CaseController extends Controller
     }
 
     //Edu History
+    /**
+     * This function is to store the case's education history information
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function storeEduHistory(Request $request)
     {
         $eduhistory = new EduHistory;
@@ -380,6 +465,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to edit the case's education history information
+     * @param  [int]   $id      [edu_history id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function editEduHistory($id, Request $request)
     {
         $case_id = $request->get('id');
@@ -395,6 +486,11 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to delete the case's education history information
+     * @param  [int]   $id      [edu_history id]
+     * @return                  [return manager.case.detail]
+     */
     public function deleteEduHistory($id)
     {
         $eduhistory = EduHistory::find($id);
@@ -403,6 +499,11 @@ class CaseController extends Controller
     }
 
     //additional contacts 
+    /**
+     * This function is to store the case's additional contact information
+     * @param  [array] $request [form data from mamager.case.detail]
+     * @return                  [return mamager.case.detail]
+     */
     public function storeAddContacts(Request $request)
     {
         $contact = new AddContact;
@@ -417,6 +518,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to edit the case's additional contact information
+     * @param  [int]   $id      [additional_contacts id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function editAddContacts($id, Request $request)
     {
         $contact = AddContact::find($id);
@@ -431,6 +538,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+     /**
+     * This function is to delete the case's additional contact information
+     * @param  [int]   $id      [additional_contacts id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function deleteAddContacts($id)
     {
         $contact = AddContact::find($id);
@@ -469,6 +582,7 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+
     public function addAddress(Request $request)
     {
         $address = new CaseAddress;
@@ -482,6 +596,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to edit the case's address under the addtional contacts
+     * @param  [int]   $id      [case_address id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function editAddress($id, Request $request)
     {
         $address = CaseAddress::find($id);
@@ -494,6 +614,11 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to delete the case's address under the addtional contacts
+     * @param  [int]   $id      [case_address id]
+     * @return                  [return manager.case.detail]
+     */
     public function deleteAddress($id)
     {
         $address = CaseAddress::find($id);
@@ -501,6 +626,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to add the case's phone under the addtional contacts
+     * @param  [int]   $id      [case_phone id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function addPhone(Request $request)
     {
         $phone = new CasePhone;
@@ -512,6 +643,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to edit the case's phone under the addtional contacts
+     * @param  [int]   $id      [case_phone id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function editPhone($id, Request $request)
     {
         $phone = CasePhone::find($id);
@@ -522,6 +659,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to delete the case's phone under the addtional contacts
+     * @param  [int]   $id      [case_phone id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function deletePhone($id)
     {
         $phone = CasePhone::find($id);
@@ -529,6 +672,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to add the case's email under the addtional contacts
+     * @param  [int]   $id      [case_phone id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function addEmail(Request $request)
     {
         $email = new CaseEmail();
@@ -539,6 +688,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to edit the case's email under the addtional contacts
+     * @param  [int]   $id      [case_phone id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function editEmail($id, Request $request)
     {
         $email = CaseEmail::find($id);
@@ -548,6 +703,12 @@ class CaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * This function is to edit the case's email under the addtional contacts
+     * @param  [int]   $id      [case_phone id]
+     * @param  [array] $request [form data from manager.case.detail]
+     * @return                  [return manager.case.detail]
+     */
     public function deleteEmail($id)
     {
         $email = CaseEmail::find($id);
