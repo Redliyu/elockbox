@@ -22,7 +22,10 @@ use Psy\Exception\ErrorException;
 
 class SettingsController extends Controller
 {
-    //
+    /**
+     * This function is for showing program list.
+     * @return [array]      [return admin.settings.program]
+     */
     public function viewProgramSettings() {
         $program_list = ProgramList::all();
         $program_check = null;
@@ -39,6 +42,12 @@ class SettingsController extends Controller
             'program_check' => $program_check,
         ]);
     }
+
+    /**
+     * This function is for storing a new added program type.
+     * @param  [array] $request [form data from admin.settings.program]
+     * @return []               [return admin.settings.program]
+     */
     public function addProgramSettings(Request $request) {
         $program = new ProgramList;
         $program->program_abbr = $request->get('program_abbr');
@@ -47,6 +56,13 @@ class SettingsController extends Controller
         @Log::info('Program Settings Created: ' . Sentinel::getUser()->email . ' Program Abbreviation: ' . $program->program_abbr);
         return redirect()->back();
     }
+
+    /**
+     * This function is for editing a chosen program type.
+     * @param  [int]   $id      [program id]
+     * @param  [array] $request [form data from admin.settings.program]
+     * @return []               [return admin.settings.program]
+     */
     public function editProgramSettings($id, Request $request) {
         $program = ProgramList::find($id);
         $program->program_abbr = $request->get('program_abbr');
@@ -54,11 +70,22 @@ class SettingsController extends Controller
         $program->save();
         return redirect()->back();
     }
+
+    /**
+     * This function is for deleting a chosen program type.
+     * @param  [int]   $id      [program id]
+     * @return []               [return admin.settings.program]
+     */
     public function deleteProgramSettings($id) {
         $program = ProgramList::find($id);
         $program->delete();
         return redirect()->back();
     }
+
+    /**
+     * This function is for showing document type list.
+     * @return [array]          [return admin.settings.document]
+     */
     public function viewDocumentSettings() {
         $doc_type_list = DocType::all();
         $doc_check = null;
@@ -75,6 +102,12 @@ class SettingsController extends Controller
             'doc_check' => $doc_check,
         ]);
     }
+
+    /**
+     * This function is for storing a new added document type.
+     * @param  [array] $request [form data from admin.settings.document]
+     * @return [array]          [return admin.settings.document]
+     */
     public function addDocumentSettings(Request $request) {
         $doc_type = new DocType;
         $doc_type->document_abbr = $request->get('document_abbr');
@@ -83,6 +116,13 @@ class SettingsController extends Controller
         @Log::info('Document Settings Created: ' . Sentinel::getUser()->email . ' Document Abbreviation: ' . $doc_type->document->abbr);
         return redirect()->back();
     }
+
+    /**
+     * This function is for showing document type list.
+     * @param  [int]   $id      [document id]
+     * @param  [array] $request [form data from admin.settings.document]
+     * @return []               [return admin.settings.document]
+     */
     public function editDocumentSettings($id, Request $request) {
         $doc_type = DocType::find($id);
         $doc_type->document_abbr = $request->get('document_abbr');
@@ -90,11 +130,22 @@ class SettingsController extends Controller
         $doc_type->save();
         return redirect()->back();
     }
+
+    /**
+     * This function is for showing document type list.
+     * @param  [int]   $id  [document id]
+     * @return [array]      [return admin.settings.document]
+     */
     public function deleteDocumentSettings($id) {
         $doc_type = DocType::find($id);
         $doc_type->delete();
         return redirect()->back();
     }
+
+    /**
+     * This function is for showing a user list in admin.settings.password.
+     * @return [array]  [return admin.settings.password]
+     */
     public function password() {
         $admins = UserRole::where("role_id", 1)->get();
         $managers = UserRole::where("role_id", 2)->get();
@@ -107,6 +158,12 @@ class SettingsController extends Controller
             'youths' => $youths,
         ]);
     }
+
+    /**
+     * This function is for reseting one's password.
+     * @param  [array] $request [form data from admin.settings.password]
+     * @return []               [return admin.settings.password]
+     */
     public function resetPassword(Request $request) {
         try{
             @$user_find = User::where('email', $request->user)->first();
@@ -123,6 +180,10 @@ class SettingsController extends Controller
         }
     }
 
+    /**
+     * This function is for showing survey list.
+     * @return []   [return admin.settings.survey]
+     */
     public function survey()
     {
         $survey = Survey::all();
@@ -137,6 +198,11 @@ class SettingsController extends Controller
         ]);
     }
 
+    /**
+     * This function is for storing a new added survey.
+     * @param  [array] $request    [form data from admin.settings.survey]
+     * @return []                  [return admin.settings.survey]
+     */
     public function addSurvey(Request $request)
     {
         try{
@@ -152,12 +218,23 @@ class SettingsController extends Controller
         }
     }
 
+    /**
+     * This function is for deleting a chosen survey.
+     * @param  [array] $id    [survey id]
+     * @return []             [return admin.settings.survey]
+     */
     public function deleteSurvey($id) {
         $survey = Survey::find($id);
         $survey->delete();
         return redirect()->back();
     }
 
+    /**
+     * This function is for editing a chosen survey.
+     * @param  [array] $id          [survey id]
+     * @param  [array] $request     [form data from admin.settings.survey]
+     * @return []                   [return admin.settings.survey]
+     */
     public function editSurvey($id, Request $request) {
         try{
             $survey = Survey::find($id);

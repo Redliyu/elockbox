@@ -28,7 +28,10 @@ use Illuminate\Support\Facades\Storage;
 
 class YouthController extends Controller
 {
-    //
+    /**
+     * This function is to provide data for youth home page.
+     * @return [array]          [return youth.youth]
+     */
     public function getHome() {
         //$user_id = Sentinel::getUser()->id;
         $email = Sentinel::getUser()->email;
@@ -94,6 +97,11 @@ class YouthController extends Controller
         }
 
     }
+
+    /**
+     * This function is to log out youth.
+     * @return [array]          [return homepage]
+     */
     public function logout() {
         Sentinel::logout();
         return redirect()->intended('/');
