@@ -26,7 +26,7 @@ class RegistrationController extends Controller
 
     /**
      * Create a high-level user including admin, case manager and staff
-     * email, password, first name, last name, phone, address 1, address 2, city, state, zip, level
+     * Using email, password, first name, last name, phone, address 1, address 2, city, state, zip, level
      * @param RegistrationFormRequest $request
      * @return registration.create
      */

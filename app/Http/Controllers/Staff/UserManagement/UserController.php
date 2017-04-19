@@ -81,7 +81,7 @@ class UserController extends Controller
 
     /**
      * View detail information of a user - name, level, email, phone, status, address
-     * @param $user_id
+     * @param int $user_id
      * @return staff.user.detail
      */
     public function viewdetail($user_id) {
@@ -120,7 +120,7 @@ class UserController extends Controller
 
     /**
      * Edit own information - first name, last name, phone, address 1, address 2, city, state, zip, level
-     * @param $user_id
+     * @param int $user_id
      * @param Request $request - User's inputs
      * @return staff.user.detail
      */
