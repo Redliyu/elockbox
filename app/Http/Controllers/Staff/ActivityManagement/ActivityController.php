@@ -17,7 +17,10 @@ use Illuminate\Support\Collection;
 
 class ActivityController extends Controller
 {
-    //
+    /**
+     * This function is for view brief activities.
+     * @return [array]  [return to staff/activity/view]
+     */
     public function view() {
         $admins = UserRole::where("role_id", 1)->get();
         $managers = UserRole::where("role_id", 2)->get();
@@ -30,6 +33,12 @@ class ActivityController extends Controller
             'staffs' => $staffs,
         ]);
     }
+
+    /**
+     * This function is for view detailed activity.
+     * @param  [int]    $activity_id    [activity id]
+     * @return [array]                  [return to staff/activity/detail]
+     */
     public function viewdetail($activity_id) {
         $admins = UserRole::where("role_id", 1)->get();
         $managers = UserRole::where("role_id", 2)->get();
@@ -53,6 +62,13 @@ class ActivityController extends Controller
             'staffs' => $staffs,
         ]);
     }
+
+    /**
+     * This function is for edit activity.
+     * @param  [int]    $activity_id    [activity id]
+     * @param  [array]  $request        [form from staff/activity/detail]
+     * @return [array]                  [return to staff]
+     */
 //    public function update($activity_id, Request $request) {
 //        try{
 //            $activity = Activity::where('id', $activity_id)->first();
@@ -97,6 +113,12 @@ class ActivityController extends Controller
 //        }
 //        return redirect('staff');
 //    }
+
+    /**
+     * This function is for create activity.
+     * @param  [array]  $request    [form from staff/activity/view]
+     * @return [array]              [return to staff]
+     */
     public function create(Request $request) {
         try{
             $activity = new Activity;
