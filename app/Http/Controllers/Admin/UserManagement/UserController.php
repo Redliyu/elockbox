@@ -81,7 +81,7 @@ class UserController extends Controller
 
     /**
      * View detail information of a user - name, level, email, phone, status, address
-     * @param $user_id
+     * @param int $user_id
      * @return admin.user.detail
      */
     public function viewdetail($user_id) {
@@ -119,7 +119,7 @@ class UserController extends Controller
 
     /**
      * Edit information of a user - first name, last name, phone, address 1, address 2, city, state, zip, level
-     * @param $user_id
+     * @param int $user_id
      * @param Request $request - User's inputs
      * @return admin.user.detail
      */
@@ -153,7 +153,7 @@ class UserController extends Controller
 
     /**
      * Inactivate a user
-     * @param $user_id
+     * @param int $user_id
      * @return admin.user.detail
      */
     public function inactive($user_id) {
@@ -171,7 +171,7 @@ class UserController extends Controller
 
     /**
      * Activate a user
-     * @param $user_id
+     * @param int $user_id
      * @return admin.user.detail
      */
     public function active($user_id) {
