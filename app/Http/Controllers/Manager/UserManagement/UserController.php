@@ -18,23 +18,10 @@ use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
-    //
-//    public function view() {
-//        //last_name, first_name, email from user table
-//        //phone from profile
-//        //role from role users table and roles table
-//        //status from activations, if do not have, then not active
-//        $user = User::all();
-//        $profile = UserProfile::all();
-//        $user_role = UserRole::all();
-//        $status = UserStatus::all();
-//        return view('user.view', [
-//            'users' => $user,
-//            'profiles' => $profile,
-//            'user_roles' => $user_role,
-//            'statuss' => $status,
-//        ]);
-//    }
+    /**
+     * View users in a list - name, email, phone number, level, status, action for details
+     * @return manager.user.view
+     */
     public function view() {
         $users = User::all();
         $profiles = UserProfile::all();
@@ -91,6 +78,12 @@ class UserController extends Controller
             'datas' => $paginatedSearchResults,
         ]);
     }
+
+    /**
+     * View detail information of a user - name, level, email, phone, status, address
+     * @param $user_id
+     * @return mamager.user.detail
+     */
     public function viewdetail($user_id) {
         $user = User::where('id', $user_id)->first();
         $profile = UserProfile::where('user_id', $user_id)->first();
@@ -124,6 +117,13 @@ class UserController extends Controller
             'status' =>$status,
         ]);
     }
+
+    /**
+     * Edit own information - first name, last name, phone, address 1, address 2, city, state, zip, level
+     * @param $user_id
+     * @param Request $request - User's inputs
+     * @return manager.user.detail
+     */
     public function update($user_id, Request $request) {
         $user = User::where('id', $user_id)->first();
         $profile = UserProfile::where('user_id', $user_id)->first();
@@ -141,31 +141,5 @@ class UserController extends Controller
         $role->save();
         @Log::info('User Edited: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
         return redirect()->back();
-    }
-    public function inactive($user_id) {
-        $curuser_id = Sentinel::getUser()->id;
-        if($curuser_id != $user_id) {
-            $user = Sentinel::findById($user_id);
-            Activation::remove($user);
-            @Log::info('User Inactivated: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
-            return redirect()->back();
-        } else {
-            return redirect('error');
-        }
-
-    }
-    public function active($user_id) {
-        $curuser_id = Sentinel::getUser()->id;
-        if($curuser_id != $user_id) {
-            $user = Sentinel::findById($user_id);
-            $activation = Activation::create($user);
-            $code = $activation->code;
-            Activation::complete($user, $code);
-            @Log::info('User Activated: ' . Sentinel::getUser()->email . ' User: ' . $user->email);
-            return redirect()->back();
-        } else {
-            return redirect('error');
-        }
-
     }
 }
