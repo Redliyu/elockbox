@@ -19,8 +19,8 @@ use Psy\Exception\ErrorException;
 class ActivityController extends Controller
 {
     /**
-     * view brief activities
-     * @return [array]              [return to manager/activity/view]
+     * This function is for view brief activities.
+     * @return [array]  [return to manager/activity/view]
      */
     public function view() {
         $admins = UserRole::where("role_id", 1)->get();
@@ -34,10 +34,11 @@ class ActivityController extends Controller
             'staffs' => $staffs,
         ]);
     }
+
     /**
-     * view detailed activity
-     * @param  [int] $activity_id   [activity id]
-     * @return [array]              [return to manager/activity/detail]
+     * This function is for view detailed activity.
+     * @param  [int]    $activity_id    [activity id]
+     * @return [array]                  [return to manager/activity/detail]
      */
     public function viewdetail($activity_id) {
         $admins = UserRole::where("role_id", 1)->get();
@@ -66,11 +67,12 @@ class ActivityController extends Controller
             return redirect('fail');
         }
     }
+
     /**
-     * edit activity
-     * @param  [int] $activity_id   [activity id]
-     * @param  [array] $request     [form from manager/activity/detail]
-     * @return [array]              [return to manager]
+     * This function is for edit activity.
+     * @param  [int]    $activity_id    [activity id]
+     * @param  [array]  $request        [form from manager/activity/detail]
+     * @return [array]                  [return to manager]
      */
     public function update($activity_id, Request $request) {
         try{
@@ -125,9 +127,10 @@ class ActivityController extends Controller
         }
         return redirect('manager');
     }
+
     /**
-     * create activity
-     * @param  [array] $request     [form from manager/activity/view]
+     * This function is for create activity.
+     * @param  [array]  $request    [form from manager/activity/view]
      * @return [array]              [return to manager]
      */
     public function create(Request $request) {
@@ -164,6 +167,5 @@ class ActivityController extends Controller
         } catch (ErrorException $e) {
             return redirect()->back()->withErrors(["Invalid recipient!"]);
         }
-
     }
 }
