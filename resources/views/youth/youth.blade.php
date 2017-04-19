@@ -301,7 +301,7 @@
                                                        style="color: #4C4F53"></i><strong>
                                 Manager</strong>
                         </div>
-                        <div style="color: #6699CC">{{ $data->cm_name }}
+                        <div style="color: #6699CC">{{ $data->cm_name }} ({{$cm_email}})
                         </div>
                     </li>
                     <li>
