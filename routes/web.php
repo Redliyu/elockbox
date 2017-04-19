@@ -174,13 +174,12 @@ Route::group(['namespace' => 'Staff', 'prefix' => 'staff', 'middleware' => ['sta
 //    Route::post('{id}/edit', 'ActivityManagement\ActivityController@update');
 //    Route::get('staff_logout', ['uses' => 'Staff\StaffController@logout']);
 });
-Route::group(['middleware' => ['youth']], function ()
-{
+Route::group(['middleware' => ['youth']], function () {
     Route::get('youth',['as' => 'youth_dashboard', 'uses' => 'Youth\YouthController@getHome']);
 //    Route::get('youth_logout', ['uses' => 'Youth\YouthController@logout']);
 });
 Route::get('/fail', function() {
-    echo 'You do not have premission!';
+    return view('errors.403');
 });
 Route::get('/error', function () {
     return view('errors.503');
@@ -189,6 +188,4 @@ Route::get('/logout', ['uses' => 'LoginController@logout']);
 
 //Route::get('/uploadfile', 'FileuploadingController@index');
 //Route::post('/uploadfile', 'FileuploadingController@showfileupload');
-Route::get('/test/admin/case/1/view', function () {
-    return view('test');
-});
+

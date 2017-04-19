@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -44,7 +45,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+//        return parent::render($request, $exception);
+//        return view('errors.500');
+        return response()->make(view('errors.404'), 404);
     }
 
     /**

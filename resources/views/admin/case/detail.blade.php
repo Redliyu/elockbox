@@ -149,7 +149,15 @@
         </div>
     </div>
     <!-- end nav bar -->
-
+    @if (session()->has('flash_message'))
+        <div class="alert alert-success col-md-12">
+            <p>{{ session()->get('flash_message') }}</p>
+        </div>
+    @elseif($errors->any())
+        <div class="alert alert-danger col-md-12">
+            <p>{{ $errors->first() }}</p>
+        </div>
+    @endif
     <!-- all shown information -->
     <div class="row profile">
         <div class="col-md-12">
