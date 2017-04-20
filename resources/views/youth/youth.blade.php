@@ -114,7 +114,7 @@
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-left" style="padding: 0px; margin: 0px; margin-left: -25px">
                 <li class="visible-sm visible-md visible-lg"><a href="{{url('/')}}"><img  style="width: 250px;"
-                                                                              src="{{ asset('cssnew/assets/img/logo.png') }}"></a>
+                                                                              src="{{ asset('cssnew/assets/img/newlogo.png') }}" height="104px"></a>
                 </li>
                 <li class="visible-xs"><a href="{{url('/')}}"><img  style="width: 60px;"
                                                                               src="{{ asset('cssnew/assets/img/logo_m.png') }}"></a>

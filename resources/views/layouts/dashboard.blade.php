@@ -199,8 +199,8 @@
             <div class="sidebar-collapse">
                 <!-- logo on side bar -->
                 <div class="t-center" style="background-color: white">
-                    <span><a href="{{url('/')}}"><img class="text-logo" style="width: 93%; height: 93%;"
-                                                      src="{{ asset('cssnew/assets/img/logo.png') }}"></a></span>
+                    <span><a href="{{url('/')}}"><img class="text-logo" style="width: 60%; margin-left: 20%"
+                                                      src="{{ asset('cssnew/assets/img/newlogo.png') }}"></a></span>
                 </div>
                 <!-- menu on side bar -->
                 <?php if ($user = Sentinel::check()) {

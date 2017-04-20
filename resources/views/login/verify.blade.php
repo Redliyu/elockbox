@@ -10,8 +10,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand scroll-top logo"><b><img class="hidden-xs" src="{{ url('assets/img/logo.png') }}"
-                                                                    alt=""></b></a>
+                    <a class="navbar-brand scroll-top logo"><b><img class="hidden-xs" src="{{ url('assets/img/newlogo.png') }}"
+                                                                    alt="" height="104px"></b></a>
                 </div>
                 <!--/.navbar-header-->
                 <div id="main-nav" class="collapse navbar-collapse">
