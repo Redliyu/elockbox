@@ -7,6 +7,8 @@ This instruction will be organized by following parts.
 * [Install on local machine](#install-on-local-machine)
 * [Install on server](#install-on-server)
 * [Maintain the server](#maintain-the-server)
+* [Uninstall](#uninstall)
+* [Reinstall](#reinstall)
 * [Useful command](#useful-command)
 * [Authors](#authors)
 
@@ -31,21 +33,27 @@ These are the prerequisites for installing on local machine, if your machine do 
 ### Installing
 
 ###### 1. Clone the repository to the local.
-```
+```bash
 $ git clone https://github.com/Phantomato/elockbox.git
 $ cd elockbox
 ```
 
 ###### 2. Under the directory, then install.
-`$ composer install`
+```bash
+$ composer install
+```
 
 ###### 3. Change file '.env.example' to '.env', and create database according to the file '.env'. Basically you need to set up the database name, username and password.
 
 ###### 4. Generate a new key.
-`$ php artisan key:generate`
+```bash
+$ php artisan key:generate
+```
 
 ###### 5. Migrate the database.
-`$ php artisan migrate`
+```bash
+$ php artisan migrate
+```
 
 ###### 6. Seed the initial data into the database.
 ```bash
@@ -166,14 +174,32 @@ This command will rename the file as laravel.log.bak1. You can add time in the f
 
 The uploaded documents is under public/uploads/case directory. Each subdirectory is named after case id.
 
+## Uninstall
+To uninstall, simply delete the project directory by using following command.
+```bash
+$ rm -r ProjectRootDirectory
+```
+If you want to delete your database as well, please read [Useful Command](#useful-command)
+
+## Reinstall
+To reinstall, simply [uninstall](#uninstall) the system, and then install it on [server](#install-on-server) or on [local](#install-on-local-machine).
+
 ## Useful Command
 
 * Log into mysql as root with password
-`$ mysql -r root -p`
+```bash
+$ mysql -r root -p
+```
+
 * Create database named YOURDATABASE
-`create database YOURDATABASE;`
+```bash
+create database YOURDATABASE;
+```
+
 * Delete database named YOURDATABASE
-`drop database YOURDATABASE;`
+```bash
+drop database YOURDATABASE;
+```
 
 
 
