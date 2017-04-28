@@ -14,8 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/debug/create', 'InitialUserController@debugcreate');
-Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'InitialUserController@debugstore']);
+// Route::get('/debug/create', 'InitialUserController@debugcreate');
+// Route::post('/debug/create', ['as' => 'debugstore', 'uses' => 'InitialUserController@debugstore']);
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/reset', 'Admin\PasswordController@initResetPwd');
@@ -190,4 +190,3 @@ Route::get('/logout', ['uses' => 'LoginController@logout']);
 
 //Route::get('/uploadfile', 'FileuploadingController@index');
 //Route::post('/uploadfile', 'FileuploadingController@showfileupload');
-
