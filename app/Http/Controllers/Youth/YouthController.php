@@ -102,8 +102,4 @@ class YouthController extends Controller
      * This function is to log out youth.
      * @return [array]          [return homepage]
      */
-    public function logout() {
-        Sentinel::logout();
-        return redirect()->intended('/');
-    }
 }

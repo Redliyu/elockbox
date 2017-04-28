@@ -16,8 +16,4 @@ class ManagerController extends Controller
 //        return null;
         return view('layouts.dashboard');
     }
-    public function logout() {
-        Sentinel::logout();
-        return redirect()->intended('/');
-    }
 }

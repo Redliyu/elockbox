@@ -14,9 +14,4 @@ class AdminController extends Controller
 //        return view('admin.admin_dashboard');
         return view('admin.activity.view');
     }
-
-    public function logout() {
-        Sentinel::logout();
-        return redirect()->intended('/');
-    }
 }

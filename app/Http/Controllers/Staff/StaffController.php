@@ -15,8 +15,4 @@ class StaffController extends Controller
 //        return view('layouts.dashboard');
         return view('staff.activity.view');
     }
-    public function logout() {
-        Sentinel::logout();
-        return redirect()->intended('/');
-    }
 }
