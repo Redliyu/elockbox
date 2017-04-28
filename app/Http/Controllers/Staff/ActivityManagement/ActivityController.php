@@ -64,57 +64,6 @@ class ActivityController extends Controller
     }
 
     /**
-     * This function is for edit activity.
-     * @param  [int]    $activity_id    [activity id]
-     * @param  [array]  $request        [form from staff/activity/detail]
-     * @return [array]                  [return to staff]
-     */
-//    public function update($activity_id, Request $request) {
-//        try{
-//            $activity = Activity::where('id', $activity_id)->first();
-////            echo $activity;
-//            $activity->subject = $request->get('subject');
-//            $activity->task = $request->get('task');
-//            $activity->ddl = date("Y-m-d", strtotime($request->get('ddl')));
-//            $recipient = User::where('email', $request->get('recipient'))->first()->id;
-//            if($activity->assigned == $recipient) {
-//                $activity->assigned = $recipient;
-//            } else {
-//                $activity->assigned = $recipient;
-//                $activity->reci_status = 0;
-//            }
-//            if($request->get('mentioned')) {
-//                $mentioned = User::where('email', $request->get('mentioned'))->first()->id;
-//                if($activity->mentioned == $mentioned) {
-//                    $activity->mentioned = $mentioned;
-//                } else {
-//                    $activity->mentioned = $mentioned;
-//                    $activity->ment_status = 0;
-//                }
-//            }
-//            $activity->message = $request->get('message');
-//            if($activity->assigned == Sentinel::getUser()->id) {
-//                if($request->get('unread') == 1) {
-//                    $activity->reci_status = 1;
-//                } else {
-//                    $activity->reci_status = 0;
-//                }
-//            }
-//            if($activity->mentioned == Sentinel::getUser()->id) {
-//                if($request->get('unread') == 1) {
-//                    $activity->ment_status = 1;
-//                } else {
-//                    $activity->ment_status = 0;
-//                }
-//            }
-//            $activity->save();
-//        } catch (InvalidArgumentException $e) {
-//            print $e;
-//        }
-//        return redirect('staff');
-//    }
-
-    /**
      * This function is for create activity.
      * @param  [array]  $request    [form from staff/activity/view]
      * @return [array]              [return to staff]

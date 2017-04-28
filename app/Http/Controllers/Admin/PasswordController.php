@@ -62,7 +62,7 @@ class PasswordController extends Controller
         $mdfn = md5($first_name);
         $random = rand(100000, 999999);
         $mdrandom = md5($random);
-        $link = "http://beta.mylaspace.com/reset/" . $time . "/" . $user_id . "/" . $mdemail . "/" . $mdrandom;
+        $link = "http://www.mylaspace.com/reset/" . $time . "/" . $user_id . "/" . $mdemail . "/" . $mdrandom;
         $imgPath = 'https://cdn.shopify.com/s/files/1/1090/4924/files/Living_Advantage_Logo_large.png?13792516517561167664';
         $data = ['name' => $first_name, 'email' => $email, 'imgPath' => $imgPath, 'link' => $link];
         Mail::send('resetemail', $data, function ($message) use ($email, $first_name) {

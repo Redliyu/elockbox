@@ -14,6 +14,10 @@ use Mail;
 class LoginController extends Controller
 {
     //
+    /**
+     * This function is for login.
+     * @return [null]                  [return to login page]
+     */
     public function login()
     {
         if ($user = Sentinel::check()) {
@@ -34,6 +38,11 @@ class LoginController extends Controller
         return view('login.login');
     }
 
+    /**
+     * This function is for check user name and password.
+     * @param  [array]  $request        [form from login/login]
+     * @return [null]                   [return to login/login or redirectVrfyCode()]
+     */
     public function authenticate(Request $request)
     {
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -65,6 +74,13 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * This function is for redirect to verify page.
+     * @param  [int]        $user_id        [user id]
+     * @param  [string]     $email          [user email]
+     * @param  [int]        $code           [code]
+     * @return [array]                      [return to login/verify]
+     */
     protected function redirectVrfyCode($user_id, $email, $code)
     {
         return view('login.verify', [
@@ -73,6 +89,11 @@ class LoginController extends Controller
         ]);
     }
 
+    /**
+     * This function is for verify code.
+     * @param  [array]    $request      [form form login/verify]
+     * @return [null]                   [return to redirectWhenLoggedIn]
+     */
     protected function vrfy(VrfycodeFormRequest $request)
     {
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -92,6 +113,11 @@ class LoginController extends Controller
         return redirect('/login')->withInput()->withErrorMessage('Wrong verification code');
     }
 
+    /**
+     * This function is for check user name and password.
+     * @param  [int]    $user_id        [user id]
+     * @return [array]                  [return to home]
+     */
     protected function redirectWhenLoggedIn($userid)
     {
         $user = Sentinel::findById($userid);
@@ -127,6 +153,11 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * This function is sending email.
+     * @param  [int]    $user_id        [user id]
+     * @return [null]                   [return null]
+     */
     public function basic_email($user_id)
     {
         $first_name = DB::table('users')->where('id', $user_id)->first()->first_name;
@@ -138,10 +169,12 @@ class LoginController extends Controller
             $message->to($email, $first_name)->subject('e-Lockbox Verification code');
             $message->from('marisafkj@gmail.com', 'Living Advantage Inc.');
         });
-//        echo 'A verification code email was sent to ';
-//        echo $email;
     }
 
+    /**
+     * This function is for logout.
+     * @return [null]                  [return to home page]
+     */
     public function logout()
     {
         @Log::info('User Logout: ' . Sentinel::getUser()->email);
